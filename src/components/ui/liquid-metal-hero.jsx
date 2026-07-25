@@ -1,14 +1,19 @@
 "use client"
 
+import { useRef } from 'react'
 import { LiquidMetal } from '@paper-design/shaders-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Card } from '@/components/ui/card'
 import { motion } from 'framer-motion'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
+
+gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { delayChildren: 0.2, staggerChildren: 0.15 } },
+  visible: { opacity: 1, transition: { delayChildren: 0.2, staggerChildren: 0.12 } },
 }
 
 const itemVariants = {
@@ -16,93 +21,113 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 }
 
-const buttonVariants = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: { opacity: 1, scale: 1 },
-}
+export default function LiquidMetalHero({
+  badge, firstName, lastName, kickerLeft, kickerRight,
+  primaryCtaLabel, secondaryCtaLabel,
+  onPrimaryCtaClick, onSecondaryCtaClick,
+}) {
+  const bgRef = useRef(null)
+  const sectionRef = useRef(null)
 
-export default function LiquidMetalHero({ badge, title, subtitle, primaryCtaLabel, secondaryCtaLabel, onPrimaryCtaClick, onSecondaryCtaClick, features = [] }) {
+  useGSAP(() => {
+    if (!bgRef.current) return
+
+    gsap.to(bgRef.current, {
+      scale: 1.3,
+      x: '15%',
+      y: '-10%',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1,
+      },
+    })
+  }, { scope: sectionRef })
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <LiquidMetal
-        colorBack="#FAFAF8"
-        colorTint="#C24E2E"
-        shape="metaballs"
-        repetition={3}
-        softness={0.3}
-        distortion={0.07}
-        contour={0.4}
-        angle={70}
-        speed={0.3}
-        scale={0.6}
-        fit="cover"
-        style={{ position: "fixed", inset: 0, zIndex: -10 }}
-      />
+    <section id="hero" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <div ref={bgRef} className="absolute inset-0 z-[-10] will-change-transform">
+        <LiquidMetal
+          colorBack="#E8E4DC"
+          colorTint="#C24E2E"
+          shape="metaballs"
+          repetition={3}
+          softness={0.5}
+          distortion={0.07}
+          contour={0.4}
+          angle={70}
+          speed={0.3}
+          scale={0.6}
+          fit="cover"
+          style={{ width: '100%', height: '100%' }}
+        />
+      </div>
+
+      <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background/70 z-[-5]" />
 
       <div className="container mx-auto px-6 lg:px-8 max-w-7xl">
-        <motion.div className="text-center space-y-8" variants={containerVariants} initial="hidden" animate="visible">
-          {badge && (
-            <motion.div className="flex justify-center" variants={itemVariants}>
-              <Badge variant="secondary" className="bg-foreground/10 text-foreground border-foreground/20 hover:bg-foreground/20 transition-colors duration-300 backdrop-blur-sm">
-                {badge}
-              </Badge>
+        <motion.div className="flex flex-col items-center" variants={containerVariants} initial="hidden" animate="visible">
+          <div className="relative grid grid-cols-2 gap-8 md:gap-16 w-full max-w-4xl mb-8">
+            <motion.div className="text-right" variants={itemVariants}>
+              <p className="text-sm text-muted font-medium tracking-wide mb-2">{kickerLeft}</p>
+              <h1 className="text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-bold text-foreground leading-none tracking-tight">
+                {firstName}
+              </h1>
             </motion.div>
-          )}
 
-          <motion.div className="space-y-6" variants={itemVariants}>
-            <motion.h1
-              role="heading"
-              aria-level={1}
-              className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-foreground leading-tight tracking-tight"
+            <motion.div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
               variants={itemVariants}
             >
-              {title}
-            </motion.h1>
-
-            <motion.p className="max-w-3xl mx-auto text-xl sm:text-2xl text-foreground/90 leading-relaxed" variants={itemVariants}>
-              {subtitle}
-            </motion.p>
-          </motion.div>
-
-          <motion.div className="flex flex-col sm:flex-row gap-4 justify-center items-center" variants={buttonVariants}>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button onClick={onPrimaryCtaClick} size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all duration-300 shadow-2xl text-lg px-8 py-6 font-semibold">
-                {primaryCtaLabel}
-              </Button>
+              <div className="w-44 h-56 md:w-52 md:h-68 rounded-2xl border border-border overflow-hidden bg-card/50 backdrop-blur-sm shadow-xl">
+                <LiquidMetal
+                  colorBack="#E8E4DC"
+                  colorTint="#C24E2E"
+                  shape="metaballs"
+                  repetition={2}
+                  softness={0.4}
+                  distortion={0.1}
+                  contour={0.5}
+                  angle={70}
+                  speed={0.2}
+                  scale={0.5}
+                  fit="cover"
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </div>
             </motion.div>
 
-            {secondaryCtaLabel && onSecondaryCtaClick && (
+            <motion.div className="text-left" variants={itemVariants}>
+              <p className="text-sm text-muted font-medium tracking-wide mb-2">{kickerRight}</p>
+              <h1 className="text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-bold text-foreground leading-none tracking-tight">
+                {lastName}
+              </h1>
+            </motion.div>
+          </div>
+
+          <motion.div className="flex flex-col items-center gap-6 mt-4" variants={itemVariants}>
+            {badge && (
+              <Badge variant="outline" className="text-foreground border-border bg-background/60 backdrop-blur-sm">
+                {badge}
+              </Badge>
+            )}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button onClick={onSecondaryCtaClick} variant="outline" size="lg" className="border-foreground/30 text-foreground hover:bg-foreground/10 hover:border-foreground/50 transition-all duration-300 backdrop-blur-sm text-lg px-8 py-6 font-semibold">
-                  {secondaryCtaLabel}
+                <Button onClick={onPrimaryCtaClick} size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all duration-300 shadow-2xl text-lg px-8 py-6 font-semibold">
+                  {primaryCtaLabel}
                 </Button>
               </motion.div>
-            )}
+              {secondaryCtaLabel && onSecondaryCtaClick && (
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button onClick={onSecondaryCtaClick} variant="outline" size="lg" className="border-border text-foreground hover:bg-foreground/10 hover:border-foreground/50 transition-all duration-300 backdrop-blur-sm text-lg px-8 py-6 font-semibold">
+                    {secondaryCtaLabel}
+                  </Button>
+                </motion.div>
+              )}
+            </div>
           </motion.div>
-
-          {features.length > 0 && (
-            <motion.div className="pt-12" variants={itemVariants}>
-              <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.3 }}>
-                <Card className="bg-foreground/10 border-foreground/20 backdrop-blur-md shadow-2xl">
-                  <div className="p-8">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {features.map((feature, index) => (
-                        <motion.div
-                          key={index}
-                          className="flex items-center justify-center text-center"
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.6, delay: 0.8 + index * 0.1 }}
-                        >
-                          <p className="text-foreground/90 font-medium text-lg">{feature}</p>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            </motion.div>
-          )}
         </motion.div>
       </div>
     </section>

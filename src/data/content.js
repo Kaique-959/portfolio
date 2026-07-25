@@ -1,20 +1,16 @@
 export const content = {
   name: 'Kaique Calefi',
+  firstName: 'Kaique',
+  lastName: 'Calefi',
   role: 'Desenvolvedor & Fundador',
   tagline: 'Tecnologia que funciona enquanto você dorme',
+  location: 'Brasília, DF',
 
   hero: {
     subtitle: 'Desenvolvedor & Fundador da Kalefi_Org',
     cta: 'Ver projetos',
-    secondaryCta: 'Entrar em contato',
+    secondaryCta: 'Falar comigo',
   },
-
-  ticker: [
-    { label: 'Anos de Experiência', value: '3+' },
-    { label: 'Projetos Reais', value: '10+' },
-    { label: 'Clientes Atendidos', value: '8+' },
-    { label: 'Sistemas em Produção', value: '5+' },
-  ],
 
   services: [
     {
@@ -59,19 +55,11 @@ export const content = {
     },
   ],
 
-  awards: [
-    { title: 'Cliente Real em Produção', organization: 'Primeiro Bot WhatsApp', date: '2025' },
-    { title: 'Sistema Automatizado', organization: 'Pipeline de Prospecção', date: '2025' },
-    { title: 'Projeto com 3D', organization: 'Site Kalefi_Org', date: '2025' },
-    { title: 'Automação para Clínica', organization: 'Bot Libertad', date: '2025' },
-    { title: 'Scraper em Produção', organization: 'Achadinhos', date: '2025' },
-    { title: 'Agência Própria', organization: 'Kalefi_Org Fundada', date: '2024' },
-  ],
-
   about: {
     bio: 'Sou Kaique, desenvolvedor e fundador da Kalefi_Org, baseado em Brasília. Ainda estudante, decidi transformar interesse em tecnologia em produto real: construo sites, automações e ferramentas de IA que resolvem problema de negócio de verdade — não protótipo, não teoria.',
     bio2: 'Comecei atendendo meu primeiro cliente e, desde então, venho construindo um portfólio de sistemas que rodam em produção todos os dias — de bots de atendimento via WhatsApp a pipelines de prospecção automatizada. Meu foco é simples: tecnologia que funciona sem precisar de um time de TI por trás.',
     image: null,
+    techStack: ['Next.js & React', 'Automação com N8N', 'Three.js & R3F', 'Baseado em Brasília'],
   },
 
   projects: [
@@ -160,7 +148,8 @@ export const content = {
 }
 
 export const navLinks = [
-  { label: 'Serviços', href: '#services' },
+  { label: 'Início', href: '#hero' },
+  { label: 'Habilidades', href: '#services' },
   { label: 'Projetos', href: '#portfolio' },
   { label: 'Sobre', href: '#about' },
   { label: 'Contato', href: '#contact' },

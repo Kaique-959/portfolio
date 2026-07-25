@@ -3,7 +3,6 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { content } from '../data/content'
-import FooterMarquee from './FooterMarquee'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -113,12 +112,9 @@ export default function Contact() {
           </div>
         </div>
 
-        <div data-c>
-          <FooterMarquee />
-        </div>
-
         <div data-c style={{
           textAlign: 'center', color: 'var(--muted)', fontSize: '0.85rem',
+          marginTop: '80px', paddingTop: '32px', borderTop: '1px solid var(--border)',
         }}>
           &copy; {new Date().getFullYear()} Kaique Calefi. Todos os direitos reservados.
         </div>
