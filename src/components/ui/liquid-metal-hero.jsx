@@ -33,15 +33,15 @@ export default function LiquidMetalHero({
     if (!bgRef.current) return
 
     gsap.to(bgRef.current, {
-      scale: 1.3,
-      x: '15%',
-      y: '-10%',
-      ease: 'none',
+      scale: 1.4,
+      x: '25%',
+      y: '15%',
+      ease: 'power2.inOut',
       scrollTrigger: {
         trigger: sectionRef.current,
         start: 'top top',
         end: 'bottom top',
-        scrub: 1,
+        scrub: 1.5,
       },
     })
   }, { scope: sectionRef })
@@ -77,27 +77,7 @@ export default function LiquidMetalHero({
               </h1>
             </motion.div>
 
-            <motion.div
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
-              variants={itemVariants}
-            >
-              <div className="w-44 h-56 md:w-52 md:h-68 rounded-2xl border border-border overflow-hidden bg-card/50 backdrop-blur-sm shadow-xl">
-                <LiquidMetal
-                  colorBack="#E8E4DC"
-                  colorTint="#C24E2E"
-                  shape="metaballs"
-                  repetition={2}
-                  softness={0.4}
-                  distortion={0.1}
-                  contour={0.5}
-                  angle={70}
-                  speed={0.2}
-                  scale={0.5}
-                  fit="cover"
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </div>
-            </motion.div>
+
 
             <motion.div className="text-left" variants={itemVariants}>
               <p className="text-sm text-muted font-medium tracking-wide mb-2">{kickerRight}</p>
