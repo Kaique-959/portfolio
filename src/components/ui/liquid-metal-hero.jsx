@@ -59,16 +59,30 @@ export default function LiquidMetalHero({
       <div className="container mx-auto px-6 lg:px-8 max-w-7xl w-full">
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
 
-          <div className="grid grid-cols-12 gap-16 items-center">
-            <motion.div className="col-span-4 text-right" variants={itemVariants}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 'clamp(24px, 4vw, 64px)',
+            width: '100%',
+          }}>
+            <motion.div style={{
+              flex: '1 1 0',
+              textAlign: 'right',
+              minWidth: 0,
+              overflow: 'visible',
+            }} variants={itemVariants}>
               <p className="text-sm text-muted font-medium tracking-wide mb-2">{kickerLeft}</p>
               <h1 style={h1style}>{firstName}</h1>
             </motion.div>
 
-            <motion.div className="col-span-4 flex justify-center" variants={itemVariants}>
+            <motion.div style={{
+              flex: '0 0 auto',
+              display: 'flex',
+              justifyContent: 'center',
+            }} variants={itemVariants}>
               <div ref={cardRef} style={{
-                width: '100%',
-                maxWidth: '520px',
+                width: 'clamp(140px, 35vw, 420px)',
                 aspectRatio: '3/4',
                 borderRadius: '16px',
                 overflow: 'hidden',
@@ -90,7 +104,12 @@ export default function LiquidMetalHero({
               </div>
             </motion.div>
 
-            <motion.div className="col-span-4 text-left" variants={itemVariants}>
+            <motion.div style={{
+              flex: '1 1 0',
+              textAlign: 'left',
+              minWidth: 0,
+              overflow: 'visible',
+            }} variants={itemVariants}>
               <p className="text-sm text-muted font-medium tracking-wide mb-2">{kickerRight}</p>
               <h1 style={h1style}>{lastName}</h1>
             </motion.div>
