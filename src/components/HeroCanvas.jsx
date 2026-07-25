@@ -1,77 +1,69 @@
 import { useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Float, MeshDistortMaterial } from '@react-three/drei'
-import * as THREE from 'three'
 
-function TorusKnot() {
+function GradientBlob() {
   const meshRef = useRef(null)
-  const mouseRef = useRef({ x: 0, y: 0 })
+  const clockRef = useRef(0)
 
-  useFrame(({ pointer, viewport }) => {
+  useFrame((state, delta) => {
     if (!meshRef.current) return
-
-    const targetX = (pointer.x * viewport.width) / 6
-    const targetY = (pointer.y * viewport.height) / 6
-
-    meshRef.current.position.x += (targetX - meshRef.current.position.x) * 0.02
-    meshRef.current.position.y += (-targetY - meshRef.current.position.y) * 0.02
-    meshRef.current.rotation.x += 0.003
-    meshRef.current.rotation.y += 0.006
+    clockRef.current += delta
+    const t = clockRef.current * 0.3
+    meshRef.current.rotation.x = Math.sin(t * 0.7) * 0.1
+    meshRef.current.rotation.y = Math.sin(t * 0.5) * 0.15
+    meshRef.current.position.y = Math.sin(t * 0.4) * 0.15
+    const s = 1 + Math.sin(t * 0.3) * 0.05
+    meshRef.current.scale.setScalar(s)
   })
 
   return (
-    <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-      <mesh ref={meshRef} scale={1.8}>
-        <torusKnotGeometry args={[1, 0.35, 200, 32]} />
-        <MeshDistortMaterial
-          color="#d4a853"
-          roughness={0.3}
-          metalness={0.9}
-          emissive="#d4a853"
-          emissiveIntensity={0.15}
-          distort={0.15}
-          speed={2}
-        />
-      </mesh>
-    </Float>
+    <mesh ref={meshRef}>
+      <icosahedronGeometry args={[2, 3]} />
+      <meshPhysicalMaterial
+        color="#2563EB"
+        transparent
+        opacity={0.06}
+        roughness={0.1}
+        metalness={0}
+        wireframe
+      />
+    </mesh>
   )
 }
 
 function Particles() {
-  const count = 400
-  const particlesRef = useRef(null)
+  const count = 120
+  const ref = useRef(null)
 
-  const positions = useMemo(() => {
+  const [positions, sizes] = useMemo(() => {
     const pos = new Float32Array(count * 3)
+    const siz = new Float32Array(count)
     for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 30
+      pos[i * 3] = (Math.random() - 0.5) * 20
       pos[i * 3 + 1] = (Math.random() - 0.5) * 20
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 15 - 5
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 10 - 3
+      siz[i] = Math.random() * 2 + 1
     }
-    return pos
+    return [pos, siz]
   }, [])
 
   useFrame(({ pointer }) => {
-    if (!particlesRef.current) return
-    particlesRef.current.rotation.x += (pointer.y * 0.02 - particlesRef.current.rotation.x) * 0.01
-    particlesRef.current.rotation.y += (pointer.x * 0.02 - particlesRef.current.rotation.y) * 0.01
+    if (!ref.current) return
+    ref.current.rotation.x += (pointer.y * 0.01 - ref.current.rotation.x) * 0.005
+    ref.current.rotation.y += (pointer.x * 0.01 - ref.current.rotation.y) * 0.005
   })
 
   return (
-    <points ref={particlesRef}>
+    <points ref={ref}>
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={positions}
-          itemSize={3}
-        />
+        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
+        <bufferAttribute attach="attributes-size" count={count} array={sizes} itemSize={1} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.05}
-        color="#d4a853"
+        size={0.06}
+        color="#2563EB"
         transparent
-        opacity={0.4}
+        opacity={0.15}
         sizeAttenuation
       />
     </points>
@@ -81,22 +73,19 @@ function Particles() {
 export default function HeroCanvas() {
   return (
     <Canvas
-      camera={{ position: [0, 0, 6], fov: 45 }}
+      camera={{ position: [0, 0, 5], fov: 40 }}
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true }}
       style={{
         position: 'absolute',
-        top: 0,
-        right: 0,
-        width: '60%',
+        inset: 0,
+        width: '100%',
         height: '100%',
         pointerEvents: 'none',
       }}
     >
-      <ambientLight intensity={0.4} />
-      <pointLight position={[5, 5, 5]} intensity={1} color="#d4a853" />
-      <pointLight position={[-3, -3, 2]} intensity={0.5} color="#ffffff" />
-      <TorusKnot />
+      <ambientLight intensity={0.8} />
+      <GradientBlob />
       <Particles />
     </Canvas>
   )

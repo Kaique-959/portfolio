@@ -7,31 +7,23 @@ import { content } from '../data/content'
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const styles = {
-  section: {
-    padding: '128px 0',
-    background: 'var(--surface)',
-  },
   track: {
     display: 'flex',
     gap: '24px',
     overflowX: 'auto',
     scrollSnapType: 'x mandatory',
     scrollbarWidth: 'none',
-    msOverflowStyle: 'none',
     paddingBottom: '8px',
-    cursor: 'grab',
-    scrollBehavior: 'smooth',
   },
   card: {
-    minWidth: '400px',
-    maxWidth: '450px',
+    minWidth: '420px',
+    maxWidth: '480px',
     flexShrink: 0,
     scrollSnapAlign: 'start',
     background: 'var(--bg)',
-    borderRadius: 'var(--radius)',
+    borderRadius: 'var(--radius-lg)',
     padding: '32px',
     border: '1px solid var(--border)',
-    userSelect: 'none',
   },
   quote: {
     fontSize: '0.95rem',
@@ -40,111 +32,77 @@ const styles = {
     marginBottom: '20px',
     fontStyle: 'italic',
   },
-  author: {
-    fontFamily: 'var(--font-display)',
-    fontSize: '0.95rem',
+  name: {
     fontWeight: 600,
     marginBottom: '2px',
   },
-  authorRole: {
+  role: {
     fontSize: '0.8rem',
-    color: 'var(--accent)',
+    color: 'var(--muted)',
   },
   dots: {
     display: 'flex',
     gap: '8px',
     justifyContent: 'center',
-    marginTop: '32px',
+    marginTop: '28px',
   },
-  dot: (active) => ({
-    width: '8px',
-    height: '8px',
-    borderRadius: '50%',
-    background: active ? 'var(--accent)' : 'var(--border)',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'background 0.3s ease',
-    padding: 0,
+  dot: (a) => ({
+    width: '8px', height: '8px', borderRadius: '50%',
+    background: a ? 'var(--fg)' : 'var(--border)',
+    border: 'none', cursor: 'pointer', padding: 0,
+    transition: 'background 0.2s ease',
   }),
 }
 
 export default function Testimonials() {
-  const [activeIdx, setActiveIdx] = useState(0)
+  const [active, setActive] = useState(0)
   const sectionRef = useRef(null)
   const trackRef = useRef(null)
-  const isDragging = useRef(false)
-
-  const scrollTo = (idx) => {
-    const card = trackRef.current?.children[idx]
-    if (card) {
-      card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
-      setActiveIdx(idx)
-    }
-  }
 
   useEffect(() => {
     const track = trackRef.current
     if (!track) return
-
     const onScroll = () => {
       const cards = Array.from(track.children)
-      let closest = 0
-      let closestDist = Infinity
-      cards.forEach((card, i) => {
-        const rect = card.getBoundingClientRect()
-        const dist = Math.abs(rect.left - track.getBoundingClientRect().left)
-        if (dist < closestDist) {
-          closestDist = dist
-          closest = i
-        }
+      let closest = 0, min = Infinity
+      cards.forEach((c, i) => {
+        const d = Math.abs(c.getBoundingClientRect().left - track.getBoundingClientRect().left)
+        if (d < min) { min = d; closest = i }
       })
-      setActiveIdx(closest)
+      setActive(closest)
     }
-
     track.addEventListener('scroll', onScroll, { passive: true })
     return () => track.removeEventListener('scroll', onScroll)
   }, [])
 
+  const scrollTo = (i) => {
+    const card = trackRef.current?.children[i]
+    if (card) { card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' }); setActive(i) }
+  }
+
   useGSAP(() => {
-    gsap.fromTo(
-      sectionRef.current.querySelectorAll('[data-testimonial]'),
-      { y: 40, opacity: 0 },
-      {
-        y: 0, opacity: 1, duration: 0.6, ease: 'power3.out',
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse',
-        },
-      }
-    )
+    gsap.fromTo(sectionRef.current.querySelectorAll('[data-t]'), { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out', stagger: 0.1,
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play none none reverse' } })
   }, { scope: sectionRef })
 
   return (
-    <section id="testimonials" ref={sectionRef} style={styles.section}>
+    <section id="testimonials" ref={sectionRef} className="section">
       <div className="container">
         <div className="section-header">
-          <span className="eyebrow">Testimonials</span>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.75rem, 3.5vw, 3rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1, marginBottom: '16px' }}>
-            What People Say
+          <span className="eyebrow">Depoimentos</span>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.1 }}>
+            O que dizem
           </h2>
         </div>
       </div>
 
-      <div style={{ paddingLeft: 'max(24px, calc((100% - 1280px) / 2))' }}>
-        <div ref={trackRef} style={styles.track}
-          onMouseDown={() => { isDragging.current = true }}
-          onMouseUp={() => { isDragging.current = false }}
-          onMouseLeave={() => { isDragging.current = false }}
-        >
+      <div style={{ paddingLeft: 'max(24px, calc((100% - 1200px) / 2))' }}>
+        <div ref={trackRef} style={styles.track}>
           {content.testimonials.map((t, i) => (
-            <div key={i} data-testimonial style={styles.card}>
+            <div key={i} data-t style={styles.card}>
               <p style={styles.quote}>"{t.text}"</p>
-              <div>
-                <div style={styles.author}>{t.name}</div>
-                <div style={styles.authorRole}>{t.role}</div>
-              </div>
+              <div style={styles.name}>{t.name}</div>
+              <div style={styles.role}>{t.role}</div>
             </div>
           ))}
         </div>
@@ -153,12 +111,8 @@ export default function Testimonials() {
       <div className="container">
         <div style={styles.dots}>
           {content.testimonials.map((_, i) => (
-            <button
-              key={i}
-              style={styles.dot(activeIdx === i)}
-              onClick={() => scrollTo(i)}
-              aria-label={`Go to testimonial ${i + 1}`}
-            />
+            <button key={i} style={styles.dot(active === i)} onClick={() => scrollTo(i)}
+              aria-label={`Depoimento ${i + 1}`} />
           ))}
         </div>
       </div>

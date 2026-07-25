@@ -1,11 +1,8 @@
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { content } from '../data/content'
 import HeroCanvas from './HeroCanvas'
-
-gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const styles = {
   section: {
@@ -14,7 +11,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     overflow: 'hidden',
-    padding: '0 24px',
+    padding: '80px 24px 120px',
   },
   content: {
     position: 'relative',
@@ -22,44 +19,56 @@ const styles = {
     maxWidth: 'var(--max-width)',
     width: '100%',
     margin: '0 auto',
-    paddingTop: '80px',
   },
   eyebrow: {
     fontFamily: 'var(--font-body)',
-    fontSize: '0.875rem',
+    fontSize: '0.85rem',
     fontWeight: 500,
     textTransform: 'uppercase',
-    letterSpacing: '0.12em',
-    color: 'var(--accent)',
-    marginBottom: '24px',
+    letterSpacing: '0.1em',
+    color: 'var(--muted)',
+    marginBottom: '20px',
     display: 'block',
   },
   name: {
     fontFamily: 'var(--font-display)',
-    fontSize: 'clamp(2.5rem, 7vw, 7rem)',
+    fontSize: 'clamp(2.8rem, 8vw, 7rem)',
     fontWeight: 700,
     letterSpacing: '-0.04em',
-    lineHeight: 0.9,
-    color: 'var(--fg)',
-    marginBottom: '8px',
+    lineHeight: 0.92,
+    marginBottom: '20px',
   },
-  nameAccent: {
-    background: 'linear-gradient(135deg, var(--fg) 0%, var(--accent) 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
-  },
-  subtitle: {
-    fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+  tagline: {
+    fontSize: 'clamp(1rem, 1.8vw, 1.3rem)',
     color: 'var(--muted)',
-    maxWidth: '40ch',
+    maxWidth: '45ch',
     marginBottom: '40px',
-    lineHeight: 1.6,
+    lineHeight: 1.7,
   },
   actions: {
     display: 'flex',
-    gap: '16px',
+    gap: '24px',
+    alignItems: 'center',
     flexWrap: 'wrap',
+  },
+  scrollHint: {
+    position: 'absolute',
+    bottom: '100px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '8px',
+    color: 'var(--muted)',
+    fontSize: '0.75rem',
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+  },
+  scrollLine: {
+    width: '1px',
+    height: '40px',
+    background: 'var(--border)',
   },
 }
 
@@ -70,17 +79,15 @@ export default function Hero() {
 
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-
     tl.fromTo(
       textRef.current.children,
-      { y: 60, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, stagger: 0.15 }
-    )
-    .fromTo(
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, stagger: 0.12 }
+    ).fromTo(
       actionsRef.current.children,
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, stagger: 0.1 },
-      '-=0.3'
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.5, stagger: 0.08 },
+      '-=0.2'
     )
   }, { scope: sectionRef })
 
@@ -89,24 +96,26 @@ export default function Hero() {
       <HeroCanvas />
       <div style={styles.content}>
         <div ref={textRef}>
-          <span style={styles.eyebrow}>Creative Designer & Developer</span>
+          <span style={styles.eyebrow}>{content.hero.subtitle}</span>
           <h1 style={styles.name}>
-            Kaique<br />
-            <span style={styles.nameAccent}>Calefi</span>
+            {content.name.split(' ')[0]}<br />
+            {content.name.split(' ').slice(1).join(' ')}
           </h1>
-          <p style={styles.subtitle}>
-            {content.tagline}
-          </p>
+          <p style={styles.tagline}>{content.tagline}</p>
         </div>
         <div ref={actionsRef} style={styles.actions}>
           <a href="#portfolio" className="btn btn-primary">
-            View my work
+            {content.hero.cta}
             <span className="icon-arrow">→</span>
           </a>
-          <a href="#contact" className="btn btn-outline">
-            Get in touch
+          <a href="#contact" className="btn btn-ghost">
+            {content.hero.secondaryCta}
           </a>
         </div>
+      </div>
+      <div style={styles.scrollHint}>
+        <span>Role para ver mais</span>
+        <div style={styles.scrollLine} />
       </div>
     </section>
   )
