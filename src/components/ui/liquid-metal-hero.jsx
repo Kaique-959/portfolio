@@ -50,7 +50,7 @@ export default function LiquidMetalHero({
     textTransform: 'uppercase',
     letterSpacing: '-0.06em',
     lineHeight: 0.85,
-    fontSize: 'clamp(3.5rem, 10vw, 8rem)',
+    fontSize: 'clamp(2rem, 5.5vw, 4.5rem)',
     color: 'var(--fg)',
   }
 
@@ -82,7 +82,7 @@ export default function LiquidMetalHero({
               justifyContent: 'center',
             }} variants={itemVariants}>
               <div ref={cardRef} style={{
-                width: 'clamp(140px, 35vw, 420px)',
+                width: 'clamp(120px, 25vw, 300px)',
                 aspectRatio: '3/4',
                 borderRadius: '16px',
                 overflow: 'hidden',
