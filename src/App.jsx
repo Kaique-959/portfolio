@@ -1,5 +1,6 @@
 import Nav from './components/Nav'
 import Hero from './components/Hero'
+import SphereReveal from './components/SphereReveal'
 import Services from './components/Services'
 import Awards from './components/Awards'
 import About from './components/About'
@@ -15,6 +16,7 @@ export default function App() {
       <Nav />
       <main>
         <Hero />
+        <SphereReveal />
         <Services />
         <Awards />
         <About />
