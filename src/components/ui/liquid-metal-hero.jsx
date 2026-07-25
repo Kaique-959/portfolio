@@ -59,7 +59,7 @@ export default function LiquidMetalHero({
       <div className="container mx-auto px-6 lg:px-8 max-w-7xl w-full">
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
 
-          <div className="grid grid-cols-12 gap-16 items-center">
+          <div className="grid grid-cols-12 gap-24 items-center">
             <motion.div className="col-span-4 text-right" variants={itemVariants}>
               <p className="text-sm text-muted font-medium tracking-wide mb-2">{kickerLeft}</p>
               <h1 style={h1style}>{firstName}</h1>
@@ -68,7 +68,7 @@ export default function LiquidMetalHero({
             <motion.div className="col-span-4 flex justify-center" variants={itemVariants}>
               <div ref={cardRef} style={{
                 width: '100%',
-                maxWidth: '280px',
+                maxWidth: '420px',
                 aspectRatio: '3/4',
                 borderRadius: '16px',
                 overflow: 'hidden',
