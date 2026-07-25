@@ -1,75 +1,8 @@
-import { useRef, useState } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useGSAP } from '@gsap/react'
+import useScrollReveal from '../hooks/useScrollReveal'
 import { content } from '../data/content'
 
-gsap.registerPlugin(ScrollTrigger, useGSAP)
-
-const styles = {
-  grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))',
-    gap: '24px',
-  },
-  card: {
-    background: 'var(--bg)',
-    borderRadius: 'var(--radius-lg)',
-    border: '1px solid var(--border)',
-    overflow: 'hidden',
-    transition: 'border-color 0.2s ease, transform 0.2s ease',
-    display: 'block',
-  },
-  media: {
-    height: '240px',
-    background: 'var(--surface)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-  },
-  projectNum: {
-    fontFamily: 'var(--font-display)',
-    fontSize: '3rem',
-    fontWeight: 700,
-    color: 'var(--muted)',
-    opacity: 0.1,
-  },
-  body: {
-    padding: '24px',
-  },
-  title: {
-    fontFamily: 'var(--font-display)',
-    fontSize: '1.1rem',
-    fontWeight: 600,
-    marginBottom: '8px',
-    letterSpacing: '-0.01em',
-  },
-  desc: {
-    fontSize: '0.85rem',
-    color: 'var(--muted)',
-    lineHeight: 1.6,
-    marginBottom: '16px',
-  },
-  tags: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '6px',
-  },
-  viewMore: {
-    textAlign: 'center',
-    marginTop: '48px',
-  },
-}
-
 export default function Portfolio() {
-  const sectionRef = useRef(null)
-  const cardsRef = useRef([])
-
-  useGSAP(() => {
-    gsap.fromTo(cardsRef.current, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.1,
-      scrollTrigger: { trigger: sectionRef.current, start: 'top 75%', toggleActions: 'play none none reverse' } })
-  }, { scope: sectionRef })
+  const sectionRef = useScrollReveal({ stagger: 0.1 })
 
   return (
     <section id="portfolio" ref={sectionRef} className="section" style={{ background: 'var(--surface)' }}>
@@ -81,24 +14,45 @@ export default function Portfolio() {
           </h2>
         </div>
 
-        <div style={styles.grid}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))',
+          gap: '24px',
+        }}>
           {content.projects.map((project, i) => (
             <a
               key={i}
-              ref={(el) => cardsRef.current[i] = el}
               href={project.url}
               target="_blank" rel="noopener noreferrer"
-              style={styles.card}
+              style={{
+                background: 'var(--bg)', borderRadius: 'var(--radius-lg)',
+                border: '1px solid var(--border)', overflow: 'hidden',
+                transition: 'border-color 0.2s ease, transform 0.2s ease',
+                display: 'block',
+              }}
               onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-hover)'; e.currentTarget.style.transform = 'translateY(-4px)' }}
               onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateY(0)' }}
             >
-              <div style={styles.media}>
-                <span style={styles.projectNum}>{String(i + 1).padStart(2, '0')}</span>
+              <div style={{
+                height: '240px', background: 'var(--surface)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                position: 'relative',
+              }}>
+                <span style={{
+                  fontFamily: 'var(--font-display)', fontSize: '3rem',
+                  fontWeight: 700, color: 'var(--muted)', opacity: 0.1,
+                }}>
+                  {String(i + 1).padStart(2, '0')}
+                </span>
               </div>
-              <div style={styles.body}>
-                <h3 style={styles.title}>{project.title}</h3>
-                <p style={styles.desc}>{project.description}</p>
-                <div style={styles.tags}>
+              <div style={{ padding: '24px' }}>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 600, marginBottom: '8px', letterSpacing: '-0.01em' }}>
+                  {project.title}
+                </h3>
+                <p style={{ fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.6, marginBottom: '16px' }}>
+                  {project.description}
+                </p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                   {project.tags.map((tag, j) => (
                     <span key={j} className="tag">{tag}</span>
                   ))}
