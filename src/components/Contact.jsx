@@ -3,7 +3,6 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { content } from '../data/content'
-import MagneticButton from './MagneticButton'
 import FooterMarquee from './FooterMarquee'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
@@ -105,10 +104,10 @@ export default function Contact() {
                     onFocus={(e) => e.target.style.borderColor = 'var(--accent)'}
                     onBlur={(e) => e.target.style.borderColor = 'var(--border)'} />
                 </div>
-                <MagneticButton type="submit" className="btn btn-primary" style={{ alignSelf: 'flex-start' }}>
+                <button type="submit" className="btn btn-primary" style={{ alignSelf: 'flex-start' }}>
                   Enviar mensagem
                   <span className="icon-arrow">→</span>
-                </MagneticButton>
+                </button>
               </form>
             )}
           </div>
