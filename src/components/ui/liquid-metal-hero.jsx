@@ -33,7 +33,7 @@ export default function LiquidMetalHero({
     if (!cardRef.current) return
     gsap.to(cardRef.current, {
       scale: 1.05,
-      y: 20,
+      y: 15,
       ease: 'power2.inOut',
       scrollTrigger: {
         trigger: sectionRef.current,
@@ -50,38 +50,31 @@ export default function LiquidMetalHero({
     textTransform: 'uppercase',
     letterSpacing: '-0.06em',
     lineHeight: 0.85,
-    fontSize: 'clamp(3.5rem, 10vw, 9rem)',
+    fontSize: 'clamp(2.5rem, 7vw, 6rem)',
     color: 'var(--fg)',
   }
 
   return (
     <section id="hero" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      <div className="absolute inset-0 bg-gradient-to-b from-background/80 to-background z-[-5]" />
+      <div className="container mx-auto px-6 lg:px-8 max-w-7xl w-full">
+        <motion.div variants={containerVariants} initial="hidden" animate="visible">
 
-      <div className="container mx-auto px-6 lg:px-8 max-w-7xl">
-        <motion.div className="flex flex-col items-center" variants={containerVariants} initial="hidden" animate="visible">
-
-          <div className="relative grid grid-cols-2 gap-6 md:gap-12 w-full max-w-5xl mb-8">
-            <motion.div className="text-right" variants={itemVariants}>
+          <div className="grid grid-cols-12 gap-4 items-center">
+            <motion.div className="col-span-5 text-right" variants={itemVariants}>
               <p className="text-sm text-muted font-medium tracking-wide mb-2">{kickerLeft}</p>
               <h1 style={h1style}>{firstName}</h1>
             </motion.div>
 
-            <motion.div
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
-              variants={itemVariants}
-              style={{ width: 'clamp(140px, 16vw, 220px)' }}
-            >
+            <motion.div className="col-span-2 flex justify-center" variants={itemVariants}>
               <div ref={cardRef} style={{
-                aspectRatio: '3/4',
                 width: '100%',
+                maxWidth: '160px',
+                aspectRatio: '3/4',
                 borderRadius: '16px',
                 overflow: 'hidden',
-                border: '1px solid var(--border)',
-                boxShadow: '0 8px 40px rgba(0,0,0,0.08)',
               }}>
                 <LiquidMetal
-                  colorBack="#D4CFC4"
+                  colorBack="#FAFAF8"
                   colorTint="#C24E2E"
                   shape="metaballs"
                   repetition={2}
@@ -97,13 +90,13 @@ export default function LiquidMetalHero({
               </div>
             </motion.div>
 
-            <motion.div className="text-left" variants={itemVariants}>
+            <motion.div className="col-span-5 text-left" variants={itemVariants}>
               <p className="text-sm text-muted font-medium tracking-wide mb-2">{kickerRight}</p>
               <h1 style={h1style}>{lastName}</h1>
             </motion.div>
           </div>
 
-          <motion.div className="flex flex-col items-center gap-6 mt-2" variants={itemVariants}>
+          <motion.div className="flex flex-col items-center gap-6 mt-12" variants={itemVariants}>
             {badge && (
               <Badge variant="outline" className="text-foreground border-border bg-background/60 backdrop-blur-sm">
                 {badge}

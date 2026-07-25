@@ -1,7 +1,7 @@
 export const content = {
   name: 'Kaique Calefi',
   firstName: 'Kaique',
-  lastName: 'Kalefi',
+  lastName: 'Calefi',
   role: 'Desenvolvedor & Fundador',
   tagline: 'Tecnologia que funciona enquanto você dorme',
   location: 'Brasília, DF',
