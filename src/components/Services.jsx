@@ -9,14 +9,14 @@ import { useGSAP } from '@gsap/react'
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const icons = [
-  <Globe size={20} />,
-  <MessageCircle size={20} />,
-  <GitBranch size={20} />,
-  <Search size={20} />,
-  <Layout size={20} />,
-  <Code size={20} />,
-  <Server size={20} />,
-  <Lightbulb size={20} />,
+  <Globe size={32} />,
+  <MessageCircle size={32} />,
+  <GitBranch size={32} />,
+  <Search size={32} />,
+  <Layout size={32} />,
+  <Code size={32} />,
+  <Server size={32} />,
+  <Lightbulb size={32} />,
 ]
 
 export default function Services() {
@@ -38,30 +38,44 @@ export default function Services() {
     label: `${String(i + 1).padStart(2, '0')}. ${service.title}`,
     icon: icons[i % icons.length],
     content: (
-      <div>
-        <div className="flex items-start gap-4 mb-4">
+      <div className="grid grid-cols-5 gap-6 items-start">
+        <div className="col-span-2 flex items-center justify-center" style={{
+          aspectRatio: '1/1',
+          background: '#F2F2F0',
+          borderRadius: '12px',
+          border: '1px solid #E5E5E2',
+          color: '#C24E2E',
+          minHeight: '200px',
+        }}>
+          {icons[i % icons.length]}
+        </div>
+        <div className="col-span-3">
           <span style={{
-            fontSize: '2.5rem', fontWeight: 700, color: '#C24E2E',
-            fontFamily: 'var(--font-display)', lineHeight: 1, opacity: 0.2,
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            color: '#C24E2E',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            display: 'block',
+            marginBottom: '8px',
           }}>
             {String(i + 1).padStart(2, '0')}
           </span>
-          <div>
-            <h3 style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '1.3rem', fontWeight: 600, color: '#141414', marginBottom: '8px',
-            }}>
-              {service.title}
-            </h3>
-            <p style={{ color: '#71717A', lineHeight: 1.7, maxWidth: '55ch', marginBottom: '16px' }}>
-              {service.description}
-            </p>
+          <h3 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '1.3rem', fontWeight: 600,
+            color: '#141414', marginBottom: '12px',
+          }}>
+            {service.title}
+          </h3>
+          <p style={{ color: '#71717A', lineHeight: 1.7, marginBottom: '20px' }}>
+            {service.description}
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            {service.tags.map((tag, j) => (
+              <span key={j} className="tag">{tag}</span>
+            ))}
           </div>
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-          {service.tags.map((tag, j) => (
-            <span key={j} className="tag">{tag}</span>
-          ))}
         </div>
       </div>
     ),
