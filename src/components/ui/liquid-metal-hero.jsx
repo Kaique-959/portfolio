@@ -50,7 +50,7 @@ export default function LiquidMetalHero({
     textTransform: 'uppercase',
     letterSpacing: '-0.06em',
     lineHeight: 0.85,
-    fontSize: 'clamp(2rem, 5.5vw, 4.5rem)',
+    fontSize: 'clamp(2.5rem, 6vw, 5rem)',
     color: 'var(--fg)',
   }
 
@@ -63,7 +63,7 @@ export default function LiquidMetalHero({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 'clamp(24px, 4vw, 64px)',
+            gap: 'clamp(32px, 6vw, 96px)',
             width: '100%',
           }}>
             <motion.div style={{
@@ -82,7 +82,7 @@ export default function LiquidMetalHero({
               justifyContent: 'center',
             }} variants={itemVariants}>
               <div ref={cardRef} style={{
-                width: 'clamp(120px, 25vw, 300px)',
+                width: 'clamp(180px, 35vw, 400px)',
                 aspectRatio: '3/4',
                 borderRadius: '16px',
                 overflow: 'hidden',
