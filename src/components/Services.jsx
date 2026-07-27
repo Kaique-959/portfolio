@@ -1,5 +1,6 @@
 import { Globe, MessageCircle, GitBranch, Search, Layout, Code, Server, Lightbulb } from 'lucide-react'
-import { HoverSlider, HoverSliderImageWrap, TextStaggerHover } from '@/components/ui/animated-slideshow'
+import { HoverSlider, HoverSliderImageWrap, TextStaggerHover, useHoverSliderContext } from '@/components/ui/animated-slideshow'
+import { motion } from 'framer-motion'
 import { content } from '../data/content'
 import { useEffect, useState, useRef } from 'react'
 import { gsap } from 'gsap'
@@ -21,16 +22,34 @@ const panelGradients = [
   'linear-gradient(135deg, #141414 0%, #E8A87C 100%)',
 ]
 
+const clipPathVariants = {
+  visible: { clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' },
+  hidden: { clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0px)' },
+}
+
 function GradientPanel({ gradient, icon: Icon }) {
   return (
     <div style={{
       width: '100%', height: '100%', minHeight: '320px',
       borderRadius: '12px', background: gradient,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      gridRow: 1, gridColumn: 1,
     }}>
       <Icon size={64} color="white" opacity={0.25} />
     </div>
+  )
+}
+
+function SlidePanel({ index, gradient, icon }) {
+  const { activeSlide } = useHoverSliderContext()
+  return (
+    <motion.div
+      variants={clipPathVariants}
+      animate={activeSlide === index ? 'visible' : 'hidden'}
+      transition={{ ease: [0.33, 1, 0.68, 1], duration: 0.8 }}
+      style={{ position: 'absolute', inset: 0 }}
+    >
+      <GradientPanel gradient={gradient} icon={icon} />
+    </motion.div>
   )
 }
 
@@ -92,10 +111,11 @@ export default function Services() {
             ))}
           </div>
 
-          <HoverSliderImageWrap className="w-full max-w-md" style={{ aspectRatio: '4/5' }}>
+          <HoverSliderImageWrap className="w-full max-w-md" style={{ minHeight: '320px' }}>
             {content.services.map((service, index) => (
-              <GradientPanel
+              <SlidePanel
                 key={service.title}
+                index={index}
                 gradient={panelGradients[index]}
                 icon={icons[index]}
               />

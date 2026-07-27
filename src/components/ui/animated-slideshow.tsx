@@ -104,9 +104,15 @@ export const TextStaggerHover = React.forwardRef<HTMLElement, React.HTMLAttribut
 TextStaggerHover.displayName = "TextStaggerHover"
 
 export const HoverSliderImageWrap = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     return (
-      <div ref={ref} className={className} style={{ position: 'relative', display: 'grid', overflow: 'hidden', ...(props.style || {}) }} {...props} />
+      <div ref={ref} className={className} style={{ position: 'relative', overflow: 'hidden', ...(props.style || {}) }} {...props}>
+        {React.Children.map(children, (child) => (
+          <div style={{ position: 'absolute', inset: 0 }}>
+            {child}
+          </div>
+        ))}
+      </div>
     )
   }
 )
