@@ -6,7 +6,7 @@ export function AnimatedTabs({ tabs, className = "" }) {
 
   return (
     <div className={className}>
-      <div className="flex flex-wrap gap-2 mb-6 justify-center">
+      <div className="flex flex-wrap gap-2 mb-6">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -14,9 +14,6 @@ export function AnimatedTabs({ tabs, className = "" }) {
             className="relative px-4 py-2 rounded-full text-sm font-medium transition-colors"
             style={{
               color: activeTab === tab.id ? '#FAFAF8' : '#71717A',
-              background: activeTab === tab.id ? '#C24E2E' : '#EBEBE8',
-              border: 'none',
-              outline: 'none',
             }}
           >
             {activeTab === tab.id && (
@@ -37,7 +34,10 @@ export function AnimatedTabs({ tabs, className = "" }) {
 
       <div
         className="p-6 rounded-xl border min-h-[280px] backdrop-blur-sm"
-        style={{ background: '#FAFAF8', borderColor: '#E5E5E2' }}
+        style={{
+          background: '#FAFAF8',
+          borderColor: '#E5E5E2',
+        }}
       >
         <AnimatePresence mode="wait">
           {tabs.find((t) => t.id === activeTab) && (
