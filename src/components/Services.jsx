@@ -46,7 +46,7 @@ function SlidePanel({ index, gradient, icon }) {
       variants={clipPathVariants}
       animate={activeSlide === index ? 'visible' : 'hidden'}
       transition={{ ease: [0.33, 1, 0.68, 1], duration: 0.8 }}
-      style={{ position: 'absolute', inset: 0 }}
+      style={{ gridRow: 1, gridColumn: 1 }}
     >
       <GradientPanel gradient={gradient} icon={icon} />
     </motion.div>
