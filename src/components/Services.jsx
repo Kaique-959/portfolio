@@ -1,52 +1,27 @@
 import { Globe, MessageCircle, GitBranch, Search, Layout, Code, Server, Lightbulb } from 'lucide-react'
-import { HoverSlider, HoverSliderImageWrap, TextStaggerHover } from '@/components/ui/animated-slideshow'
+import { AnimatedTabs } from '@/components/ui/animated-tabs'
 import { content } from '../data/content'
-import { useRef, useEffect, useState } from 'react'
+import { useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-const icons = [Globe, MessageCircle, GitBranch, Search, Layout, Code, Server, Lightbulb]
-
-const panelGradients = [
-  'linear-gradient(135deg, #C24E2E 0%, #E8A87C 100%)',
-  'linear-gradient(135deg, #141414 0%, #71717A 100%)',
-  'linear-gradient(135deg, #C24E2E 0%, #E5E5E2 100%)',
-  'linear-gradient(135deg, #141414 0%, #C24E2E 100%)',
-  'linear-gradient(135deg, #E5E5E2 0%, #C24E2E 100%)',
-  'linear-gradient(135deg, #71717A 0%, #141414 100%)',
-  'linear-gradient(135deg, #C24E2E 0%, #71717A 100%)',
-  'linear-gradient(135deg, #141414 0%, #E8A87C 100%)',
+const icons = [
+  <Globe size={32} />,
+  <MessageCircle size={32} />,
+  <GitBranch size={32} />,
+  <Search size={32} />,
+  <Layout size={32} />,
+  <Code size={32} />,
+  <Server size={32} />,
+  <Lightbulb size={32} />,
 ]
-
-function GradientPanel({ gradient, icon: Icon }) {
-  return (
-    <div style={{
-      width: '100%', height: '100%', minHeight: '320px',
-      borderRadius: '12px', background: gradient,
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      position: 'absolute', inset: 0,
-    }}>
-      <Icon size={64} color="white" opacity={0.25} />
-    </div>
-  )
-}
 
 export default function Services() {
   const sectionRef = useRef(null)
   const headerRef = useRef(null)
-  const [activeSlide, setActiveSlide] = useState(0)
-
-  useEffect(() => {
-    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
-    if (!isTouch) return
-    const interval = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % content.services.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
 
   useGSAP(() => {
     gsap.fromTo(headerRef.current, { opacity: 0, y: 20 }, {
@@ -58,16 +33,59 @@ export default function Services() {
     })
   }, { scope: sectionRef })
 
-  return (
-    <section id="services" ref={sectionRef} style={{ padding: '100px 0', background: '#FAFAF8' }}>
-      <div className="container">
-        <div ref={headerRef} style={{ marginBottom: '48px' }}>
+  const tabs = content.services.map((service, i) => ({
+    id: service.title,
+    label: `${String(i + 1).padStart(2, '0')}. ${service.title}`,
+    icon: icons[i % icons.length],
+    content: (
+      <div className="grid grid-cols-5 gap-6 items-start">
+        <div className="col-span-2 flex items-center justify-center" style={{
+          aspectRatio: '1/1',
+          background: '#F2F2F0',
+          borderRadius: '12px',
+          border: '1px solid #E5E5E2',
+          color: '#C24E2E',
+          minHeight: '200px',
+        }}>
+          {icons[i % icons.length]}
+        </div>
+        <div className="col-span-3">
           <span style={{
-            fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase',
-            letterSpacing: '0.1em', color: '#C24E2E', marginBottom: '8px', display: 'block',
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            color: '#C24E2E',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            display: 'block',
+            marginBottom: '8px',
           }}>
-            / Habilidades
+            {String(i + 1).padStart(2, '0')}
           </span>
+          <h3 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '1.3rem', fontWeight: 600,
+            color: '#141414', marginBottom: '12px',
+          }}>
+            {service.title}
+          </h3>
+          <p style={{ color: '#71717A', lineHeight: 1.7, marginBottom: '20px' }}>
+            {service.description}
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            {service.tags.map((tag, j) => (
+              <span key={j} className="tag">{tag}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    ),
+  }))
+
+  return (
+    <section id="services" ref={sectionRef} className="section" style={{ background: '#F2F2F0' }}>
+      <div className="container">
+        <div ref={headerRef} style={{ marginBottom: '40px' }}>
+          <span className="eyebrow">/ Habilidades</span>
           <h2 style={{
             fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3vw, 2.8rem)',
             fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.1,
@@ -76,32 +94,7 @@ export default function Services() {
           </h2>
         </div>
 
-        <HoverSlider
-          activeSlide={activeSlide}
-          onSlideChange={setActiveSlide}
-          className="flex flex-wrap items-center justify-evenly gap-6 md:gap-12"
-        >
-          <div className="flex flex-col space-y-2 md:space-y-3">
-            {content.services.map((service, index) => (
-              <TextStaggerHover
-                key={service.title}
-                index={index}
-                className="cursor-pointer text-3xl md:text-4xl font-bold uppercase tracking-tighter"
-                text={service.title}
-              />
-            ))}
-          </div>
-
-          <HoverSliderImageWrap className="w-full max-w-md">
-            {content.services.map((service, index) => (
-              <GradientPanel
-                key={service.title}
-                gradient={panelGradients[index]}
-                icon={icons[index]}
-              />
-            ))}
-          </HoverSliderImageWrap>
-        </HoverSlider>
+        <AnimatedTabs tabs={tabs} />
       </div>
     </section>
   )
