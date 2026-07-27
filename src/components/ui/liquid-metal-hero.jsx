@@ -8,7 +8,6 @@ import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
-import useLenis from '@/hooks/useLenis'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -27,52 +26,22 @@ export default function LiquidMetalHero({
   primaryCtaLabel, secondaryCtaLabel,
   onPrimaryCtaClick, onSecondaryCtaClick,
 }) {
+  const cardRef = useRef(null)
   const sectionRef = useRef(null)
-  const cardLayer = useRef(null)
-  const nameLeftLayer = useRef(null)
-  const nameRightLayer = useRef(null)
-  const badgeLayer = useRef(null)
-
-  useLenis()
 
   useGSAP(() => {
-    const tl = gsap.timeline({
+    if (!cardRef.current) return
+    gsap.to(cardRef.current, {
+      scale: 1.05,
+      y: 15,
+      ease: 'power2.inOut',
       scrollTrigger: {
         trigger: sectionRef.current,
         start: 'top top',
         end: 'bottom top',
-        scrub: 1.2,
+        scrub: 1.5,
       },
     })
-
-    tl.to(cardLayer.current, {
-      x: '18%',
-      y: '12%',
-      scale: 1.1,
-      ease: 'power2.inOut',
-    }, 0)
-
-    tl.to(nameLeftLayer.current, {
-      x: '-8%',
-      opacity: 0.6,
-      ease: 'power2.inOut',
-    }, 0)
-
-    tl.to(nameRightLayer.current, {
-      x: '8%',
-      opacity: 0.6,
-      ease: 'power2.inOut',
-    }, 0)
-
-    tl.to(badgeLayer.current, {
-      opacity: 0,
-      y: 20,
-      ease: 'power2.inOut',
-    }, 0)
-
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill())
-    }
   }, { scope: sectionRef })
 
   const h1style = {
@@ -97,23 +66,22 @@ export default function LiquidMetalHero({
             gap: 'clamp(32px, 6vw, 96px)',
             width: '100%',
           }}>
-            <motion.div ref={nameLeftLayer} style={{
+            <motion.div style={{
               flex: '1 1 0',
               textAlign: 'right',
               minWidth: 0,
-              willChange: 'transform',
+              overflow: 'visible',
             }} variants={itemVariants}>
               <p className="text-sm text-muted font-medium tracking-wide mb-2">{kickerLeft}</p>
               <h1 style={h1style}>{firstName}</h1>
             </motion.div>
 
-            <motion.div ref={cardLayer} style={{
+            <motion.div style={{
               flex: '0 0 auto',
               display: 'flex',
               justifyContent: 'center',
-              willChange: 'transform',
             }} variants={itemVariants}>
-              <div style={{
+              <div ref={cardRef} style={{
                 width: 'clamp(180px, 35vw, 400px)',
                 aspectRatio: '3/4',
                 borderRadius: '16px',
@@ -136,18 +104,18 @@ export default function LiquidMetalHero({
               </div>
             </motion.div>
 
-            <motion.div ref={nameRightLayer} style={{
+            <motion.div style={{
               flex: '1 1 0',
               textAlign: 'left',
               minWidth: 0,
-              willChange: 'transform',
+              overflow: 'visible',
             }} variants={itemVariants}>
               <p className="text-sm text-muted font-medium tracking-wide mb-2">{kickerRight}</p>
               <h1 style={h1style}>{lastName}</h1>
             </motion.div>
           </div>
 
-          <motion.div ref={badgeLayer} className="flex flex-col items-center gap-6 mt-12" variants={itemVariants}>
+          <motion.div className="flex flex-col items-center gap-6 mt-12" variants={itemVariants}>
             {badge && (
               <Badge variant="outline" className="text-foreground border-border bg-background/60 backdrop-blur-sm">
                 {badge}
