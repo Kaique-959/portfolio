@@ -95,7 +95,11 @@ export default function Services() {
           </h2>
         </div>
 
-        <div style={{ display: 'flex', gap: 'clamp(40px, 6vw, 100px)', alignItems: 'flex-start', justifyContent: 'center' }}>
+        <HoverSlider
+          activeSlide={activeSlide}
+          onSlideChange={setActiveSlide}
+          style={{ display: 'flex', gap: 'clamp(40px, 6vw, 100px)', alignItems: 'flex-start', justifyContent: 'center' }}
+        >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: '1 1 auto', maxWidth: '500px' }}>
             {content.services.map((service, index) => (
               <TextStaggerHover
@@ -107,23 +111,17 @@ export default function Services() {
             ))}
           </div>
 
-          <HoverSlider
-            activeSlide={activeSlide}
-            onSlideChange={setActiveSlide}
-            style={{ flex: '0 0 auto' }}
-          >
-            <HoverSliderImageWrap style={{ width: '440px', height: '580px' }}>
-              {content.services.map((service, index) => (
-                <SlidePanel
-                  key={service.title}
-                  index={index}
-                  gradient={panelGradients[index]}
-                  icon={icons[index]}
-                />
-              ))}
-            </HoverSliderImageWrap>
-          </HoverSlider>
-        </div>
+          <HoverSliderImageWrap style={{ width: '440px', height: '580px', flex: '0 0 auto' }}>
+            {content.services.map((service, index) => (
+              <SlidePanel
+                key={service.title}
+                index={index}
+                gradient={panelGradients[index]}
+                icon={icons[index]}
+              />
+            ))}
+          </HoverSliderImageWrap>
+        </HoverSlider>
       </div>
     </section>
   )
