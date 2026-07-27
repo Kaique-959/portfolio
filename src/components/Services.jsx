@@ -30,7 +30,7 @@ const clipPathVariants = {
 function GradientPanel({ gradient, icon: Icon }) {
   return (
     <div style={{
-      width: '100%', height: '100%', minHeight: '320px',
+      width: '100%', height: '100%',
       borderRadius: '12px', background: gradient,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
@@ -111,7 +111,7 @@ export default function Services() {
             ))}
           </div>
 
-          <HoverSliderImageWrap className="w-full max-w-md" style={{ minHeight: '320px' }}>
+          <HoverSliderImageWrap style={{ width: '400px', height: '500px', flexShrink: 0 }}>
             {content.services.map((service, index) => (
               <SlidePanel
                 key={service.title}
