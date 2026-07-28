@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { content } from '../data/content'
+import { GradientButton } from '@/components/ui/gradient-button'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -103,9 +104,11 @@ export default function Portfolio() {
               Quer ver tudo que já fiz?
             </p>
           </div>
-          <a href="https://github.com/Kaique-959" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-            Ver portfólio completo →
-          </a>
+          <GradientButton asChild>
+            <a href="https://github.com/Kaique-959" target="_blank" rel="noopener noreferrer">
+              Ver portfólio completo →
+            </a>
+          </GradientButton>
         </div>
       </div>
     </section>

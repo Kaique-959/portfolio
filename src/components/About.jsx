@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
+import { GradientButton } from '@/components/ui/gradient-button'
 import { content } from '../data/content'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
@@ -63,14 +64,12 @@ export default function About() {
               </p>
 
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                <button onClick={() => scrollTo('contact')} className="btn btn-primary">
+                <GradientButton onClick={() => scrollTo('contact')}>
                   Falar comigo
-                  <span className="icon-arrow">→</span>
-                </button>
-                <button onClick={() => scrollTo('portfolio')} className="btn btn-outline">
+                </GradientButton>
+                <GradientButton variant="variant" onClick={() => scrollTo('portfolio')}>
                   Ver projetos
-                </button>
-                {/* TODO: Adicionar botão "Baixar CV" quando o PDF estiver pronto */}
+                </GradientButton>
               </div>
             </div>
 

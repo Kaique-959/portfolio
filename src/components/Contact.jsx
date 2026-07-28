@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { content } from '../data/content'
+import { GradientButton } from '@/components/ui/gradient-button'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -103,10 +104,9 @@ export default function Contact() {
                     onFocus={(e) => e.target.style.borderColor = 'var(--accent)'}
                     onBlur={(e) => e.target.style.borderColor = 'var(--border)'} />
                 </div>
-                <button type="submit" className="btn btn-primary" style={{ alignSelf: 'flex-start' }}>
-                  Enviar mensagem
-                  <span className="icon-arrow">→</span>
-                </button>
+                <GradientButton type="submit">
+                  Enviar mensagem →
+                </GradientButton>
               </form>
             )}
           </div>

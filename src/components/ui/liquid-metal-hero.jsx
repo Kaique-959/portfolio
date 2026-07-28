@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from 'react'
 import { LiquidMetal } from '@paper-design/shaders-react'
-import { Button } from '@/components/ui/button'
+import { GradientButton } from '@/components/ui/gradient-button'
 import { Badge } from '@/components/ui/badge'
 import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
@@ -121,17 +121,13 @@ export default function LiquidMetalHero({
               </Badge>
             )}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button onClick={onPrimaryCtaClick} size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all duration-300 shadow-2xl text-lg px-8 py-6 font-semibold">
-                  {primaryCtaLabel}
-                </Button>
-              </motion.div>
+              <GradientButton onClick={onPrimaryCtaClick}>
+                {primaryCtaLabel}
+              </GradientButton>
               {secondaryCtaLabel && onSecondaryCtaClick && (
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button onClick={onSecondaryCtaClick} variant="outline" size="lg" className="border-border text-foreground hover:bg-foreground/10 hover:border-foreground/50 transition-all duration-300 backdrop-blur-sm text-lg px-8 py-6 font-semibold">
-                    {secondaryCtaLabel}
-                  </Button>
-                </motion.div>
+                <GradientButton variant="variant" onClick={onSecondaryCtaClick}>
+                  {secondaryCtaLabel}
+                </GradientButton>
               )}
             </div>
           </motion.div>

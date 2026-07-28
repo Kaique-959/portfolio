@@ -1,13 +1,8 @@
 "use client"
 
 import type { LucideIcon } from "lucide-react"
-import { motion } from "motion/react"
 import * as React from "react"
-
 import { cn } from "@/lib/utils"
-
-const EXPAND_DURATION = 0.35
-const COLLAPSE_DURATION = 0.25
 
 type IconBarContextValue = {
   selectedValue: string | null
@@ -44,11 +39,9 @@ function IconBar({ className, children, defaultValue, onValueChange, value: valu
     [isControlled, onValueChange, selectedValue]
   )
 
-  const contextValue = React.useMemo(() => ({ selectedValue, setSelectedValue }), [selectedValue, setSelectedValue])
-
   return (
-    <IconBarContext.Provider value={contextValue}>
-      <div aria-orientation="horizontal" className={cn("flex flex-wrap items-center gap-2", className)} role="toolbar">
+    <IconBarContext.Provider value={{ selectedValue, setSelectedValue }}>
+      <div aria-orientation="horizontal" className={cn("flex items-center gap-1.5", className)} role="toolbar">
         {children}
       </div>
     </IconBarContext.Provider>
@@ -62,7 +55,7 @@ type IconBarItemProps = {
   icon: LucideIcon
   label: string
   value?: string
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
+  onClick?: () => void
 }
 
 const IconBarItem = React.forwardRef<HTMLButtonElement, IconBarItemProps>(
@@ -70,6 +63,8 @@ const IconBarItem = React.forwardRef<HTMLButtonElement, IconBarItemProps>(
     const { selectedValue, setSelectedValue } = useIconBarContext("IconBarItem")
     const itemValue = value ?? label
     const isSelected = !disabled && selectedValue === itemValue
+    const [hovered, setHovered] = React.useState(false)
+    const expanded = isSelected || hovered
 
     return (
       <button
@@ -78,37 +73,26 @@ const IconBarItem = React.forwardRef<HTMLButtonElement, IconBarItemProps>(
         disabled={disabled}
         aria-label={label}
         aria-pressed={isSelected}
-        onClick={() => {
-          if (disabled) return
-          setSelectedValue(itemValue)
-          onClick?.()
-        }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onClick={() => { if (!disabled) { setSelectedValue(itemValue); onClick?.() } }}
         className={cn(
-          "relative inline-flex h-9 items-center gap-0 rounded-xl border transition-all duration-200",
-          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          "relative inline-flex h-9 items-center rounded-xl border transition-all duration-200",
+          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
           "disabled:pointer-events-none disabled:opacity-50",
+          expanded
+            ? "px-3 gap-2"
+            : "w-9 justify-center",
           isSelected
-            ? "bg-[#C24E2E] border-[#C24E2E] text-white px-4 gap-2"
-            : "bg-[#FAFAF8] border-[#E5E5E2] text-[#71717A] px-3 gap-2 hover:bg-[#F2F2F0] hover:text-[#141414]",
+            ? "bg-[#C24E2E] border-[#C24E2E] text-white"
+            : "bg-[#FAFAF8] border-[#E5E5E2] text-[#71717A] hover:bg-[#F2F2F0] hover:text-[#141414]",
           className
         )}
       >
-        <Icon aria-hidden className="size-[18px] stroke-[1.5]" />
-        <motion.span
-          initial={false}
-          animate={{
-            width: isSelected ? 'auto' : 0,
-            opacity: isSelected ? 1 : 0,
-          }}
-          transition={{
-            duration: isSelected ? 0.35 : 0.25,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-          className="overflow-hidden whitespace-nowrap font-medium text-[14px] tracking-[-0.01em]"
-          style={{ paddingLeft: isSelected ? '6px' : '0' }}
-        >
-          {label}
-        </motion.span>
+        <Icon aria-hidden className="size-[18px] stroke-[1.5] shrink-0" />
+        {expanded && (
+          <span className="whitespace-nowrap font-medium text-[14px] tracking-[-0.01em]">{label}</span>
+        )}
       </button>
     )
   }
