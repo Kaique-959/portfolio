@@ -150,7 +150,7 @@ export const content = {
 export const navLinks = [
   { label: 'Início', href: '#hero' },
   { label: 'Habilidades', href: '#services' },
-  { label: 'Projetos', href: '#portfolio' },
   { label: 'Sobre', href: '#about' },
+  { label: 'Projetos', href: '#portfolio' },
   { label: 'Contato', href: '#contact' },
 ]

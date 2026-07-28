@@ -6,10 +6,8 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-const ICON_CELL_PX = 36
-const EXPAND_DURATION = 0.62
-const COLLAPSE_DURATION = 0.48
-const FLUID_EASE = [0.16, 1, 0.3, 1] as const
+const EXPAND_DURATION = 0.35
+const COLLAPSE_DURATION = 0.25
 
 type IconBarContextValue = {
   selectedValue: string | null
@@ -20,9 +18,7 @@ const IconBarContext = React.createContext<IconBarContextValue | null>(null)
 
 function useIconBarContext(componentName: string) {
   const context = React.useContext(IconBarContext)
-  if (!context) {
-    throw new Error(`${componentName} must be used within IconBar.`)
-  }
+  if (!context) throw new Error(`${componentName} must be used within IconBar.`)
   return context
 }
 
@@ -60,93 +56,63 @@ function IconBar({ className, children, defaultValue, onValueChange, value: valu
 }
 IconBar.displayName = "IconBar"
 
-type IconBarItemProps = Omit<React.ComponentPropsWithoutRef<typeof motion.button>, "children" | "aria-expanded" | "aria-label" | "aria-pressed"> & {
+type IconBarItemProps = {
+  className?: string
+  disabled?: boolean
   icon: LucideIcon
   label: string
   value?: string
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const IconBarItem = React.forwardRef<HTMLButtonElement, IconBarItemProps>(
-  ({ className, disabled = false, icon: Icon, label, onBlur: onBlurProp, onClick, onFocus: onFocusProp, value, ...buttonProps }, ref) => {
+  ({ className, disabled = false, icon: Icon, label, onClick, value }, ref) => {
     const { selectedValue, setSelectedValue } = useIconBarContext("IconBarItem")
     const itemValue = value ?? label
-    const [hoverPreview, setHoverPreview] = React.useState(false)
-    const measureRef = React.useRef<HTMLSpanElement>(null)
-    const [labelWidth, setLabelWidth] = React.useState(0)
-
     const isSelected = !disabled && selectedValue === itemValue
-    const expanded = !disabled && (isSelected || hoverPreview)
-
-    React.useLayoutEffect(() => {
-      const node = measureRef.current
-      if (!node) return
-      const measure = () => setLabelWidth(Math.ceil(node.getBoundingClientRect().width))
-      measure()
-      const observer = new ResizeObserver(measure)
-      observer.observe(node)
-      const fonts = document.fonts
-      if (fonts?.ready) fonts.ready.then(measure).catch(() => undefined)
-      return () => observer.disconnect()
-    }, [])
-
-    const widthTransition = { duration: expanded ? EXPAND_DURATION : COLLAPSE_DURATION, ease: FLUID_EASE }
-    const showLabel = expanded && labelWidth > 0
 
     return (
-      <motion.button
-        {...buttonProps}
-        aria-expanded={showLabel}
-        aria-label={label}
-        aria-pressed={isSelected}
-        className={cn(
-          "relative inline-flex h-9 shrink-0 items-center overflow-hidden rounded-xl outline-none",
-          "transition-[background-color,color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
-          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-          "hover:bg-[#E5E5E2] hover:text-[#141414]",
-          "disabled:pointer-events-none disabled:opacity-50",
-          isSelected && "bg-[#C24E2E] text-white hover:bg-[#C24E2E] hover:text-white",
-          !isSelected && "bg-[#FAFAF8] text-[#71717A]",
-          className
-        )}
-        disabled={disabled}
-        onBlur={(event) => {
-          setHoverPreview(false)
-          onBlurProp?.(event)
-        }}
-        onClick={(event) => {
-          if (disabled) return
-          const willDeselect = isSelected
-          setSelectedValue(itemValue)
-          if (willDeselect) {
-            setHoverPreview(false)
-            event.currentTarget.blur()
-          }
-          onClick?.(event)
-        }}
-        onFocus={(event) => {
-          onFocusProp?.(event)
-          if (disabled || event.defaultPrevented) return
-          if (event.currentTarget.matches(":focus-visible")) setHoverPreview(true)
-        }}
-        onHoverEnd={() => { if (!disabled) setHoverPreview(false) }}
-        onHoverStart={() => { if (!disabled) setHoverPreview(true) }}
+      <button
         ref={ref}
         type="button"
+        disabled={disabled}
+        aria-label={label}
+        aria-pressed={isSelected}
+        onClick={() => {
+          if (disabled) return
+          setSelectedValue(itemValue)
+          onClick?.()
+        }}
+        className={cn(
+          "relative inline-flex h-9 items-center gap-0 rounded-xl border transition-all duration-200",
+          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          "disabled:pointer-events-none disabled:opacity-50",
+          isSelected
+            ? "bg-[#C24E2E] border-[#C24E2E] text-white px-4 gap-2"
+            : "bg-[#FAFAF8] border-[#E5E5E2] text-[#71717A] px-3 gap-2 hover:bg-[#F2F2F0] hover:text-[#141414]",
+          className
+        )}
       >
-        <span className="flex size-9 shrink-0 items-center justify-center">
-          <Icon aria-hidden className="size-[18px] stroke-[1.5]" />
-        </span>
-        <motion.div animate={{ width: showLabel ? labelWidth : 0 }} className="overflow-hidden" initial={false} transition={widthTransition}>
-          <span className="block whitespace-nowrap pr-3 font-medium text-[14px] tracking-[-0.01em]">{label}</span>
-        </motion.div>
-        <span aria-hidden className="pointer-events-none absolute top-0 whitespace-nowrap pr-3 font-medium text-[14px] tracking-[-0.01em] opacity-0" ref={measureRef} style={{ left: ICON_CELL_PX }}>
+        <Icon aria-hidden className="size-[18px] stroke-[1.5]" />
+        <motion.span
+          initial={false}
+          animate={{
+            width: isSelected ? 'auto' : 0,
+            opacity: isSelected ? 1 : 0,
+          }}
+          transition={{
+            duration: isSelected ? 0.35 : 0.25,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          className="overflow-hidden whitespace-nowrap font-medium text-[14px] tracking-[-0.01em]"
+          style={{ paddingLeft: isSelected ? '6px' : '0' }}
+        >
           {label}
-        </span>
-      </motion.button>
+        </motion.span>
+      </button>
     )
   }
 )
 IconBarItem.displayName = "IconBarItem"
 
 export { IconBar, IconBarItem }
-export type { IconBarItemProps, IconBarProps }

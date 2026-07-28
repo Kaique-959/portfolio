@@ -3,7 +3,7 @@ import { House, Wrench, FolderKanban, User, Mail } from 'lucide-react'
 import { IconBar, IconBarItem } from '@/components/ui/icon-bar'
 import { navLinks } from '../data/content'
 
-const icons = [House, Wrench, FolderKanban, User, Mail]
+const icons = [House, Wrench, User, FolderKanban, Mail]
 
 export default function Nav() {
   const [activeSection, setActiveSection] = useState('')
