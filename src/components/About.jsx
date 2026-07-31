@@ -7,11 +7,6 @@ import { content } from '../data/content'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-function scrollTo(id) {
-  const el = document.getElementById(id)
-  if (el) el.scrollIntoView({ behavior: 'smooth' })
-}
-
 export default function About() {
   const sectionRef = useRef(null)
   const imgRef = useRef(null)
@@ -107,11 +102,11 @@ export default function About() {
               </p>
 
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                <GradientButton onClick={() => scrollTo('contact')}>
-                  Falar comigo
+                <GradientButton asChild>
+                  <a href="#contact">Falar comigo</a>
                 </GradientButton>
-                <GradientButton variant="variant" onClick={() => scrollTo('portfolio')}>
-                  Ver projetos
+                <GradientButton variant="variant" asChild>
+                  <a href="#portfolio">Ver projetos</a>
                 </GradientButton>
               </div>
             </div>

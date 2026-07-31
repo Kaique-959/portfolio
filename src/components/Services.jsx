@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
 import { Globe, MessageCircle, GitBranch, Search, Layout, Code, Server, Lightbulb } from 'lucide-react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -51,7 +51,9 @@ export default function Services() {
   const sectionRef = useRef(null)
   const headerRef = useRef(null)
   const cardsRef = useRef([])
-  const activeCardRef = useRef(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  const onCardEnter = useCallback((i) => setActiveIndex(i), [])
 
   useEffect(() => {
     if (typeof window === 'undefined') return undefined
@@ -59,50 +61,38 @@ export default function Services() {
     if (prefersReducedMotion) return undefined
 
     const mm = gsap.matchMedia()
+    const triggers = []
 
     mm.add('(min-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
-      const triggers = []
-
       cardsRef.current.forEach((el, i) => {
         if (!el) return
-
         triggers.push(
           ScrollTrigger.create({
             trigger: el,
             start: 'top 40%',
-            onEnter: () => { activeCardRef.current = i },
-            onEnterBack: () => { activeCardRef.current = i },
+            onEnter: () => onCardEnter(i),
+            onEnterBack: () => onCardEnter(i),
           })
         )
       })
-
-      return () => {
-        triggers.forEach((trigger) => trigger.kill())
-      }
+      return () => { triggers.forEach((t) => t.kill()) }
     })
 
     return () => mm.revert()
-  }, [])
+  }, [onCardEnter])
 
   useGSAP(() => {
     gsap.fromTo(headerRef.current, { opacity: 0, y: 20 }, {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 85%',
-        toggleActions: 'play none none reverse',
-      },
+      opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 85%', toggleActions: 'play none none reverse' },
     })
 
     const trigger = ScrollTrigger.create({
       trigger: sectionRef.current,
       start: 'top 70%',
       end: 'bottom 20%',
-      onLeave: () => { activeCardRef.current = null },
-      onLeaveBack: () => { activeCardRef.current = null },
+      onLeave: () => setActiveIndex(-1),
+      onLeaveBack: () => setActiveIndex(-1),
     })
 
     return () => trigger.kill()
@@ -145,7 +135,8 @@ export default function Services() {
                     '--stack-index': content.services.length - index,
                     '--card-rotation': `${rotations[index % rotations.length]}deg`,
                   }}
-                  onFocus={() => { activeCardRef.current = index }}
+                  onFocus={() => onCardEnter(index)}
+                  onMouseEnter={() => onCardEnter(index)}
                 >
                   <div className="service-card-inner">
                     <header className="service-card-header">
@@ -180,7 +171,7 @@ export default function Services() {
             </div>
           </div>
 
-          <ServiceVisualPanel activeIndex={activeCardRef.current ?? 0} />
+          <ServiceVisualPanel activeIndex={activeIndex >= 0 ? activeIndex : 0} />
         </div>
       </div>
 
@@ -189,9 +180,7 @@ export default function Services() {
           background: linear-gradient(180deg, #FAFAF8 0%, #F7F6F3 40%, #FAFAF8 100%);
         }
 
-        .services-subheader {
-          max-width: 50ch;
-        }
+        .services-subheader { max-width: 50ch; }
 
         .services-layout {
           display: grid;
@@ -220,25 +209,17 @@ export default function Services() {
           border: 1px solid var(--border);
           border-radius: 24px;
           background: rgba(250, 250, 248, 0.96);
-          box-shadow:
-            0 18px 60px rgba(20, 20, 20, 0.08),
-            0 8px 24px rgba(20, 20, 20, 0.04);
+          box-shadow: 0 18px 60px rgba(20,20,20,0.08), 0 8px 24px rgba(20,20,20,0.04);
           transform: rotate(var(--card-rotation, 0deg));
           transform-origin: center top;
         }
 
         .service-card:focus-within .service-card-inner,
         .service-card:hover .service-card-inner {
-          box-shadow:
-            0 24px 70px rgba(20, 20, 20, 0.10),
-            0 12px 30px rgba(194, 78, 46, 0.08);
+          box-shadow: 0 24px 70px rgba(20,20,20,0.10), 0 12px 30px rgba(194,78,46,0.08);
         }
 
-        .service-card-header {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
+        .service-card-header { display: flex; flex-direction: column; gap: 12px; }
 
         .service-card-number {
           font-family: var(--font-display);
@@ -248,16 +229,9 @@ export default function Services() {
           color: var(--accent);
         }
 
-        .service-card-tags {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-        }
+        .service-card-tags { display: flex; flex-wrap: wrap; gap: 8px; }
 
-        .services-layout-col-right {
-          position: sticky;
-          top: 112px;
-        }
+        .services-layout-col-right { position: sticky; top: 112px; }
 
         .service-visual-panel {
           position: relative;
@@ -266,65 +240,44 @@ export default function Services() {
           flex-direction: column;
           justify-content: flex-end;
           overflow: hidden;
-          border: 1px solid rgba(229, 229, 226, 0.8);
+          border: 1px solid rgba(229,229,226,0.8);
           border-radius: 24px;
-          background:
-            radial-gradient(circle at 24% 18%, rgba(194, 78, 46, 0.24), transparent 38%),
+          background: radial-gradient(circle at 24% 18%, rgba(194,78,46,0.24), transparent 38%),
             linear-gradient(145deg, #141414, #35120d 58%, #8f321f);
-          box-shadow: 0 24px 70px rgba(20, 20, 20, 0.14);
+          box-shadow: 0 24px 70px rgba(20,20,20,0.14);
         }
 
-        .service-visual-content {
-          position: absolute;
-          inset: 0;
-          overflow: hidden;
-          pointer-events: none;
-        }
+        .service-visual-content { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 
         .service-visual-number {
-          position: absolute;
-          top: 32px;
-          left: 32px;
-          font-family: var(--font-display);
-          font-size: 5rem;
-          font-weight: 900;
-          line-height: 1;
-          color: rgba(255, 255, 255, 0.08);
+          position: absolute; top: 32px; left: 32px;
+          font-family: var(--font-display); font-size: 5rem; font-weight: 900;
+          line-height: 1; color: rgba(255,255,255,0.08);
         }
 
         .service-visual-icon {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: min(220px, 28vw);
-          height: min(220px, 28vw);
-          color: rgba(255, 255, 255, 0.18);
+          position: absolute; top: 50%; left: 50%;
+          width: min(220px, 28vw); height: min(220px, 28vw);
+          color: rgba(255,255,255,0.18);
           transform: translate(-50%, -50%);
         }
 
         .service-visual-grid {
-          position: absolute;
-          inset: 0;
+          position: absolute; inset: 0;
           background-image:
-            linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
           background-size: 42px 42px;
           mask-image: radial-gradient(circle at 60% 72%, black, transparent 78%);
           -webkit-mask-image: radial-gradient(circle at 60% 72%, black, transparent 78%);
         }
 
-        .service-visual-nodes {
-          position: absolute;
-          inset: 0;
-        }
+        .service-visual-nodes { position: absolute; inset: 0; }
 
         .service-visual-node {
-          position: absolute;
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background-color: rgba(255, 255, 255, 0.32);
-          box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.06);
+          position: absolute; width: 10px; height: 10px; border-radius: 50%;
+          background-color: rgba(255,255,255,0.32);
+          box-shadow: 0 0 0 6px rgba(255,255,255,0.06);
         }
 
         .service-visual-node-1 { top: 22%; right: 24%; }
@@ -332,98 +285,46 @@ export default function Services() {
         .service-visual-node-3 { bottom: 24%; right: 34%; }
 
         .service-visual-line {
-          position: absolute;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+          position: absolute; height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
         }
-
-        .service-visual-line-1 {
-          top: 36%;
-          left: 12%;
-          width: 56%;
-          transform: rotate(-12deg);
-        }
-
-        .service-visual-line-2 {
-          bottom: 32%;
-          right: 8%;
-          width: 48%;
-          transform: rotate(18deg);
-        }
+        .service-visual-line-1 { top: 36%; left: 12%; width: 56%; transform: rotate(-12deg); }
+        .service-visual-line-2 { bottom: 32%; right: 8%; width: 48%; transform: rotate(18deg); }
 
         .service-visual-meta {
-          position: relative;
-          padding: 28px 28px 24px;
-          background: linear-gradient(180deg, rgba(20, 20, 20, 0), rgba(20, 20, 20, 0.6) 58%);
+          position: relative; padding: 28px 28px 24px;
+          background: linear-gradient(180deg, rgba(20,20,20,0), rgba(20,20,20,0.6) 58%);
         }
 
         .service-visual-label {
-          display: block;
-          margin-bottom: 12px;
-          font-size: 0.75rem;
-          font-weight: 600;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.58);
+          display: block; margin-bottom: 12px; font-size: 0.75rem; font-weight: 600;
+          letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.58);
         }
 
         .service-visual-title {
-          display: block;
-          margin-bottom: 16px;
-          font-family: var(--font-display);
-          font-size: clamp(1.4rem, 2.4vw, 2rem);
-          font-weight: 800;
-          letter-spacing: -0.03em;
-          color: #fff;
+          display: block; margin-bottom: 16px;
+          font-family: var(--font-display); font-size: clamp(1.4rem, 2.4vw, 2rem);
+          font-weight: 800; letter-spacing: -0.03em; color: #fff;
         }
 
-        .service-visual-tags {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-        }
+        .service-visual-tags { display: flex; flex-wrap: wrap; gap: 8px; }
 
         .service-visual-tags .tag {
-          background: rgba(255, 255, 255, 0.1);
-          color: #fff;
-          border-color: rgba(255, 255, 255, 0.18);
+          background: rgba(255,255,255,0.1); color: #fff;
+          border-color: rgba(255,255,255,0.18);
         }
 
         @media (max-width: 899px) {
-          .services-layout {
-            grid-template-columns: 1fr;
-            gap: 24px;
-          }
-
-          .services-layout-col-right {
-            position: relative;
-            top: auto;
-            order: -1;
-          }
-
-          .service-visual-panel {
-            min-height: 260px;
-          }
-
-          .service-card {
-            position: relative;
-            top: auto !important;
-            transform: none !important;
-          }
-
-          .service-card-inner {
-            transform: none;
-          }
-
-          .services-stack {
-            gap: 16px;
-          }
+          .services-layout { grid-template-columns: 1fr; gap: 24px; }
+          .services-layout-col-right { position: relative; top: auto; order: -1; }
+          .service-visual-panel { min-height: 260px; }
+          .service-card { position: relative; top: auto !important; transform: none !important; }
+          .service-card-inner { transform: none; }
+          .services-stack { gap: 16px; }
         }
 
         @media (min-width: 1280px) {
-          .service-visual-panel {
-            min-height: min(680px, calc(100dvh - 180px));
-          }
+          .service-visual-panel { min-height: min(680px, calc(100dvh - 180px)); }
         }
       `}</style>
     </section>

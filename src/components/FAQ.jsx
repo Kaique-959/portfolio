@@ -17,10 +17,7 @@ function Item({ faq, index }) {
         className="faq-question"
         aria-expanded={open}
         aria-controls={`faq-panel-${index}`}
-        onClick={(event) => {
-          event.currentTarget.blur()
-          setOpen((value) => !value)
-        }}
+        onClick={() => setOpen((v) => !v)}
         onMouseEnter={(event) => { event.currentTarget.style.color = 'var(--accent)' }}
         onMouseLeave={(event) => { if (!open) event.currentTarget.style.color = 'var(--fg)' }}
       >

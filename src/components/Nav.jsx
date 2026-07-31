@@ -1,24 +1,25 @@
 import { useState, useEffect, useRef } from 'react'
 import { House, Wrench, User, FolderKanban, Mail, Menu, X } from 'lucide-react'
 import { navLinks } from '../data/content'
+import { IconBar, IconBarItem } from './ui/icon-bar'
 
-const icons = [House, Wrench, User, FolderKanban, Mail]
+const icons = [House, Wrench, User, FolderKanban]
 
 function scrollToId(id) {
   const el = document.getElementById(id)
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth' })
-  }
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
 }
 
 export default function Nav() {
   const [activeSection, setActiveSection] = useState('')
   const [mobileOpen, setMobileOpen] = useState(false)
   const menuRef = useRef(null)
-  const triggerRef = useRef(null)
+
+  const desktopLinks = navLinks.filter((l) => l.href !== '#contact')
+  const mobileLinks = navLinks.filter((l) => l.href !== '#contact')
 
   useEffect(() => {
-    const entries = navLinks.map((link) => {
+    const entries = desktopLinks.map((link) => {
       const el = document.getElementById(link.href.slice(1))
       return el ? { id: link.href.slice(1), el } : null
     }).filter(Boolean)
@@ -26,9 +27,7 @@ export default function Nav() {
     const observer = new IntersectionObserver(
       (items) => {
         items.forEach((item) => {
-          if (item.isIntersecting) {
-            setActiveSection(item.target.id)
-          }
+          if (item.isIntersecting) setActiveSection(item.target.id)
         })
       },
       { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
@@ -40,22 +39,10 @@ export default function Nav() {
 
   useEffect(() => {
     if (!mobileOpen) return undefined
-
-    const handleKey = (event) => {
-      if (event.key === 'Escape') {
-        setMobileOpen(false)
-      }
-    }
-
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setMobileOpen(false)
-      }
-    }
-
+    const handleKey = (e) => { if (e.key === 'Escape') setMobileOpen(false) }
+    const handleResize = () => { if (window.innerWidth >= 768) setMobileOpen(false) }
     window.addEventListener('resize', handleResize)
     window.addEventListener('keydown', handleKey)
-
     return () => {
       window.removeEventListener('resize', handleResize)
       window.removeEventListener('keydown', handleKey)
@@ -64,16 +51,12 @@ export default function Nav() {
 
   useEffect(() => {
     if (mobileOpen) {
-      const firstButton = menuRef.current?.querySelector('button, a')
-      firstButton?.focus()
+      menuRef.current?.querySelector('button, a')?.focus()
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
     }
-
-    return () => {
-      document.body.style.overflow = ''
-    }
+    return () => { document.body.style.overflow = '' }
   }, [mobileOpen])
 
   const handleNav = (href) => {
@@ -82,73 +65,45 @@ export default function Nav() {
   }
 
   return (
-    <header
-      className="nav-header nav-desktop"
-      style={{ pointerEvents: 'auto' }}
-      aria-label="Navegação principal"
-    >
-      <div className="nav-pill glass">
-        <nav aria-label="Navegação desktop" className="nav-inner">
-          {navLinks.map((link, i) => {
-            const id = link.href.slice(1)
-            const isActive = activeSection === id
-            const Icon = icons[i]
-            return (
-              <a
-                key={link.href}
-                href={`#${id}`}
-                className={`nav-item ${isActive ? 'nav-item-active' : ''}`}
-                aria-current={isActive ? 'location' : undefined}
-                onClick={(event) => {
-                  event.preventDefault()
-                  handleNav(link.href)
-                }}
-              >
-                <Icon aria-hidden className="size-[18px] stroke-[1.5]" />
-
-                <span className="nav-label" aria-hidden="true">
-                  <span className="nav-label-track">
-                    <span>{link.label}</span>
-                    <span>{link.label}</span>
-                  </span>
-                </span>
-              </a>
-            )
-          })}
-
-          <a
-            href="#contact"
-            className="nav-contact"
-            aria-current={activeSection === 'contact' ? 'location' : undefined}
-            onClick={(event) => {
-              event.preventDefault()
-              handleNav('#contact')
-            }}
+    <>
+      {/* Desktop IconBar — bottom center */}
+      <nav className="nav-desktop" aria-label="Navegação desktop">
+        <div className="nav-pill glass">
+          <IconBar
+            className="nav-inner"
+            value={activeSection}
+            onValueChange={(value) => { if (value) handleNav(`#${value}`) }}
           >
-            <Mail aria-hidden className="size-[18px] stroke-[1.5]" />
-            <span>Contato</span>
-          </a>
-        </nav>
-      </div>
+            {desktopLinks.map((link, i) => {
+              const id = link.href.slice(1)
+              const Icon = icons[i] || House
+              return <IconBarItem key={link.href} icon={Icon} label={link.label} value={id} />
+            })}
+            <IconBarItem
+              icon={Mail}
+              label="Contato"
+              value="contact"
+              onClick={() => handleNav('#contact')}
+              className="nav-contact-item"
+            />
+          </IconBar>
+        </div>
+      </nav>
 
-      <header className="nav-mobile-header" aria-label="Navegação mobile">
+      {/* Mobile header — top bar */}
+      <div className="nav-mobile-header" aria-label="Navegação mobile">
         <span className="nav-brand">Kaique Calefi</span>
         <button
-          ref={triggerRef}
           type="button"
           className="nav-menu-button"
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav-menu"
-          onClick={() => setMobileOpen((value) => !value)}
+          onClick={() => setMobileOpen((v) => !v)}
         >
-          {mobileOpen ? (
-            <X aria-hidden className="size-[22px]" />
-          ) : (
-            <Menu aria-hidden className="size-[22px]" />
-          )}
+          {mobileOpen ? <X aria-hidden className="size-[22px]" /> : <Menu aria-hidden className="size-[22px]" />}
           <span className="sr-only">{mobileOpen ? 'Fechar menu' : 'Abrir menu'}</span>
         </button>
-      </header>
+      </div>
 
       {mobileOpen && (
         <div
@@ -159,35 +114,28 @@ export default function Nav() {
           aria-label="Menu de navegação"
         >
           <nav className="nav-mobile-list" aria-label="Navegação mobile">
-            {navLinks.map((link, i) => {
+            {mobileLinks.map((link, i) => {
               const id = link.href.slice(1)
               const isActive = activeSection === id
-              const Icon = icons[i]
+              const Icon = icons[i] || House
               return (
                 <a
                   key={link.href}
                   href={`#${id}`}
                   className={`nav-mobile-link ${isActive ? 'nav-mobile-link-active' : ''}`}
                   aria-current={isActive ? 'location' : undefined}
-                  onClick={(event) => {
-                    event.preventDefault()
-                    handleNav(link.href)
-                  }}
+                  onClick={(e) => { e.preventDefault(); handleNav(link.href) }}
                 >
                   <Icon aria-hidden className="size-[18px] stroke-[1.5]" />
                   {link.label}
                 </a>
               )
             })}
-
             <a
               href="#contact"
               className="nav-mobile-link nav-mobile-contact"
               aria-current={activeSection === 'contact' ? 'location' : undefined}
-              onClick={(event) => {
-                event.preventDefault()
-                handleNav('#contact')
-              }}
+              onClick={(e) => { e.preventDefault(); handleNav('#contact') }}
             >
               <Mail aria-hidden className="size-[18px] stroke-[1.5]" />
               Contato
@@ -198,27 +146,24 @@ export default function Nav() {
 
       <style>{`
         .sr-only {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          padding: 0;
-          margin: -1px;
-          overflow: hidden;
-          clip: rect(0, 0, 0, 0);
-          white-space: nowrap;
-          border: 0;
+          position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+          overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
         }
 
-        .nav-header {
-          position: fixed;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          display: flex;
-          justify-content: center;
-          padding: 0 24px calc(24px + env(safe-area-inset-bottom, 0px));
-          z-index: 1000;
-          pointer-events: none;
+        .nav-desktop {
+          display: none;
+        }
+
+        @media (min-width: 768px) {
+          .nav-desktop {
+            display: flex;
+            position: fixed;
+            left: 0; right: 0; bottom: 0;
+            justify-content: center;
+            padding: 0 24px calc(24px + env(safe-area-inset-bottom, 0px));
+            z-index: 1000;
+            pointer-events: none;
+          }
         }
 
         .nav-pill {
@@ -245,27 +190,20 @@ export default function Nav() {
           font-size: 14px;
           font-weight: 500;
           color: var(--muted);
-          transition:
-            color 200ms,
-            background-color 200ms;
+          transition: color 200ms, background-color 200ms;
         }
 
-        .nav-item:hover,
-        .nav-item:focus-visible {
+        .nav-item:hover, .nav-item:focus-visible {
           background-color: rgba(20, 20, 20, 0.08);
           color: var(--fg);
         }
 
-        .nav-item-active,
-        .nav-item[aria-current="location"] {
+        .nav-item-active, .nav-item[aria-current="location"] {
           background-color: var(--fg);
           color: #fff;
         }
 
-        .nav-label {
-          height: 1.25em;
-          overflow: hidden;
-        }
+        .nav-label { height: 1.25em; overflow: hidden; }
 
         .nav-label-track {
           display: flex;
@@ -281,9 +219,7 @@ export default function Nav() {
         }
 
         .nav-item-active .nav-label-track,
-        .nav-item[aria-current="location"] .nav-label-track {
-          color: #fff;
-        }
+        .nav-item[aria-current="location"] .nav-label-track { color: #fff; }
 
         .nav-contact {
           display: inline-flex;
@@ -296,44 +232,37 @@ export default function Nav() {
           color: #fff;
           font-size: 14px;
           font-weight: 600;
-          box-shadow:
-            0 4px 16px rgba(194, 78, 46, 0.24),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          box-shadow: 0 4px 16px rgba(194,78,46,0.24), inset 0 1px 0 rgba(255,255,255,0.1);
           transition: transform 180ms ease, box-shadow 240ms ease;
         }
 
-        .nav-contact:hover,
-        .nav-contact:focus-visible {
+        .nav-contact:hover, .nav-contact:focus-visible {
           transform: translateY(-1px);
-          box-shadow:
-            0 8px 24px rgba(194, 78, 46, 0.32),
-            inset 0 1px 0 rgba(255, 255, 255, 0.12);
+          box-shadow: 0 8px 24px rgba(194,78,46,0.32), inset 0 1px 0 rgba(255,255,255,0.12);
         }
 
-        .nav-mobile-header,
-        .nav-mobile-panel {
-          display: none;
+        .nav-contact-item {
+          background: #c24e2e !important;
+          border-color: #c24e2e !important;
+          color: #fff !important;
         }
+
+        .nav-mobile-header { display: none; }
+        .nav-mobile-panel { display: none; }
 
         @media (max-width: 767px) {
-          .nav-desktop {
-            display: none !important;
-          }
-
           .nav-mobile-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
             display: flex;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
             align-items: center;
             justify-content: space-between;
             height: var(--mobile-header-height);
             padding: 0 16px;
             background-color: #141414;
             color: #fff;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
           }
 
           .nav-brand {
@@ -347,29 +276,25 @@ export default function Nav() {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 44px;
-            height: 44px;
+            width: 44px; height: 44px;
             border-radius: 12px;
-            background-color: rgba(255, 255, 255, 0.08);
+            background-color: rgba(255,255,255,0.08);
             color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255,255,255,0.12);
             transition: background-color 200ms;
           }
 
-          .nav-menu-button:hover,
-          .nav-menu-button:focus-visible {
-            background-color: rgba(255, 255, 255, 0.14);
+          .nav-menu-button:hover, .nav-menu-button:focus-visible {
+            background-color: rgba(255,255,255,0.14);
           }
 
           .nav-mobile-panel {
             display: block;
             position: fixed;
             top: var(--mobile-header-height);
-            left: 0;
-            right: 0;
-            bottom: 0;
+            left: 0; right: 0; bottom: 0;
             z-index: 999;
-            background: rgba(20, 20, 20, 0.96);
+            background: rgba(20,20,20,0.96);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             padding: 24px;
@@ -386,26 +311,24 @@ export default function Nav() {
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 16px 16px;
+            padding: 16px;
             border-radius: 16px;
             font-size: 1rem;
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255,255,255,0.85);
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.04);
             transition: background 200ms, color 200ms;
           }
 
-          .nav-mobile-link:hover,
-          .nav-mobile-link:focus-visible {
-            background: rgba(255, 255, 255, 0.08);
+          .nav-mobile-link:hover, .nav-mobile-link:focus-visible {
+            background: rgba(255,255,255,0.08);
             color: #fff;
           }
 
-          .nav-mobile-link-active,
-          .nav-mobile-link[aria-current="location"] {
-            background: rgba(194, 78, 46, 0.16);
-            border-color: rgba(194, 78, 46, 0.3);
+          .nav-mobile-link-active, .nav-mobile-link[aria-current="location"] {
+            background: rgba(194,78,46,0.16);
+            border-color: rgba(194,78,46,0.3);
             color: #fff;
           }
 
@@ -418,6 +341,6 @@ export default function Nav() {
           }
         }
       `}</style>
-    </header>
+    </>
   )
 }

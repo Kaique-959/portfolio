@@ -91,16 +91,14 @@ export default function LiquidMetalHero({
             <span>{kickerRight}</span>
           </div>
 
-          <div className="hero-title" aria-label={`${firstName} ${lastName}`}>
+          <h1 className="hero-title" aria-label={`${firstName} ${lastName}`}>
             <motion.div
               ref={nameLeftLayer}
               className="hero-title-first"
               variants={itemVariants}
               style={{ willChange: 'transform' }}
             >
-              <h1 style={h1style}>
-                <span aria-hidden="true">{firstName}</span>
-              </h1>
+              <span aria-hidden="true" style={h1style}>{firstName}</span>
             </motion.div>
 
             <motion.div
@@ -133,11 +131,9 @@ export default function LiquidMetalHero({
               variants={itemVariants}
               style={{ willChange: 'transform' }}
             >
-              <h1 style={h1style}>
-                <span aria-hidden="true">{lastName}</span>
-              </h1>
+              <span aria-hidden="true" style={h1style}>{lastName}</span>
             </motion.div>
-          </div>
+          </h1>
 
           <motion.div className="flex flex-col items-center gap-5 mt-14" variants={itemVariants}>
             {badge && (

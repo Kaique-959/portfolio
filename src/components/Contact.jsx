@@ -127,14 +127,15 @@ export default function Contact() {
               ))}
             </div>
 
-            <a
-              href={content.social.whatsapp || `https://wa.me/${WHATSAPP_NUMBER}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="contact-whatsapp"
-            >
-              Preferir WhatsApp
-            </a>
+            <GradientButton variant="variant" asChild>
+              <a
+                href={content.social.whatsapp || `https://wa.me/${WHATSAPP_NUMBER}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Preferir WhatsApp
+              </a>
+            </GradientButton>
           </div>
 
           <div data-c>

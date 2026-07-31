@@ -23,9 +23,9 @@
 | Framework | React 18 + Vite |
 | Shader 3D | @paper-design/shaders-react (LiquidMetal) |
 | Animações UI | GSAP + ScrollTrigger + Framer Motion |
-| Scroll suave | Lenis (instânciado no App) |
-| Estilo | Tailwind CSS v4 + CSS Modules/inline |
-| UI Components | shadcn/ui + GradientButton + IconBar |
+| Scroll suave | Lenis (instanciado no App) |
+| Estilo | Tailwind CSS v4 + CSS inline |
+| UI Components | GradientButton (Radix Slot) + IconBar |
 | Ícones | lucide-react |
 | Fontes | Cabinet Grotesk (display), Geist (body) |
 | Deploy | Vercel |
@@ -49,6 +49,7 @@
 - Desktop: IconBar inferior escura com ícones + labels + item de contato em terracota.
 - Mobile: cabeçalho escuro fixo no topo com marca e menu hambúrguer.
 - Todos os CTAs comerciais usam GradientButton.
+- Links internos de navegação usam âncoras com `href` + `scrollIntoView`.
 
 ---
 
@@ -56,7 +57,7 @@
 
 | Seção | Estado |
 |---|---|
-| Hero | LiquidMetal + um H1 + CTAs com GradientButton |
+| Hero | LiquidMetal + um H1 com dois spans visuais + CTAs com GradientButton |
 | Habilidades | 8 cards sticky com painel visual dinâmico |
 | Sobre | Placeholder editorial até foto real |
 | Projetos | Placeholders editoriais sem links falsos |
