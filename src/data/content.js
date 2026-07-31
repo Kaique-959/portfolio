@@ -65,31 +65,39 @@ export const content = {
   projects: [
     {
       title: 'Kalefi_Org',
+      category: 'Site e presença digital',
       description: 'Site da agência com 3D interativo e scroll fluido',
       tags: ['Next.js', 'Three.js', 'GSAP'],
       image: null,
-      url: '#',
+      url: null,
+      status: 'Imagem em preparação',
     },
     {
       title: 'Bot Libertad',
+      category: 'Atendimento automatizado',
       description: 'Automação de atendimento via WhatsApp pra clínica de fonoaudiologia',
       tags: ['WhatsApp API', 'N8N', 'CRM'],
       image: null,
-      url: '#',
+      url: null,
+      status: 'Imagem em preparação',
     },
     {
       title: 'Prospecção N8N',
+      category: 'Pipeline de outreach',
       description: 'Sistema de outreach automatizado com limites de segurança',
       tags: ['N8N', 'Automação', 'CRM'],
       image: null,
-      url: '#',
+      url: null,
+      status: 'Imagem em preparação',
     },
     {
       title: 'Achadinhos Scraper',
+      category: 'Monitor de preços',
       description: 'Monitor de promoções na Amazon com postagem automática em grupos',
       tags: ['Python', 'Scraping', 'Automação'],
       image: null,
-      url: '#',
+      url: null,
+      status: 'Imagem em preparação',
     },
   ],
 
@@ -139,11 +147,14 @@ export const content = {
     github: 'https://github.com/Kaique-959',
     linkedin: 'https://www.linkedin.com/in/kaique-calefi-b713b13ab/',
     email: 'comercial.kalefiorg@gmail.com',
+    whatsapp: 'https://wa.me/5518981993718',
+    whatsappNumber: '5518981993718',
   },
 
   contact: {
     email: 'comercial.kalefiorg@gmail.com',
     cta: 'Vamos trabalhar juntos',
+    whatsappNumber: '5518981993718',
   },
 }
 

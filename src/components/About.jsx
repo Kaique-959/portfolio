@@ -7,6 +7,11 @@ import { content } from '../data/content'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
+function scrollTo(id) {
+  const el = document.getElementById(id)
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
 export default function About() {
   const sectionRef = useRef(null)
   const imgRef = useRef(null)
@@ -14,45 +19,83 @@ export default function About() {
   const techRef = useRef(null)
 
   useGSAP(() => {
-    gsap.fromTo(imgRef.current, { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out',
-      scrollTrigger: { trigger: sectionRef.current, start: 'top 75%', toggleActions: 'play none none reverse' } })
-    gsap.fromTo(textRef.current, { x: 30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out',
-      scrollTrigger: { trigger: sectionRef.current, start: 'top 75%', toggleActions: 'play none none reverse' } })
-    gsap.fromTo(techRef.current, { y: 15, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out',
-      scrollTrigger: { trigger: techRef.current, start: 'top 95%', toggleActions: 'play none none reverse' } })
+    gsap.fromTo(
+      imgRef.current,
+      { x: -30, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.7,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+          toggleActions: 'play none none reverse',
+        },
+      }
+    )
+
+    gsap.fromTo(
+      textRef.current,
+      { x: 30, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.7,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+          toggleActions: 'play none none reverse',
+        },
+      }
+    )
+
+    if (techRef.current) {
+      gsap.fromTo(
+        techRef.current,
+        { y: 15, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.5,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: techRef.current,
+            start: 'top 95%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      )
+    }
   }, { scope: sectionRef })
 
-  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-
   return (
-    <section id="about" ref={sectionRef} className="section">
+    <section id="about" ref={sectionRef} className="section about-section">
       <div className="container">
         <span className="eyebrow">/ Sobre Mim</span>
 
-        <div style={{
-          display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center',
-        }}>
-          <div ref={imgRef} style={{
-            borderRadius: 'var(--radius-lg)', overflow: 'hidden',
-            aspectRatio: '4/5', background: 'var(--surface)',
-            border: '1px solid var(--border)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <div style={{
-              width: '64px', height: '64px', borderRadius: '50%',
-              background: 'var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '1.5rem', color: 'var(--muted)',
-            }}>
-              👤
-            </div>
+        <div className="about-grid">
+          <div ref={imgRef} className="about-placeholder">
+            <div className="about-placeholder-box" aria-hidden="true">KC</div>
+
+            <span className="about-placeholder-status">
+              Foto em preparação
+            </span>
           </div>
 
           <div>
             <div ref={textRef}>
-              <h2 style={{
-                fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3vw, 2.8rem)',
-                fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px',
-              }}>
+              <h2
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(1.8rem, 3vw, 2.8rem)',
+                  fontWeight: 700,
+                  letterSpacing: '-0.03em',
+                  lineHeight: 1.1,
+                  marginBottom: '24px',
+                }}
+              >
                 Criativo na <span style={{ color: 'var(--accent)' }}>Prática</span>
               </h2>
 
@@ -73,14 +116,14 @@ export default function About() {
               </div>
             </div>
 
-            <div ref={techRef} style={{
-              display: 'flex', flexWrap: 'wrap', gap: '4px',
-              paddingTop: '24px', marginTop: '24px', borderTop: '1px solid var(--border)',
-              fontSize: '0.85rem', color: 'var(--muted)',
-            }}>
+            <div
+              ref={techRef}
+              className="about-tech"
+              aria-label="Stack e contexto"
+            >
               {content.about.techStack.map((item, i) => (
-                <span key={i}>
-                  {i > 0 && <span style={{ margin: '0 8px', opacity: 0.3 }}>/</span>}
+                <span key={item}>
+                  {i > 0 && <span aria-hidden="true" style={{ margin: '0 8px', opacity: 0.3 }}>/</span>}
                   {item}
                 </span>
               ))}
@@ -88,6 +131,79 @@ export default function About() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        .about-section {
+          background:
+            radial-gradient(circle at 78% 18%, rgba(194, 78, 46, 0.06), transparent 38%),
+            #FAFAF8;
+        }
+
+        .about-grid {
+          display: grid;
+          grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+          gap: clamp(48px, 7vw, 80px);
+          align-items: center;
+        }
+
+        .about-placeholder {
+          position: relative;
+          display: grid;
+          place-items: center;
+          aspect-ratio: 4 / 5;
+          overflow: hidden;
+          border: 1px solid var(--border);
+          border-radius: 20px;
+          background:
+            radial-gradient(circle at 50% 34%, rgba(194, 78, 46, 0.16), transparent 28%),
+            var(--surface);
+        }
+
+        .about-placeholder-box {
+          width: 120px;
+          height: 120px;
+          border-radius: 24px;
+          background: rgba(20, 20, 20, 0.06);
+          color: var(--fg);
+          font-family: var(--font-display);
+          font-size: 2rem;
+          font-weight: 800;
+          letter-spacing: -0.04em;
+          display: grid;
+          place-items: center;
+        }
+
+        .about-placeholder-status {
+          position: absolute;
+          left: 20px;
+          bottom: 18px;
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: var(--muted);
+        }
+
+        .about-tech {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 4px;
+          padding-top: 24px;
+          margin-top: 24px;
+          border-top: 1px solid var(--border);
+          font-size: 0.85rem;
+          color: var(--muted);
+        }
+
+        @media (max-width: 767px) {
+          .about-grid {
+            grid-template-columns: 1fr;
+            gap: 36px;
+          }
+
+          .about-placeholder {
+            max-height: 520px;
+          }
+        }
+      `}</style>
     </section>
   )
 }

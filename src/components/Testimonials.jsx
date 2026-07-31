@@ -6,54 +6,6 @@ import { content } from '../data/content'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-const styles = {
-  track: {
-    display: 'flex',
-    gap: '24px',
-    overflowX: 'auto',
-    scrollSnapType: 'x mandatory',
-    scrollbarWidth: 'none',
-    paddingBottom: '8px',
-  },
-  card: {
-    minWidth: '420px',
-    maxWidth: '480px',
-    flexShrink: 0,
-    scrollSnapAlign: 'start',
-    background: 'var(--bg)',
-    borderRadius: 'var(--radius-lg)',
-    padding: '32px',
-    border: '1px solid var(--border)',
-  },
-  quote: {
-    fontSize: '0.95rem',
-    lineHeight: 1.7,
-    color: 'var(--muted)',
-    marginBottom: '20px',
-    fontStyle: 'italic',
-  },
-  name: {
-    fontWeight: 600,
-    marginBottom: '2px',
-  },
-  role: {
-    fontSize: '0.8rem',
-    color: 'var(--muted)',
-  },
-  dots: {
-    display: 'flex',
-    gap: '8px',
-    justifyContent: 'center',
-    marginTop: '28px',
-  },
-  dot: (a) => ({
-    width: '8px', height: '8px', borderRadius: '50%',
-    background: a ? 'var(--fg)' : 'var(--border)',
-    border: 'none', cursor: 'pointer', padding: 0,
-    transition: 'background 0.2s ease',
-  }),
-}
-
 export default function Testimonials() {
   const [active, setActive] = useState(0)
   const sectionRef = useRef(null)
@@ -61,13 +13,18 @@ export default function Testimonials() {
 
   useEffect(() => {
     const track = trackRef.current
-    if (!track) return
+    if (!track) return undefined
     const onScroll = () => {
       const cards = Array.from(track.children)
-      let closest = 0, min = Infinity
+      if (cards.length === 0) return
+      let closest = 0
+      let min = Infinity
       cards.forEach((c, i) => {
         const d = Math.abs(c.getBoundingClientRect().left - track.getBoundingClientRect().left)
-        if (d < min) { min = d; closest = i }
+        if (d < min) {
+          min = d
+          closest = i
+        }
       })
       setActive(closest)
     }
@@ -77,45 +34,165 @@ export default function Testimonials() {
 
   const scrollTo = (i) => {
     const card = trackRef.current?.children[i]
-    if (card) { card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' }); setActive(i) }
+    if (card) {
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+      setActive(i)
+    }
   }
 
   useGSAP(() => {
-    gsap.fromTo(sectionRef.current.querySelectorAll('[data-t]'), { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out', stagger: 0.1,
-      scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play none none reverse' } })
+    gsap.fromTo(sectionRef.current.querySelectorAll('[data-t]'), { y: 20, opacity: 0 }, {
+      y: 0,
+      opacity: 1,
+      duration: 0.5,
+      ease: 'power3.out',
+      stagger: 0.1,
+      scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play none none reverse' },
+    })
   }, { scope: sectionRef })
 
+  const showDots = content.testimonials.length > 1
+
   return (
-    <section id="testimonials" ref={sectionRef} className="section">
+    <section id="testimonials" ref={sectionRef} className="section testimonials-section">
       <div className="container">
         <div className="section-header">
           <span className="eyebrow">Depoimentos</span>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.1 }}>
+          <h2
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(1.8rem, 3vw, 2.8rem)',
+              fontWeight: 700,
+              letterSpacing: '-0.03em',
+              lineHeight: 1.1,
+            }}
+          >
             O que dizem
           </h2>
         </div>
       </div>
 
-      <div style={{ paddingLeft: 'max(24px, calc((100% - 1200px) / 2))' }}>
-        <div ref={trackRef} style={styles.track}>
+      <div className="testimonial-track-wrap">
+        <div ref={trackRef} className="testimonial-track">
           {content.testimonials.map((t, i) => (
-            <div key={i} data-t style={styles.card}>
-              <p style={styles.quote}>"{t.text}"</p>
-              <div style={styles.name}>{t.name}</div>
-              <div style={styles.role}>{t.role}</div>
-            </div>
+            <article key={i} data-t className="testimonial-card">
+              <p className="testimonial-quote">“{t.text}”</p>
+              <div className="testimonial-name">{t.name}</div>
+              <div className="testimonial-role">{t.role}</div>
+            </article>
           ))}
         </div>
       </div>
 
-      <div className="container">
-        <div style={styles.dots}>
-          {content.testimonials.map((_, i) => (
-            <button key={i} style={styles.dot(active === i)} onClick={() => scrollTo(i)}
-              aria-label={`Depoimento ${i + 1}`} />
-          ))}
+      {showDots && (
+        <div className="container">
+          <div className="testimonial-dots" role="tablist">
+            {content.testimonials.map((t, i) => (
+              <button
+                key={i}
+                type="button"
+                className="testimonial-dot-button"
+                aria-label={`Depoimento ${i + 1}`}
+                aria-current={active === i ? 'true' : 'false'}
+                onClick={() => scrollTo(i)}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
+
+      <style>{`
+        .testimonials-section {
+          background:
+            radial-gradient(circle at 70% 20%, rgba(194, 78, 46, 0.06), transparent 36%),
+            #FAFAF8;
+        }
+
+        .testimonial-track-wrap {
+          padding-left: max(20px, calc((100% - 1200px) / 2));
+          padding-right: 20px;
+        }
+
+        .testimonial-track {
+          display: flex;
+          gap: 24px;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          padding-bottom: 8px;
+        }
+
+        .testimonial-track::-webkit-scrollbar {
+          display: none;
+        }
+
+        .testimonial-card {
+          min-width: min(86vw, 420px);
+          max-width: 480px;
+          flex-shrink: 0;
+          scroll-snap-align: start;
+          padding: 32px;
+          background: var(--bg);
+          border: 1px solid var(--border);
+          border-radius: 20px;
+          box-shadow: 0 14px 40px rgba(20, 20, 20, 0.05);
+        }
+
+        .testimonial-quote {
+          font-size: 0.95rem;
+          line-height: 1.75;
+          color: var(--muted);
+          margin-bottom: 24px;
+        }
+
+        .testimonial-name {
+          font-weight: 600;
+          margin-bottom: 2px;
+          color: var(--fg);
+        }
+
+        .testimonial-role {
+          font-size: 0.8rem;
+          color: var(--muted);
+        }
+
+        .testimonial-dots {
+          display: flex;
+          gap: 12px;
+          justify-content: center;
+          margin-top: 28px;
+        }
+
+        .testimonial-dot-button {
+          width: 44px;
+          height: 44px;
+          display: inline-grid;
+          place-items: center;
+          border-radius: 999px;
+          background: transparent;
+          border: 0;
+          cursor: pointer;
+          color: var(--muted);
+        }
+
+        .testimonial-dot-button::before {
+          content: "";
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: var(--border);
+          transition: background 200ms ease;
+        }
+
+        .testimonial-dot-button:hover::before {
+          background: var(--border-hover);
+        }
+
+        .testimonial-dot-button[aria-current="true"]::before {
+          background: var(--fg);
+        }
+      `}</style>
     </section>
   )
 }

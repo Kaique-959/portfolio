@@ -1,27 +1,29 @@
-@import url('https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&f[]=geist@400,500,600&f[]=cabinet-grotesk@700,800,900&f[]=inter@700,800,900&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&f[]=geist@400,500,600&f[]=cabinet-grotesk@700,800,900&display=swap');
 
 :root {
   --bg: #FAFAF8;
   --surface: #F2F2F0;
   --surface-elevated: #EBEBE8;
   --fg: #141414;
-  --muted: #71717A;
+  --muted: #66666D;
   --accent: #C24E2E;
   --accent-hover: #A83E22;
   --accent-subtle: rgba(194, 78, 46, 0.08);
   --border: #E5E5E2;
   --border-hover: #D4D4D0;
-  --glass-bg: rgba(250, 250, 248, 0.85);
-  --glass-border: rgba(229, 229, 226, 0.5);
-  --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  --glass-bg: rgba(250, 250, 248, 0.82);
+  --glass-border: rgba(229, 229, 226, 0.7);
+  --glass-shadow: 0 12px 42px rgba(20, 20, 20, 0.08);
   --success: #16a34a;
   --danger: #dc2626;
-  --font-display: 'Inter', 'Cabinet Grotesk', 'Satoshi', sans-serif;
+  --font-display: 'Cabinet Grotesk', 'Satoshi', sans-serif;
   --font-body: 'Geist', sans-serif;
   --max-width: 1200px;
   --radius: 8px;
   --radius-sm: 4px;
   --radius-lg: 12px;
+  --mobile-header-height: 64px;
+  --desktop-nav-clearance: 96px;
 }
 
 *, *::before, *::after {
@@ -32,7 +34,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 40px;
   color-scheme: light;
 }
 
@@ -45,7 +46,6 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
 }
 
 img { max-width: 100%; display: block; }
@@ -70,6 +70,14 @@ h1, h2, h3, h4 {
 p {
   max-width: 65ch;
   color: var(--muted);
+}
+
+[id] {
+  scroll-margin-top: 80px;
+}
+
+main {
+  padding-bottom: var(--desktop-nav-clearance);
 }
 
 .container {
@@ -100,55 +108,27 @@ p {
 
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: var(--radius);
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  cursor: pointer;
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  padding: 12px 16px;
+  background: var(--fg);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 600;
+  z-index: 9999;
 }
 
-.btn-primary {
-  background: var(--accent);
-  color: white;
-}
-
-.btn-primary:hover {
-  background: var(--accent-hover);
-}
-
-.btn-primary:active {
-  transform: scale(0.97);
-}
-
-.btn-ghost {
-  color: var(--fg);
-  padding: 10px 4px;
-}
-
-.btn-ghost:hover {
-  color: var(--accent);
-}
-
-.btn .icon-arrow {
-  transition: transform 0.2s ease;
-  display: inline-block;
-  font-size: 1.1em;
-}
-
-.btn:hover .icon-arrow {
-  transform: translateX(4px);
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
 }
 
 .tag {
@@ -161,10 +141,45 @@ p {
   border: 1px solid var(--border);
 }
 
-@media (max-width: 768px) {
-  .section { padding: 64px 0; }
-  .container { padding: 0 20px; }
-  .section-header { margin-bottom: 36px; }
+input,
+textarea,
+select,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid rgba(194, 78, 46, 0.26);
+  outline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+  main {
+    padding-top: var(--mobile-header-height);
+    padding-bottom: 0;
+  }
+
+  [id] {
+    scroll-margin-top: calc(var(--mobile-header-height) + 16px);
+  }
+
+  .section {
+    padding: 64px 0;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+
+  .section-header {
+    margin-bottom: 36px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

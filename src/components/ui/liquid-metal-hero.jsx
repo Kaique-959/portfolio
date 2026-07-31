@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import { LiquidMetal } from '@paper-design/shaders-react'
 import { GradientButton } from '@/components/ui/gradient-button'
 import { Badge } from '@/components/ui/badge'
@@ -8,55 +8,60 @@ import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
-import Lenis from 'lenis'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { delayChildren: 0.2, staggerChildren: 0.12 } },
+  visible: { opacity: 1, transition: { delayChildren: 0.15, staggerChildren: 0.1 } },
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 28 },
   visible: { opacity: 1, y: 0 },
 }
 
 export default function LiquidMetalHero({
-  badge, firstName, lastName, kickerLeft, kickerRight,
-  primaryCtaLabel, secondaryCtaLabel,
-  onPrimaryCtaClick, onSecondaryCtaClick,
+  badge,
+  firstName,
+  lastName,
+  kickerLeft,
+  kickerRight,
+  primaryCtaLabel,
+  secondaryCtaLabel,
+  primaryCtaHref,
+  secondaryCtaHref,
 }) {
   const sectionRef = useRef(null)
   const cardLayer = useRef(null)
   const nameLeftLayer = useRef(null)
   const nameRightLayer = useRef(null)
 
-  useEffect(() => {
-    const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) })
-    lenis.on('scroll', ScrollTrigger.update)
-    gsap.ticker.add((time) => lenis.raf(time * 1000))
-    gsap.ticker.lagSmoothing(0)
-    return () => { lenis.destroy(); gsap.ticker.lagSmoothing(0) }
-  }, [])
-
   useGSAP(() => {
     if (!cardLayer.current || !nameLeftLayer.current || !nameRightLayer.current) return
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1.2,
-      },
+    const mm = gsap.matchMedia()
+
+    mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.1,
+        },
+      })
+
+      tl.to(cardLayer.current, { xPercent: 28, yPercent: 18, scale: 1.08, ease: 'power2.inOut' }, 0)
+      tl.to(nameLeftLayer.current, { xPercent: -8, opacity: 0.62, ease: 'power2.inOut' }, 0)
+      tl.to(nameRightLayer.current, { xPercent: 8, opacity: 0.62, ease: 'power2.inOut' }, 0)
+
+      return () => {
+        gsap.set([cardLayer.current, nameLeftLayer.current, nameRightLayer.current], { clearProps: 'transform,opacity' })
+      }
     })
 
-    tl.to(cardLayer.current, { x: '18%', y: '12%', scale: 1.1, ease: 'power2.inOut' }, 0)
-    tl.to(nameLeftLayer.current, { x: '-8%', opacity: 0.6, ease: 'power2.inOut' }, 0)
-    tl.to(nameRightLayer.current, { x: '8%', opacity: 0.6, ease: 'power2.inOut' }, 0)
-
-    return () => { ScrollTrigger.getAll().forEach(t => t.kill()) }
+    return () => mm.revert()
   }, { scope: sectionRef })
 
   const h1style = {
@@ -65,75 +70,210 @@ export default function LiquidMetalHero({
     textTransform: 'uppercase',
     letterSpacing: '-0.06em',
     lineHeight: 0.85,
-    fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+    fontSize: 'clamp(2.5rem, 6vw, 5.5rem)',
     color: 'var(--fg)',
   }
 
   return (
-    <section id="hero" ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
+    <section
+      id="hero"
+      ref={sectionRef}
+      className="hero-stage relative min-h-screen flex items-center justify-center overflow-hidden bg-background"
+    >
+      <a href="#main-content" className="skip-link">
+        Pular para o conteúdo
+      </a>
+
       <div className="container mx-auto px-6 lg:px-8 max-w-7xl w-full">
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
+          <div className="hero-kickers" aria-hidden="true">
+            <span>{kickerLeft}</span>
+            <span>{kickerRight}</span>
+          </div>
 
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 'clamp(32px, 6vw, 96px)',
-            width: '100%',
-          }}>
-            <motion.div ref={nameLeftLayer} style={{
-              flex: '1 1 0', textAlign: 'right', minWidth: 0, willChange: 'transform',
-            }} variants={itemVariants}>
-              <p className="text-sm text-muted font-medium tracking-wide mb-2">{kickerLeft}</p>
-              <h1 style={h1style}>{firstName}</h1>
+          <div className="hero-title" aria-label={`${firstName} ${lastName}`}>
+            <motion.div
+              ref={nameLeftLayer}
+              className="hero-title-first"
+              variants={itemVariants}
+              style={{ willChange: 'transform' }}
+            >
+              <h1 style={h1style}>
+                <span aria-hidden="true">{firstName}</span>
+              </h1>
             </motion.div>
 
-            <motion.div ref={cardLayer} style={{
-              flex: '0 0 auto', display: 'flex', justifyContent: 'center', willChange: 'transform',
-            }} variants={itemVariants}>
-              <div style={{
-                width: 'clamp(180px, 35vw, 400px)',
-                aspectRatio: '3/4',
-                borderRadius: '16px',
-                overflow: 'hidden',
-              }}>
+            <motion.div
+              ref={cardLayer}
+              className="hero-liquid-layer"
+              variants={itemVariants}
+              style={{ willChange: 'transform' }}
+            >
+              <div className="hero-liquid-card">
                 <LiquidMetal
-                  colorBack="#FAFAF8" colorTint="#C24E2E" shape="metaballs"
-                  repetition={2} softness={0.25} distortion={0.12} contour={0.6}
-                  angle={70} speed={0.4} scale={0.5} fit="cover"
-                  style={{ width: '100%', height: '100%' }}
+                  colorBack="#FAFAF8"
+                  colorTint="#C24E2E"
+                  shape="metaballs"
+                  repetition={2}
+                  softness={0.25}
+                  distortion={0.12}
+                  contour={0.6}
+                  angle={70}
+                  speed={0.4}
+                  scale={0.5}
+                  fit="cover"
+                  style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
                 />
               </div>
             </motion.div>
 
-            <motion.div ref={nameRightLayer} style={{
-              flex: '1 1 0', textAlign: 'left', minWidth: 0, willChange: 'transform',
-            }} variants={itemVariants}>
-              <p className="text-sm text-muted font-medium tracking-wide mb-2">{kickerRight}</p>
-              <h1 style={h1style}>{lastName}</h1>
+            <motion.div
+              ref={nameRightLayer}
+              className="hero-title-last"
+              variants={itemVariants}
+              style={{ willChange: 'transform' }}
+            >
+              <h1 style={h1style}>
+                <span aria-hidden="true">{lastName}</span>
+              </h1>
             </motion.div>
           </div>
 
-          <motion.div className="flex flex-col items-center gap-6 mt-12" variants={itemVariants}>
+          <motion.div className="flex flex-col items-center gap-5 mt-14" variants={itemVariants}>
             {badge && (
               <Badge variant="outline" className="text-foreground border-border bg-background/60 backdrop-blur-sm">
                 {badge}
               </Badge>
             )}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <GradientButton onClick={onPrimaryCtaClick}>
-                {primaryCtaLabel}
+
+            <div className="flex flex-col items-center gap-3 sm:flex-row">
+              <GradientButton asChild>
+                <a href={primaryCtaHref}>{primaryCtaLabel}</a>
               </GradientButton>
-              {secondaryCtaLabel && onSecondaryCtaClick && (
-                <GradientButton variant="variant" onClick={onSecondaryCtaClick}>
-                  {secondaryCtaLabel}
+
+              {secondaryCtaLabel && secondaryCtaHref && (
+                <GradientButton variant="variant" asChild>
+                  <a href={secondaryCtaHref}>{secondaryCtaLabel}</a>
                 </GradientButton>
               )}
             </div>
           </motion.div>
-
         </motion.div>
       </div>
+
+      <style>{`
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+        }
+
+        .hero-stage {
+          min-height: 560px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .hero-kickers {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 24px;
+          color: var(--muted);
+          font-size: 0.875rem;
+          font-weight: 500;
+          letter-spacing: 0.02em;
+        }
+
+        .hero-title {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(220px, 34vw) minmax(0, 1fr);
+          align-items: center;
+          width: 100%;
+          text-align: center;
+        }
+
+        .hero-title-first,
+        .hero-title-last {
+          min-width: 0;
+        }
+
+        .hero-title-first {
+          text-align: right;
+        }
+
+        .hero-title-last {
+          text-align: left;
+        }
+
+        .hero-liquid-layer {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          z-index: 2;
+        }
+
+        .hero-liquid-card {
+          width: clamp(220px, 28vw, 360px);
+          aspect-ratio: 3 / 4;
+          overflow: hidden;
+          border: 1px solid rgba(229, 229, 226, 0.85);
+          border-radius: 18px;
+          background: var(--surface);
+          box-shadow:
+            0 24px 70px rgba(20, 20, 20, 0.12),
+            0 10px 30px rgba(194, 78, 46, 0.12);
+        }
+
+        @media (max-width: 767px) {
+          .hero-stage {
+            min-height: calc(100dvh - var(--mobile-header-height));
+            justify-content: flex-start;
+            padding: 56px 0 48px;
+          }
+
+          .hero-kickers {
+            align-items: flex-start;
+            margin-bottom: 28px;
+          }
+
+          .hero-kickers span:last-child {
+            text-align: right;
+          }
+
+          .hero-title {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 28px;
+          }
+
+          .hero-title-first,
+          .hero-title-last {
+            text-align: left;
+          }
+
+          .hero-liquid-layer {
+            width: min(42vw, 150px);
+          }
+
+          .hero-liquid-card {
+            width: 100%;
+          }
+        }
+
+        @media (min-width: 1280px) {
+          .hero-title {
+            grid-template-columns: minmax(0, 1fr) minmax(260px, 28vw) minmax(0, 1fr);
+          }
+        }
+      `}</style>
     </section>
   )
 }
