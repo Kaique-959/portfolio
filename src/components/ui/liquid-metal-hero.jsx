@@ -114,7 +114,6 @@ export default function LiquidMetalHero({
               variants={itemVariants}
               style={{ willChange: 'transform' }}
             >
-          <div className="hero-liquid-card">
                 <LiquidMetal
                   colorBack="#FAFAF8"
                   colorTint="#C24E2E"
@@ -129,7 +128,6 @@ export default function LiquidMetalHero({
                   fit="cover"
                   style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
                 />
-              </div>
             </motion.div>
 
             <motion.div
@@ -219,17 +217,9 @@ export default function LiquidMetalHero({
           position: relative;
           display: flex;
           justify-content: center;
-          z-index: 2;
-        }
-
-        .hero-liquid-card {
           width: clamp(220px, 28vw, 360px);
           aspect-ratio: 3 / 4;
-          overflow: hidden;
-          border: 0;
-          border-radius: 0;
-          background: transparent;
-          box-shadow: none;
+          z-index: 2;
         }
 
         @media (max-width: 767px) {
@@ -262,10 +252,7 @@ export default function LiquidMetalHero({
 
           .hero-liquid-layer {
             width: min(42vw, 150px);
-          }
-
-          .hero-liquid-card {
-            width: 100%;
+            aspect-ratio: 3 / 4;
           }
         }
 

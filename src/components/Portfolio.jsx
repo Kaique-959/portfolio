@@ -167,7 +167,7 @@ export default function Portfolio() {
                       <span key={tag} className="tag">{tag}</span>
                     ))}
                   </div>
-                  <span className="project-card-action">Ver detalhes</span>
+                  <span className="project-card-action">Abrir detalhes <span aria-hidden="true">→</span></span>
                 </div>
               </button>
             )
