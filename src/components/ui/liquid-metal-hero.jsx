@@ -48,13 +48,20 @@ export default function LiquidMetalHero({
           trigger: sectionRef.current,
           start: 'top top',
           end: 'bottom top',
-          scrub: 1.1,
+          scrub: 0,
         },
       })
 
-      tl.to(cardLayer.current, { xPercent: 28, yPercent: 18, scale: 1.08, ease: 'power2.inOut' }, 0)
-      tl.to(nameLeftLayer.current, { xPercent: -8, opacity: 0.62, ease: 'power2.inOut' }, 0)
-      tl.to(nameRightLayer.current, { xPercent: 8, opacity: 0.62, ease: 'power2.inOut' }, 0)
+      const layers = [
+        { target: cardLayer.current, xPercent: 24, yPercent: 42, scale: 1.06 },
+        { target: nameLeftLayer.current, xPercent: -7, yPercent: 20, opacity: 0.56 },
+        { target: nameRightLayer.current, xPercent: 8, yPercent: 12, opacity: 0.64 },
+      ]
+
+      layers.forEach((layer, index) => {
+        const { target, ...vars } = layer
+        tl.to(target, { ...vars, ease: 'none' }, index === 0 ? 0 : '<')
+      })
 
       return () => {
         gsap.set([cardLayer.current, nameLeftLayer.current, nameRightLayer.current], { clearProps: 'transform,opacity' })
@@ -107,7 +114,7 @@ export default function LiquidMetalHero({
               variants={itemVariants}
               style={{ willChange: 'transform' }}
             >
-              <div className="hero-liquid-card">
+          <div className="hero-liquid-card">
                 <LiquidMetal
                   colorBack="#FAFAF8"
                   colorTint="#C24E2E"
@@ -219,12 +226,10 @@ export default function LiquidMetalHero({
           width: clamp(220px, 28vw, 360px);
           aspect-ratio: 3 / 4;
           overflow: hidden;
-          border: 1px solid rgba(229, 229, 226, 0.85);
-          border-radius: 18px;
-          background: var(--surface);
-          box-shadow:
-            0 24px 70px rgba(20, 20, 20, 0.12),
-            0 10px 30px rgba(194, 78, 46, 0.12);
+          border: 0;
+          border-radius: 0;
+          background: transparent;
+          box-shadow: none;
         }
 
         @media (max-width: 767px) {
