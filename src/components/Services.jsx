@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import { Globe, MessageCircle, GitBranch, Search, Layout, Code, Server, Lightbulb } from 'lucide-react'
+import { Globe, MessageCircle, GitBranch, Search, Layout, Code, Server, Lightbulb, Film } from 'lucide-react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
@@ -7,9 +7,9 @@ import { content } from '../data/content'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-const icons = [Globe, MessageCircle, GitBranch, Search, Layout, Code, Server, Lightbulb]
-const rotations = [-1.2, 0.8, -0.6, 1, -0.8, 0.6, -0.4, 0.9]
-const stickyOffsets = [96, 108, 120, 132, 144, 156, 168, 180]
+const icons = [Globe, MessageCircle, GitBranch, Search, Layout, Code, Server, Lightbulb, Film]
+const rotations = [-1.2, 0.8, -0.6, 1, -0.8, 0.6, -0.4, 0.9, -0.7]
+const stickyOffsets = [96, 108, 120, 132, 144, 156, 168, 180, 192]
 
 function ServiceVisualPanel({ activeIndex }) {
   const item = content.services[activeIndex] || content.services[0]

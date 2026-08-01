@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
@@ -6,10 +6,6 @@ import { content } from '../data/content'
 import { GradientButton } from '@/components/ui/gradient-button'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
-
-function hasValidUrl(url) {
-  return typeof url === 'string' && url.trim() !== '' && url.trim() !== '#'
-}
 
 function ProjectPlaceholder({ index, title, status }) {
   return (
@@ -46,6 +42,53 @@ export default function Portfolio() {
   const sectionRef = useRef(null)
   const gridRef = useRef(null)
   const ctaRef = useRef(null)
+  const modalRef = useRef(null)
+  const closeButtonRef = useRef(null)
+  const lastFocusedRef = useRef(null)
+  const [selectedProject, setSelectedProject] = useState(null)
+
+  useEffect(() => {
+    if (!selectedProject) return undefined
+
+    lastFocusedRef.current = document.activeElement
+    document.body.style.overflow = 'hidden'
+
+    const focusTimer = window.setTimeout(() => {
+      closeButtonRef.current?.focus()
+    }, 30)
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        setSelectedProject(null)
+      }
+      if (event.key === 'Tab' && modalRef.current) {
+        const focusables = modalRef.current.querySelectorAll(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        )
+        if (focusables.length === 0) return
+        const first = focusables[0]
+        const last = focusables[focusables.length - 1]
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault()
+          last.focus()
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault()
+          first.focus()
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.clearTimeout(focusTimer)
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', handleKeyDown)
+      if (lastFocusedRef.current instanceof HTMLElement) {
+        lastFocusedRef.current.focus()
+      }
+    }
+  }, [selectedProject])
 
   useGSAP(() => {
     gsap.fromTo(gridRef.current?.children || [], { y: 20, opacity: 0 }, {
@@ -88,11 +131,14 @@ export default function Portfolio() {
 
         <div ref={gridRef} className="portfolio-grid">
           {content.projects.map((project, i) => {
-            const valid = hasValidUrl(project.url)
-            const cardClass = `project-card${valid ? '' : ' project-card-static'}`
-
-            const inner = (
-              <>
+            return (
+              <button
+                key={project.title}
+                type="button"
+                className="project-card"
+                aria-label={`Ver detalhes de ${project.title}`}
+                onClick={() => setSelectedProject(project)}
+              >
                 <ProjectPlaceholder
                   index={i}
                   title={project.title}
@@ -121,28 +167,9 @@ export default function Portfolio() {
                       <span key={tag} className="tag">{tag}</span>
                     ))}
                   </div>
+                  <span className="project-card-action">Ver detalhes</span>
                 </div>
-              </>
-            )
-
-            if (valid) {
-              return (
-                <a
-                  key={project.title}
-                  className={cardClass}
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {inner}
-                </a>
-              )
-            }
-
-            return (
-              <article key={project.title} className={cardClass} aria-label={project.title}>
-                {inner}
-              </article>
+              </button>
             )
           })}
         </div>
@@ -163,6 +190,68 @@ export default function Portfolio() {
           </GradientButton>
         </div>
       </div>
+
+      {selectedProject && (
+        <div
+          className="project-modal-backdrop"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setSelectedProject(null)
+          }}
+        >
+<div
+            className="project-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="project-modal-title"
+            ref={modalRef}
+          >
+            <button
+              type="button"
+              className="project-modal-close"
+              aria-label="Fechar detalhes do projeto"
+              ref={closeButtonRef}
+              onClick={() => setSelectedProject(null)}
+            >
+              ×
+            </button>
+            <span className="eyebrow">{selectedProject.category}</span>
+            <h2 id="project-modal-title">{selectedProject.title}</h2>
+            <p className="project-modal-lead">{selectedProject.description}</p>
+
+            <div className="project-modal-grid">
+              <div>
+                <span className="project-modal-label">Contexto</span>
+                <p>{selectedProject.details.context}</p>
+              </div>
+              <div>
+                <span className="project-modal-label">Desafio</span>
+                <p>{selectedProject.details.challenge}</p>
+              </div>
+              <div className="project-modal-solution">
+                <span className="project-modal-label">Solução</span>
+                <p>{selectedProject.details.solution}</p>
+              </div>
+            </div>
+
+            <div className="project-modal-deliverables">
+              {selectedProject.details.deliverables.map((item) => (
+                <span key={item} className="tag">{item}</span>
+              ))}
+            </div>
+
+            <div className="project-modal-footer">
+              <span className="project-modal-label">Stack</span>
+              <div className="project-card-tags">
+                {selectedProject.tags.map((tag) => <span key={tag} className="tag">{tag}</span>)}
+              </div>
+              <GradientButton asChild>
+                <a href="#contact" onClick={() => setSelectedProject(null)}>Quero um projeto parecido</a>
+              </GradientButton>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         .portfolio-section {
@@ -188,17 +277,26 @@ export default function Portfolio() {
             transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
             border-color 200ms,
             box-shadow 300ms;
+          padding: 0;
+          text-align: left;
+          color: inherit;
+          font: inherit;
+          cursor: pointer;
         }
 
-        a.project-card:hover,
-        a.project-card:focus-visible {
+        .project-card:hover,
+        .project-card:focus-visible {
           transform: translateY(-5px);
           border-color: var(--border-hover);
           box-shadow: 0 22px 60px rgba(20, 20, 20, 0.1);
         }
 
-        .project-card-static {
-          cursor: default;
+        .project-card-action {
+          display: inline-flex;
+          margin-top: 18px;
+          color: var(--accent);
+          font-size: 0.8rem;
+          font-weight: 700;
         }
 
         .project-card-body {
@@ -330,6 +428,99 @@ export default function Portfolio() {
           border: 1px solid var(--border);
         }
 
+        .project-modal-backdrop {
+          position: fixed;
+          inset: 0;
+          z-index: 2000;
+          display: grid;
+          place-items: center;
+          padding: 24px;
+          background: rgba(20, 20, 20, 0.62);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+        }
+
+        .project-modal {
+          position: relative;
+          width: min(760px, 100%);
+          max-height: min(760px, calc(100dvh - 48px));
+          overflow-y: auto;
+          padding: clamp(28px, 5vw, 56px);
+          border: 1px solid rgba(229, 229, 226, 0.9);
+          border-radius: 24px;
+          background: #FAFAF8;
+          box-shadow: 0 32px 100px rgba(0, 0, 0, 0.28);
+        }
+
+        .project-modal-close {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          width: 40px;
+          height: 40px;
+          border: 1px solid var(--border);
+          border-radius: 50%;
+          color: var(--muted);
+          font-size: 1.5rem;
+          line-height: 1;
+        }
+
+        .project-modal h2 {
+          max-width: 12ch;
+          margin: 8px 0 16px;
+          font-size: clamp(2rem, 5vw, 3.8rem);
+          line-height: 0.98;
+          letter-spacing: -0.05em;
+        }
+
+        .project-modal-lead {
+          max-width: 52ch;
+          font-size: 1.05rem;
+          line-height: 1.7;
+        }
+
+        .project-modal-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 24px;
+          margin-top: 36px;
+        }
+
+        .project-modal-grid p,
+        .project-modal-solution p {
+          margin-top: 8px;
+          font-size: 0.92rem;
+          line-height: 1.7;
+        }
+
+        .project-modal-solution {
+          grid-column: 1 / -1;
+        }
+
+        .project-modal-label {
+          display: block;
+          color: var(--accent);
+          font-size: 0.72rem;
+          font-weight: 700;
+          letter-spacing: 0.09em;
+          text-transform: uppercase;
+        }
+
+        .project-modal-deliverables,
+        .project-modal-footer {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 8px;
+          margin-top: 28px;
+        }
+
+        .project-modal-footer {
+          justify-content: space-between;
+          padding-top: 24px;
+          border-top: 1px solid var(--border);
+        }
+
         @media (max-width: 767px) {
           .portfolio-grid {
             grid-template-columns: 1fr;
@@ -341,6 +532,19 @@ export default function Portfolio() {
 
           .project-placeholder-window {
             inset: 60px 22px 50px;
+          }
+
+          .project-modal-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .project-modal-solution {
+            grid-column: auto;
+          }
+
+          .project-modal-footer {
+            align-items: flex-start;
+            flex-direction: column;
           }
         }
       `}</style>

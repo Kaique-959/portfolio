@@ -2,12 +2,12 @@ export const content = {
   name: 'Kaique Calefi',
   firstName: 'Kaique',
   lastName: 'Calefi',
-  role: 'Desenvolvedor & Fundador',
+  role: 'Desenvolvedor, Editor & Fundador',
   tagline: 'Tecnologia que funciona enquanto você dorme',
   location: 'Brasília, DF',
 
   hero: {
-    subtitle: 'Desenvolvedor & Fundador da Kalefi_Org',
+    subtitle: 'Desenvolvedor, editor e fundador da Kalefi_Org',
     cta: 'Ver projetos',
     secondaryCta: 'Falar comigo',
   },
@@ -53,13 +53,18 @@ export const content = {
       description: 'Da ideia ao produto: desenho a arquitetura, escolho as ferramentas e entrego funcionando — sem time de TI.',
       tags: ['Arquitetura', 'Automação', 'Produto'],
     },
+    {
+      title: 'Edição de Vídeos',
+      description: 'Vídeos para empresas, anúncios e redes sociais com montagem dinâmica, legendas, cortes precisos e identidade visual consistente.',
+      tags: ['Edição', 'Motion', 'Conteúdo'],
+    },
   ],
 
   about: {
     bio: 'Sou Kaique, desenvolvedor e fundador da Kalefi_Org, baseado em Brasília. Ainda estudante, decidi transformar interesse em tecnologia em produto real: construo sites, automações e ferramentas de IA que resolvem problema de negócio de verdade — não protótipo, não teoria.',
-    bio2: 'Comecei atendendo meu primeiro cliente e, desde então, venho construindo um portfólio de sistemas que rodam em produção todos os dias — de bots de atendimento via WhatsApp a pipelines de prospecção automatizada. Meu foco é simples: tecnologia que funciona sem precisar de um time de TI por trás.',
+    bio2: 'Comecei atendendo meu primeiro cliente e, desde então, venho construindo um portfólio de sistemas, vídeos e automações que rodam em produção todos os dias — de bots de atendimento via WhatsApp a peças de conteúdo para empresas. Meu foco é simples: tecnologia e comunicação que funcionam sem precisar de um time de TI por trás.',
     image: null,
-    techStack: ['Next.js & React', 'Automação com N8N', 'Three.js & R3F', 'Baseado em Brasília'],
+    techStack: ['Next.js & React', 'Automação com N8N', 'Edição e Motion', 'Baseado em Brasília'],
   },
 
   projects: [
@@ -71,6 +76,12 @@ export const content = {
       image: null,
       url: null,
       status: 'Imagem em preparação',
+      details: {
+        context: 'Presença digital para a própria agência e seus serviços de tecnologia.',
+        challenge: 'Apresentar serviços técnicos complexos com clareza e uma experiência visual memorável.',
+        solution: 'Landing page com shader LiquidMetal, navegação fluida, narrativa editorial e arquitetura preparada para conversão.',
+        deliverables: ['Direção visual', 'Interface responsiva', 'Animações de scroll', 'Deploy e domínio'],
+      },
     },
     {
       title: 'Bot Libertad',
@@ -80,6 +91,12 @@ export const content = {
       image: null,
       url: null,
       status: 'Imagem em preparação',
+      details: {
+        context: 'Atendimento automatizado para uma clínica de fonoaudiologia e audiologia.',
+        challenge: 'Reduzir o tempo de resposta e organizar o fluxo de agendamentos sem aumentar a equipe.',
+        solution: 'Bot de WhatsApp conectado a automações e CRM, com respostas orientadas por contexto e encaminhamento humano.',
+        deliverables: ['Fluxo de atendimento', 'Integração WhatsApp', 'Automação de agenda', 'Documentação operacional'],
+      },
     },
     {
       title: 'Prospecção N8N',
@@ -89,6 +106,12 @@ export const content = {
       image: null,
       url: null,
       status: 'Imagem em preparação',
+      details: {
+        context: 'Pipeline de prospecção para encontrar e organizar oportunidades comerciais.',
+        challenge: 'Evitar tarefas repetitivas e manter limites de segurança durante o outreach.',
+        solution: 'Workflow no N8N com segmentação de leads, regras de cadência e registro das interações no CRM.',
+        deliverables: ['Qualificação de leads', 'Cadência automatizada', 'Regras de segurança', 'Métricas de acompanhamento'],
+      },
     },
     {
       title: 'Achadinhos Scraper',
@@ -98,6 +121,12 @@ export const content = {
       image: null,
       url: null,
       status: 'Imagem em preparação',
+      details: {
+        context: 'Monitor de promoções para distribuição automática de ofertas em grupos.',
+        challenge: 'Encontrar mudanças de preço relevantes sem depender de coleta manual.',
+        solution: 'Scraper em Python com monitoramento de produtos, filtros de oportunidade e publicação automatizada.',
+        deliverables: ['Coleta automatizada', 'Filtro de ofertas', 'Histórico de preços', 'Publicação em grupos'],
+      },
     },
   ],
 
@@ -127,7 +156,7 @@ export const content = {
   faq: [
     {
       q: 'Que tipo de projeto você faz?',
-      a: 'Sites profissionais, automações de WhatsApp, sistemas de prospecção, scraping de dados e landing pages. Tudo que rode em produção e resolva problema real.',
+      a: 'Sites profissionais, automações de WhatsApp, sistemas de prospecção, scraping de dados, landing pages e edição de vídeos para empresas. Tudo que rode em produção e resolva problema real.',
     },
     {
       q: 'Quanto tempo leva um projeto?',

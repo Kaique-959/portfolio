@@ -57,14 +57,14 @@
 
 | Seção | Estado |
 |---|---|
-| Hero | LiquidMetal + um H1 com dois spans visuais + CTAs com GradientButton |
-| Habilidades | 8 cards sticky com painel visual dinâmico |
+| Hero | LiquidMetal integrado ao fundo + um H1 com dois spans visuais + CTAs com GradientButton |
+| Habilidades | 9 cards sticky com painel visual dinâmico, incluindo edição de vídeos |
 | Sobre | Placeholder editorial até foto real |
-| Projetos | Placeholders editoriais sem links falsos |
+| Projetos | Cards clicáveis com modal editorial de detalhes |
 | Experiência | Texto visível e hierarquia corrigida |
 | Depoimentos | Carrossel responsivo com dots acessíveis |
 | FAQ | Accordion com ARIA |
-| Contato | Formulário abre WhatsApp |
+| Contato | Formulário abre WhatsApp para projetos, automações e vídeos empresariais |
 
 ---
 

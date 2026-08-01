@@ -99,7 +99,7 @@ export default function Contact() {
         <div className="contact-grid">
           <div data-c>
             <p style={{ color: 'var(--muted)', lineHeight: 1.75, maxWidth: '40ch', marginBottom: '32px' }}>
-              Tem um projeto em mente ou quer só trocar uma ideia? Mande uma mensagem que respondo assim que possível.
+              Tem um projeto, campanha ou vídeo para produzir? Mande uma mensagem que respondo assim que possível.
             </p>
 
             <div style={{ marginBottom: '8px' }}>
