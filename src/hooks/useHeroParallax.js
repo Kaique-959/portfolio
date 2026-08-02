@@ -35,29 +35,15 @@ export function useHeroParallax(rootRef) {
             },
           })
 
-          const layers = [
-            { layer: '1', yPercent: 70 },
-            { layer: '2', yPercent: 55 },
-            { layer: '3', yPercent: 40 },
-            { layer: '4', yPercent: 10 },
-          ]
+          const shader = triggerElement.querySelector('[data-parallax-layer="2"]')
+          if (!shader) return
 
-          layers.forEach(({ layer, yPercent }) => {
-            const elements = triggerElement.querySelectorAll(`[data-parallax-layer="${layer}"]`)
-            if (!elements.length) return
-
-            const properties = {
-              yPercent: yPercent * intensity,
-              ease: 'power2.inOut',
-              force3D: true,
-            }
-
-            if (layer === '2') {
-              properties.xPercent = 22 * intensity
-            }
-
-            timeline.to(elements, properties, 0)
-          })
+          timeline.to(shader, {
+            xPercent: 22 * intensity,
+            yPercent: 55 * intensity,
+            ease: 'power2.inOut',
+            force3D: true,
+          }, 0)
         }, root)
 
         const images = Array.from(root.querySelectorAll('img'))
