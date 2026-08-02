@@ -295,9 +295,21 @@ export default function Portfolio() {
           display: inline-flex;
           margin-top: 18px;
           padding: 8px 14px;
-          color: #fff;
+          border: 1px solid #141414;
+          border-radius: 9999px;
+          background: #fff;
+          color: #141414;
           font-size: 0.8rem;
           font-weight: 700;
+          transition: background-color 220ms ease, color 220ms ease, padding 220ms ease;
+        }
+
+        .project-card:hover .project-card-action,
+        .project-card:focus-visible .project-card-action {
+          padding-left: 18px;
+          padding-right: 18px;
+          background: #141414;
+          color: #fff;
         }
 
         .project-card-body {
@@ -459,6 +471,8 @@ export default function Portfolio() {
           right: 20px;
           width: 40px;
           height: 40px;
+          min-width: 40px;
+          padding: 0;
           border: 1px solid transparent;
           border-radius: 50%;
           color: var(--muted);

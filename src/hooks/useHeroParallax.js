@@ -40,7 +40,6 @@ export function useHeroParallax(rootRef) {
           const nameRightVisual = nameRight?.firstElementChild || nameRight
           const kickerLeft = root.querySelector('.hero-kickers span:first-child')
           const kickerRight = root.querySelector('.hero-kickers span:last-child')
-          const actions = root.querySelector('[data-parallax-layer="4"]')
 
           timeline.to(shaderVisual, {
             scale: mobile ? 1.05 : 1.1,
@@ -87,13 +86,6 @@ export function useHeroParallax(rootRef) {
             }, 0)
           }
 
-          if (actions) {
-            timeline.to(actions, {
-              opacity: 0,
-              ease: 'power2.inOut',
-              force3D: true,
-            }, 0)
-          }
         }, root)
 
         const refreshId = window.requestAnimationFrame(() => ScrollTrigger.refresh())

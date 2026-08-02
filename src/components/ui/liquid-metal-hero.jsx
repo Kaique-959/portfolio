@@ -2,8 +2,6 @@
 
 import { useRef } from 'react'
 import { LiquidMetal } from '@paper-design/shaders-react'
-import { GradientButton } from '@/components/ui/gradient-button'
-import { Badge } from '@/components/ui/badge'
 import { motion } from 'framer-motion'
 import { useHeroParallax } from '@/hooks/useHeroParallax'
 
@@ -18,15 +16,10 @@ const itemVariants = {
 }
 
 export default function LiquidMetalHero({
-  badge,
   firstName,
   lastName,
   kickerLeft,
   kickerRight,
-  primaryCtaLabel,
-  secondaryCtaLabel,
-  primaryCtaHref,
-  secondaryCtaHref,
 }) {
   const sectionRef = useRef(null)
   useHeroParallax(sectionRef)
@@ -103,25 +96,6 @@ export default function LiquidMetalHero({
             </motion.div>
           </h1>
 
-          <motion.div className="flex flex-col items-center gap-5 mt-14" data-parallax-layer="4" variants={itemVariants}>
-            {badge && (
-              <Badge variant="outline" className="text-foreground border-border bg-background/60 backdrop-blur-sm">
-                {badge}
-              </Badge>
-            )}
-
-            <div className="flex flex-col items-center gap-3 sm:flex-row">
-              <GradientButton asChild>
-                <a href={primaryCtaHref}>{primaryCtaLabel}</a>
-              </GradientButton>
-
-              {secondaryCtaLabel && secondaryCtaHref && (
-                <GradientButton variant="variant" asChild>
-                  <a href={secondaryCtaHref}>{secondaryCtaLabel}</a>
-                </GradientButton>
-              )}
-            </div>
-          </motion.div>
           </motion.div>
         </div>
       </div>

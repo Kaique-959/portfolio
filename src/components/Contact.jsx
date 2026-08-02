@@ -233,19 +233,21 @@ export default function Contact() {
         .contact-social {
           width: 44px;
           height: 44px;
+          min-width: 44px;
+          padding: 0;
           border-radius: 50%;
           border: 1px solid transparent;
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          color: #fff;
+          color: #141414;
           font-size: 0.85rem;
           font-weight: 600;
         }
 
         .contact-social:hover,
         .contact-social:focus-visible {
-          border-color: transparent;
+          border-color: #141414;
           color: #fff;
         }
 

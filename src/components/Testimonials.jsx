@@ -166,14 +166,14 @@ export default function Testimonials() {
 
         .testimonial-dot-button {
           width: 44px;
-          height: 44px;
+          height: 32px;
           display: inline-grid;
           place-items: center;
           border-radius: 999px;
-          background: transparent;
-          border: 0;
+          background: #fff;
+          border: 1px solid #141414;
           cursor: pointer;
-          color: var(--muted);
+          transition: background-color 220ms ease, color 220ms ease, width 220ms ease;
         }
 
         .testimonial-dot-button::before {
@@ -181,16 +181,20 @@ export default function Testimonials() {
           width: 8px;
           height: 8px;
           border-radius: 50%;
-          background: var(--border);
+          background: #141414;
           transition: background 200ms ease;
         }
 
-        .testimonial-dot-button:hover::before {
-          background: var(--border-hover);
+        .testimonial-dot-button:hover,
+        .testimonial-dot-button:focus-visible,
+        .testimonial-dot-button[aria-current="true"] {
+          background: #141414;
         }
 
+        .testimonial-dot-button:hover::before,
+        .testimonial-dot-button:focus-visible::before,
         .testimonial-dot-button[aria-current="true"]::before {
-          background: var(--fg);
+          background: #fff;
         }
       `}</style>
     </section>

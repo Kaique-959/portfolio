@@ -15,15 +15,10 @@ export default function App() {
 
       <main id="main-content">
         <LiquidMetalHero
-          badge="Disponível para novos projetos"
           firstName="Kaique"
           lastName="Calefi"
           kickerLeft="Desenvolvedor, Editor & Fundador"
           kickerRight="Brasília, DF"
-          primaryCtaLabel="Ver projetos"
-          secondaryCtaLabel="Falar comigo"
-          primaryCtaHref="#portfolio"
-          secondaryCtaHref="#contact"
         />
 
         <Services />

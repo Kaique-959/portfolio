@@ -117,15 +117,24 @@ export default function FAQ() {
         }
 
         .faq-icon {
+          display: inline-grid;
+          place-items: center;
+          width: 32px;
+          height: 32px;
+          border: 1px solid #141414;
+          border-radius: 9999px;
+          background: #fff;
+          color: #141414;
           font-size: 1.2rem;
-          color: var(--muted);
           flex-shrink: 0;
-          transition: transform 0.3s ease;
+          transition: transform 0.3s ease, background-color 220ms ease, color 220ms ease;
           transform: rotate(0deg);
         }
 
         .faq-icon-open {
           transform: rotate(45deg);
+          background: #141414;
+          color: #fff;
         }
 
         .faq-panel {
