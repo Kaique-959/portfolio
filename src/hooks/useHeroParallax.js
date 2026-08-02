@@ -16,12 +16,11 @@ export function useHeroParallax(rootRef) {
 
     media.add(
       {
-        motion: '(prefers-reduced-motion: no-preference)',
         mobile: '(max-width: 767px)',
+        desktop: '(min-width: 768px)',
       },
       (context) => {
-        const { motion, mobile } = context.conditions || {}
-        if (!motion) return undefined
+        const { mobile } = context.conditions || {}
 
         const gsapContext = gsap.context(() => {
           const timeline = gsap.timeline({
