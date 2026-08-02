@@ -241,7 +241,6 @@ export default function Contact() {
           color: #fff;
           font-size: 0.85rem;
           font-weight: 600;
-          transition: all 0.2s ease;
         }
 
         .contact-social:hover,

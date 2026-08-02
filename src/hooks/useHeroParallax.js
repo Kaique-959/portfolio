@@ -34,19 +34,18 @@ export function useHeroParallax(rootRef) {
           })
 
           const layers = [
-            { id: '1', yPercent: 8 },
-            { id: '2', yPercent: 38, xPercent: 18, scale: 1.04 },
-            { id: '3', yPercent: 14, xPercent: 4, opacity: 0.92 },
-            { id: '4', yPercent: 8, xPercent: -2, opacity: 0.94 },
+            { id: '1', movement: 0.14 },
+            { id: '2', movement: 0.1 },
+            { id: '3', movement: 0.065 },
+            { id: '4', movement: 0.025 },
           ]
 
-          layers.forEach(({ id, yPercent, ...vars }) => {
+          layers.forEach(({ id, movement }) => {
             const elements = root.querySelectorAll(`[data-parallax-layer="${id}"]`)
             if (!elements.length) return
 
             timeline.to(elements, {
-              ...vars,
-              yPercent: yPercent * intensity,
+              y: () => window.innerHeight * movement * intensity,
               force3D: true,
             }, 0)
           })
