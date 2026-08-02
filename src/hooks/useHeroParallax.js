@@ -9,8 +9,8 @@ export function useHeroParallax(rootRef) {
     const root = rootRef.current
     if (!root) return undefined
 
-    const triggerElement = root.querySelector('[data-parallax-layers]')
-    if (!triggerElement) return undefined
+    const shader = root.querySelector('[data-parallax-layer="2"]')
+    if (!shader) return undefined
 
     const media = gsap.matchMedia()
 
@@ -23,40 +23,66 @@ export function useHeroParallax(rootRef) {
         const { motion, mobile } = context.conditions || {}
         if (!motion) return undefined
 
-        const intensity = mobile ? 0.65 : 1
         const gsapContext = gsap.context(() => {
           const timeline = gsap.timeline({
             scrollTrigger: {
-              trigger: triggerElement,
+              trigger: root,
               start: 'top top',
               end: 'bottom top',
-              scrub: 0.8,
+              scrub: 1.2,
               invalidateOnRefresh: true,
             },
           })
 
-          const shader = triggerElement.querySelector('[data-parallax-layer="2"]')
-          if (!shader) return
+          const nameLeft = root.querySelector('.hero-title-first')
+          const nameRight = root.querySelector('.hero-title-last')
+          const actions = root.querySelector('[data-parallax-layer="4"]')
+          const shaderX = () => mobile
+            ? Math.min(96, window.innerWidth * 0.18)
+            : Math.min(420, window.innerWidth * 0.25)
 
           timeline.to(shader, {
-            xPercent: 22 * intensity,
-            yPercent: 55 * intensity,
+            x: shaderX,
+            y: mobile ? 48 : 70,
+            scale: mobile ? 1.04 : 1.08,
             ease: 'power2.inOut',
             force3D: true,
           }, 0)
-        }, root)
 
-        const images = Array.from(root.querySelectorAll('img'))
-        const refresh = () => ScrollTrigger.refresh()
-        images.forEach((image) => {
-          if (!image.complete) image.addEventListener('load', refresh)
-        })
+          if (nameLeft) {
+            timeline.to(nameLeft, {
+              xPercent: mobile ? -4 : -8,
+              yPercent: mobile ? 6 : 10,
+              opacity: 0.65,
+              ease: 'power2.inOut',
+              force3D: true,
+            }, 0)
+          }
+
+          if (nameRight) {
+            timeline.to(nameRight, {
+              xPercent: mobile ? 4 : 8,
+              yPercent: mobile ? 6 : 10,
+              opacity: 0.65,
+              ease: 'power2.inOut',
+              force3D: true,
+            }, 0)
+          }
+
+          if (actions) {
+            timeline.to(actions, {
+              yPercent: mobile ? 10 : 18,
+              opacity: 0,
+              ease: 'power2.inOut',
+              force3D: true,
+            }, 0)
+          }
+        }, root)
 
         const refreshId = window.requestAnimationFrame(() => ScrollTrigger.refresh())
 
         return () => {
           window.cancelAnimationFrame(refreshId)
-          images.forEach((image) => image.removeEventListener('load', refresh))
           gsapContext.revert()
         }
       },
