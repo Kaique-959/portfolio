@@ -120,7 +120,7 @@ export default function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="contact-social"
+                  className="contact-social gradient-button"
                 >
                   <span aria-hidden="true">{s.shortcut}</span>
                 </a>
@@ -234,11 +234,11 @@ export default function Contact() {
           width: 44px;
           height: 44px;
           border-radius: 50%;
-          border: 1px solid var(--border);
+          border: 1px solid transparent;
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          color: var(--muted);
+          color: #fff;
           font-size: 0.85rem;
           font-weight: 600;
           transition: all 0.2s ease;

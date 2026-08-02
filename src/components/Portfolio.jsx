@@ -167,7 +167,7 @@ export default function Portfolio() {
                       <span key={tag} className="tag">{tag}</span>
                     ))}
                   </div>
-                  <span className="project-card-action">Abrir detalhes <span aria-hidden="true">→</span></span>
+                  <span className="project-card-action gradient-button">Abrir detalhes <span aria-hidden="true">→</span></span>
                 </div>
               </button>
             )
@@ -294,7 +294,8 @@ export default function Portfolio() {
         .project-card-action {
           display: inline-flex;
           margin-top: 18px;
-          color: var(--accent);
+          padding: 8px 14px;
+          color: #fff;
           font-size: 0.8rem;
           font-weight: 700;
         }

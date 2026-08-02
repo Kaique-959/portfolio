@@ -5,11 +5,7 @@ import { LiquidMetal } from '@paper-design/shaders-react'
 import { GradientButton } from '@/components/ui/gradient-button'
 import { Badge } from '@/components/ui/badge'
 import { motion } from 'framer-motion'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useGSAP } from '@gsap/react'
-
-gsap.registerPlugin(ScrollTrigger, useGSAP)
+import { useHeroParallax } from '@/hooks/useHeroParallax'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -33,44 +29,7 @@ export default function LiquidMetalHero({
   secondaryCtaHref,
 }) {
   const sectionRef = useRef(null)
-  const cardLayer = useRef(null)
-  const nameLeftLayer = useRef(null)
-  const nameRightLayer = useRef(null)
-
-  useGSAP(() => {
-    if (!cardLayer.current || !nameLeftLayer.current || !nameRightLayer.current) return
-
-    const mm = gsap.matchMedia()
-
-    mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.15,
-          invalidateOnRefresh: true,
-        },
-      })
-
-      const layers = [
-        { target: cardLayer.current, xPercent: 34, yPercent: 56, scale: 1.06 },
-        { target: nameLeftLayer.current, xPercent: -8, yPercent: 18, opacity: 0.56 },
-        { target: nameRightLayer.current, xPercent: 9, yPercent: 10, opacity: 0.64 },
-      ]
-
-      layers.forEach((layer, index) => {
-        const { target, ...vars } = layer
-        tl.to(target, { ...vars, ease: 'none' }, index === 0 ? 0 : '<')
-      })
-
-      return () => {
-        gsap.set([cardLayer.current, nameLeftLayer.current, nameRightLayer.current], { clearProps: 'transform,opacity' })
-      }
-    })
-
-    return () => mm.revert()
-  }, { scope: sectionRef })
+  useHeroParallax(sectionRef)
 
   const h1style = {
     fontFamily: 'var(--font-display)',
@@ -94,15 +53,15 @@ export default function LiquidMetalHero({
 
       <div className="container mx-auto px-6 lg:px-8 max-w-7xl w-full">
         <motion.div variants={containerVariants} initial="hidden" animate="visible">
-          <div className="hero-kickers" aria-hidden="true">
+          <div className="hero-kickers" data-parallax-layer="1" aria-hidden="true">
             <span>{kickerLeft}</span>
             <span>{kickerRight}</span>
           </div>
 
           <h1 className="hero-title" aria-label={`${firstName} ${lastName}`}>
             <motion.div
-              ref={nameLeftLayer}
               className="hero-title-first"
+              data-parallax-layer="4"
               variants={itemVariants}
               style={{ willChange: 'transform' }}
             >
@@ -110,8 +69,8 @@ export default function LiquidMetalHero({
             </motion.div>
 
             <motion.div
-              ref={cardLayer}
               className="hero-liquid-layer"
+              data-parallax-layer="2"
               variants={itemVariants}
               style={{ willChange: 'transform' }}
             >
@@ -132,8 +91,8 @@ export default function LiquidMetalHero({
             </motion.div>
 
             <motion.div
-              ref={nameRightLayer}
               className="hero-title-last"
+              data-parallax-layer="4"
               variants={itemVariants}
               style={{ willChange: 'transform' }}
             >
@@ -141,7 +100,7 @@ export default function LiquidMetalHero({
             </motion.div>
           </h1>
 
-          <motion.div className="flex flex-col items-center gap-5 mt-14" variants={itemVariants}>
+          <motion.div className="flex flex-col items-center gap-5 mt-14" data-parallax-layer="3" variants={itemVariants}>
             {badge && (
               <Badge variant="outline" className="text-foreground border-border bg-background/60 backdrop-blur-sm">
                 {badge}
