@@ -186,7 +186,7 @@ export default function LiquidMetalHero({
           justify-content: center;
           width: clamp(220px, 28vw, 360px);
           aspect-ratio: 3 / 4;
-          left: clamp(20px, 2.8vw, 42px);
+          left: clamp(28px, 3.8vw, 56px);
           z-index: 2;
         }
 
