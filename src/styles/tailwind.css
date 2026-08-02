@@ -21,7 +21,10 @@ body {
   color: var(--color-foreground);
 }
 
+.flow-button,
 .gradient-button {
+  --flow-radius: 9999px;
+  --flow-duration: 800ms;
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -30,38 +33,111 @@ body {
   appearance: none;
   min-width: 132px;
   padding: 1rem 2.25rem;
-  border: 1px solid #141414;
-  border-radius: 9999px;
+  overflow: hidden;
+  border: 1.5px solid rgb(51 51 51 / 40%);
+  border-radius: var(--flow-radius);
   cursor: pointer;
-  color: #141414 !important;
+  color: #111 !important;
   text-decoration: none;
-  background: linear-gradient(to right, #141414 0%, #141414 50%, #fff 50%, #fff 100%);
-  background-size: 200% 100%;
-  background-position: 100% 0;
-  transition: background-position 360ms ease, color 360ms ease, padding 220ms ease, transform 220ms ease;
+  background: transparent;
+  transition: color var(--flow-duration) ease, border-color var(--flow-duration) ease,
+    border-radius var(--flow-duration) ease, transform 220ms ease;
 }
 
-.gradient-button > * {
+.flow-button > * {
   position: relative;
   z-index: 1;
 }
 
-.gradient-button:hover {
+.flow-button__text {
+  transform: translateX(-0.75rem);
+  transition: transform var(--flow-duration) ease-out;
+}
+
+.flow-button__circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: #111;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform var(--flow-duration) cubic-bezier(0.19, 1, 0.22, 1),
+    opacity var(--flow-duration) ease;
+}
+
+.flow-button__arrow {
+  position: absolute;
+  z-index: 2;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: #111;
+  transition: left var(--flow-duration) cubic-bezier(0.34, 1.56, 0.64, 1),
+    right var(--flow-duration) cubic-bezier(0.34, 1.56, 0.64, 1),
+    stroke var(--flow-duration) ease;
+}
+
+.flow-button__arrow--left {
+  left: -25%;
+}
+
+.flow-button__arrow--right {
+  right: 1rem;
+}
+
+.flow-button:hover,
+.flow-button:focus-visible,
+.gradient-button:hover,
+.gradient-button:focus-visible {
   padding-left: 2.65rem;
   padding-right: 2.65rem;
   color: #fff !important;
-  background-position: 0 0;
+  border-color: transparent;
+  border-radius: 12px;
 }
 
+.flow-button:hover .flow-button__text,
+.flow-button:focus-visible .flow-button__text {
+  transform: translateX(0.75rem);
+}
+
+.flow-button:hover .flow-button__circle,
+.flow-button:focus-visible .flow-button__circle {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(30);
+}
+
+.flow-button:hover .flow-button__arrow--left,
+.flow-button:focus-visible .flow-button__arrow--left {
+  left: 1rem;
+  stroke: #fff;
+}
+
+.flow-button:hover .flow-button__arrow--right,
+.flow-button:focus-visible .flow-button__arrow--right {
+  right: -25%;
+  stroke: #fff;
+}
+
+.flow-button:active,
 .gradient-button:active {
+  transform: scale(0.95);
   filter: brightness(1.08);
 }
 
+.flow-button:focus-visible,
 .gradient-button:focus-visible {
   outline: 2px solid #141414;
   outline-offset: 4px;
 }
 
+.flow-button:disabled,
+.flow-button[aria-disabled="true"],
 .gradient-button:disabled,
 .gradient-button[aria-disabled="true"] {
   cursor: not-allowed;
@@ -69,21 +145,24 @@ body {
 }
 
 .gradient-button-variant {
-  background-position: 100% 0;
+  background: transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .gradient-button {
+  .flow-button,
+  .gradient-button,
+  .flow-button__text,
+  .flow-button__circle,
+  .flow-button__arrow {
     transition: none;
-    background-position: 0 0;
   }
 }
 
 @media (forced-colors: active) {
+  .flow-button,
   .gradient-button {
     border: 1px solid ButtonText;
     background: ButtonFace;
     color: ButtonText !important;
-    background-position: 0 0;
   }
 }

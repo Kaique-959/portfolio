@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { content } from '../data/content'
 import { GradientButton } from '@/components/ui/gradient-button'
+import { FlowButton } from '@/components/ui/flow-button'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -167,7 +168,9 @@ export default function Portfolio() {
                       <span key={tag} className="tag">{tag}</span>
                     ))}
                   </div>
-                  <span className="project-card-action gradient-button">Abrir detalhes <span aria-hidden="true">→</span></span>
+                  <FlowButton asChild className="project-card-action">
+                    <span>Abrir detalhes</span>
+                  </FlowButton>
                 </div>
               </button>
             )
@@ -206,15 +209,16 @@ export default function Portfolio() {
             aria-labelledby="project-modal-title"
             ref={modalRef}
           >
-            <button
+            <FlowButton
               type="button"
-              className="project-modal-close gradient-button"
+              className="project-modal-close"
+              showArrows={false}
               aria-label="Fechar detalhes do projeto"
               ref={closeButtonRef}
               onClick={() => setSelectedProject(null)}
             >
               ×
-            </button>
+            </FlowButton>
             <span className="eyebrow">{selectedProject.category}</span>
             <h2 id="project-modal-title">{selectedProject.title}</h2>
             <p className="project-modal-lead">{selectedProject.description}</p>
@@ -307,8 +311,32 @@ export default function Portfolio() {
         .project-card:focus-visible .project-card-action {
           padding-left: 18px;
           padding-right: 18px;
-          background-position: 0 0;
+          border-color: transparent;
+          border-radius: 12px;
           color: #fff !important;
+        }
+
+        .project-card:hover .project-card-action .flow-button__text,
+        .project-card:focus-visible .project-card-action .flow-button__text {
+          transform: translateX(0.75rem);
+        }
+
+        .project-card:hover .project-card-action .flow-button__circle,
+        .project-card:focus-visible .project-card-action .flow-button__circle {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(30);
+        }
+
+        .project-card:hover .project-card-action .flow-button__arrow--left,
+        .project-card:focus-visible .project-card-action .flow-button__arrow--left {
+          left: 1rem;
+          stroke: #fff;
+        }
+
+        .project-card:hover .project-card-action .flow-button__arrow--right,
+        .project-card:focus-visible .project-card-action .flow-button__arrow--right {
+          right: -25%;
+          stroke: #fff;
         }
 
         .project-card-body {

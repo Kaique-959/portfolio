@@ -1,9 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
+import { FlowButton, type FlowButtonProps } from "@/components/ui/flow-button"
 
 const gradientButtonVariants = cva(
   [
@@ -33,9 +33,8 @@ const gradientButtonVariants = cva(
 )
 
 export interface GradientButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends FlowButtonProps,
     VariantProps<typeof gradientButtonVariants> {
-  asChild?: boolean
 }
 
 const GradientButton = React.forwardRef<HTMLButtonElement, GradientButtonProps>(
@@ -50,15 +49,14 @@ const GradientButton = React.forwardRef<HTMLButtonElement, GradientButtonProps>(
     },
     ref
   ) => {
-    const Comp = asChild ? Slot : "button"
-
     return (
-      <Comp
+      <FlowButton
         className={cn(
           gradientButtonVariants({ variant, size, className })
         )}
         ref={ref}
-        type={asChild ? undefined : type ?? "button"}
+        asChild={asChild}
+        type={type}
         {...props}
       />
     )

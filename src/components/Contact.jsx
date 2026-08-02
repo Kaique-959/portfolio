@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { content } from '../data/content'
 import { GradientButton } from '@/components/ui/gradient-button'
+import { FlowButton } from '@/components/ui/flow-button'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -114,20 +115,20 @@ export default function Contact() {
                 { label: 'GitHub', shortcut: 'GH', url: content.social.github },
                 { label: 'LinkedIn', shortcut: 'LI', url: content.social.linkedin },
               ].map((s) => (
-                <a
+                <FlowButton
                   key={s.url}
-                  href={s.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  className="contact-social gradient-button"
+                  asChild
+                  showArrows={false}
+                  className="contact-social"
                 >
-                  <span aria-hidden="true">{s.shortcut}</span>
-                </a>
+                  <a href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.label}>
+                    <span aria-hidden="true">{s.shortcut}</span>
+                  </a>
+                </FlowButton>
               ))}
             </div>
 
-            <GradientButton variant="variant" asChild>
+            <FlowButton asChild>
               <a
                 href={content.social.whatsapp || `https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
@@ -135,7 +136,7 @@ export default function Contact() {
               >
                 Preferir WhatsApp
               </a>
-            </GradientButton>
+            </FlowButton>
           </div>
 
           <div data-c>
