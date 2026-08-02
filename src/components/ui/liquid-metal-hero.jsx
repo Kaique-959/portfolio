@@ -62,7 +62,7 @@ export default function LiquidMetalHero({
           <h1 className="hero-title" aria-label={`${firstName} ${lastName}`}>
             <motion.div
               className="hero-title-first"
-              data-parallax-layer="4"
+              data-parallax-layer="3"
               variants={itemVariants}
               style={{ willChange: 'transform' }}
             >
@@ -93,7 +93,7 @@ export default function LiquidMetalHero({
 
             <motion.div
               className="hero-title-last"
-              data-parallax-layer="4"
+              data-parallax-layer="3"
               variants={itemVariants}
               style={{ willChange: 'transform' }}
             >
@@ -101,7 +101,7 @@ export default function LiquidMetalHero({
             </motion.div>
           </h1>
 
-          <motion.div className="flex flex-col items-center gap-5 mt-14" data-parallax-layer="3" variants={itemVariants}>
+          <motion.div className="flex flex-col items-center gap-5 mt-14" data-parallax-layer="4" variants={itemVariants}>
             {badge && (
               <Badge variant="outline" className="text-foreground border-border bg-background/60 backdrop-blur-sm">
                 {badge}

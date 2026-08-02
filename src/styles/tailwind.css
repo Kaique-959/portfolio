@@ -18,104 +18,104 @@
 
 @property --pos-x {
   syntax: "<percentage>";
-  inherits: true;
-  initial-value: 50%;
+  initial-value: 11.14%;
+  inherits: false;
 }
 
 @property --pos-y {
   syntax: "<percentage>";
-  inherits: true;
-  initial-value: 50%;
+  initial-value: 140%;
+  inherits: false;
 }
 
 @property --spread-x {
   syntax: "<percentage>";
-  inherits: true;
-  initial-value: 100%;
+  initial-value: 150%;
+  inherits: false;
 }
 
 @property --spread-y {
   syntax: "<percentage>";
-  inherits: true;
-  initial-value: 100%;
+  initial-value: 180.06%;
+  inherits: false;
 }
 
 @property --color-1 {
   syntax: "<color>";
-  inherits: true;
   initial-value: #000;
+  inherits: false;
 }
 
 @property --color-2 {
   syntax: "<color>";
-  inherits: true;
-  initial-value: #37140a;
+  initial-value: #08012c;
+  inherits: false;
 }
 
 @property --color-3 {
   syntax: "<color>";
-  inherits: true;
-  initial-value: #cc7d23;
+  initial-value: #4e1e40;
+  inherits: false;
 }
 
 @property --color-4 {
   syntax: "<color>";
-  inherits: true;
-  initial-value: #c66c64;
+  initial-value: #70464e;
+  inherits: false;
 }
 
 @property --color-5 {
   syntax: "<color>";
-  inherits: true;
-  initial-value: #c96287;
+  initial-value: #88394c;
+  inherits: false;
 }
 
 @property --border-angle {
   syntax: "<angle>";
+  initial-value: 20deg;
   inherits: true;
-  initial-value: 180deg;
 }
 
 @property --border-color-1 {
   syntax: "<color>";
+  initial-value: hsla(340, 75%, 60%, 0.2);
   inherits: true;
-  initial-value: hsla(340, 78%, 90%, 0.1);
 }
 
 @property --border-color-2 {
   syntax: "<color>";
+  initial-value: hsla(340, 75%, 40%, 0.75);
   inherits: true;
-  initial-value: hsla(340, 75%, 90%, 0.6);
 }
 
 @property --stop-1 {
   syntax: "<percentage>";
-  inherits: true;
-  initial-value: 0%;
+  initial-value: 37.35%;
+  inherits: false;
 }
 
 @property --stop-2 {
   syntax: "<percentage>";
-  inherits: true;
-  initial-value: 25%;
+  initial-value: 61.36%;
+  inherits: false;
 }
 
 @property --stop-3 {
   syntax: "<percentage>";
-  inherits: true;
-  initial-value: 50%;
+  initial-value: 78.42%;
+  inherits: false;
 }
 
 @property --stop-4 {
   syntax: "<percentage>";
-  inherits: true;
-  initial-value: 75%;
+  initial-value: 89.52%;
+  inherits: false;
 }
 
 @property --stop-5 {
   syntax: "<percentage>";
-  inherits: true;
   initial-value: 100%;
+  inherits: false;
 }
 
 body {
@@ -124,38 +124,18 @@ body {
 }
 
 .gradient-button {
-  --pos-x: 50%;
-  --pos-y: 50%;
-  --spread-x: 130%;
-  --spread-y: 130%;
-
-  --color-1: #000;
-  --color-2: #37140a;
-  --color-3: #cc7d23;
-  --color-4: #c66c64;
-  --color-5: #c96287;
-
-  --stop-1: 0%;
-  --stop-2: 18%;
-  --stop-3: 42%;
-  --stop-4: 74%;
-  --stop-5: 100%;
-
-  --border-angle: 180deg;
-  --border-color-1: hsla(340, 78%, 90%, 0.16);
-  --border-color-2: hsla(340, 75%, 90%, 0.55);
-
   position: relative;
-  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border: 1px solid transparent;
-  border-radius: 0.75rem;
+  appearance: none;
+  min-width: 132px;
+  padding: 1rem 2.25rem;
+  border-radius: 11px;
+  cursor: pointer;
   color: #fff !important;
   text-decoration: none;
-  cursor: pointer;
   background:
     radial-gradient(
         var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
@@ -164,38 +144,44 @@ body {
         var(--color-3) var(--stop-3),
         var(--color-4) var(--stop-4),
         var(--color-5) var(--stop-5)
-      )
-      padding-box,
-    conic-gradient(
-        from var(--border-angle),
-        var(--border-color-1),
-        var(--border-color-2),
-        var(--border-color-1)
-      )
-      border-box;
-  box-shadow:
-    0 10px 30px rgb(0 0 0 / 18%),
-    inset 0 1px 0 rgb(255 255 255 / 10%);
+      );
   transition:
-    --pos-x 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --pos-y 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --spread-x 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --spread-y 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --color-1 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --color-2 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --color-3 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --color-4 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --color-5 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --stop-1 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --stop-2 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --stop-3 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --stop-4 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --stop-5 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --border-angle 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --border-color-1 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    --border-color-2 650ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1);
+    --pos-x 0.5s,
+    --pos-y 0.5s,
+    --spread-x 0.5s,
+    --spread-y 0.5s,
+    --color-1 0.5s,
+    --color-2 0.5s,
+    --color-3 0.5s,
+    --color-4 0.5s,
+    --color-5 0.5s,
+    --border-angle 0.5s,
+    --border-color-1 0.5s,
+    --border-color-2 0.5s,
+    --stop-1 0.5s,
+    --stop-2 0.5s,
+    --stop-3 0.5s,
+    --stop-4 0.5s,
+    --stop-5 0.5s;
+}
+
+.gradient-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    var(--border-angle),
+    var(--border-color-1),
+    var(--border-color-2)
+  );
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  pointer-events: none;
 }
 
 .gradient-button > * {
@@ -222,15 +208,10 @@ body {
   --stop-4: 71.34%;
   --stop-5: 85.76%;
 
-  transform: translateY(-2px);
-  box-shadow:
-    0 16px 40px rgb(0 0 0 / 25%),
-    inset 0 1px 0 rgb(255 255 255 / 16%);
 }
 
 .gradient-button:active {
-  transform: translateY(0) scale(0.975);
-  transition-duration: 100ms;
+  filter: brightness(1.08);
 }
 
 .gradient-button:focus-visible {
@@ -242,8 +223,6 @@ body {
 .gradient-button[aria-disabled="true"] {
   cursor: not-allowed;
   opacity: 0.5;
-  filter: grayscale(0.35);
-  transform: none;
 }
 
 .gradient-button-variant {
@@ -279,14 +258,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .gradient-button {
-    transition:
-      transform 0.01ms,
-      box-shadow 0.01ms;
-  }
-
-  .gradient-button:hover,
-  .gradient-button:active {
-    transform: none;
+    transition: none;
   }
 }
 
@@ -296,5 +268,4 @@ body {
     background: ButtonFace;
     color: ButtonText !important;
   }
-
 }
