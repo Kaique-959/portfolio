@@ -35,34 +35,53 @@ export function useHeroParallax(rootRef) {
 
           const nameLeft = root.querySelector('.hero-title-first')
           const nameRight = root.querySelector('.hero-title-last')
+          const shaderVisual = shader.firstElementChild || shader
+          const nameLeftVisual = nameLeft?.firstElementChild || nameLeft
+          const nameRightVisual = nameRight?.firstElementChild || nameRight
+          const kickerLeft = root.querySelector('.hero-kickers span:first-child')
+          const kickerRight = root.querySelector('.hero-kickers span:last-child')
           const actions = root.querySelector('[data-parallax-layer="4"]')
-          const shaderX = () => mobile
-            ? Math.min(96, window.innerWidth * 0.18)
-            : Math.min(420, window.innerWidth * 0.25)
 
-          timeline.to(shader, {
-            x: shaderX,
-            y: mobile ? 48 : 70,
-            scale: mobile ? 1.04 : 1.08,
+          timeline.to(shaderVisual, {
+            scale: mobile ? 1.05 : 1.1,
+            transformOrigin: '50% 50%',
             ease: 'power2.inOut',
             force3D: true,
           }, 0)
 
-          if (nameLeft) {
-            timeline.to(nameLeft, {
+          if (nameLeftVisual) {
+            timeline.set(nameLeftVisual, { display: 'inline-block' }, 0)
+            timeline.to(nameLeftVisual, {
               xPercent: mobile ? -4 : -8,
-              yPercent: mobile ? 6 : 10,
               opacity: 0.65,
               ease: 'power2.inOut',
               force3D: true,
             }, 0)
           }
 
-          if (nameRight) {
-            timeline.to(nameRight, {
+          if (nameRightVisual) {
+            timeline.set(nameRightVisual, { display: 'inline-block' }, 0)
+            timeline.to(nameRightVisual, {
               xPercent: mobile ? 4 : 8,
-              yPercent: mobile ? 6 : 10,
               opacity: 0.65,
+              ease: 'power2.inOut',
+              force3D: true,
+            }, 0)
+          }
+
+          if (kickerLeft) {
+            timeline.to(kickerLeft, {
+              xPercent: mobile ? -8 : -18,
+              opacity: 0.7,
+              ease: 'power2.inOut',
+              force3D: true,
+            }, 0)
+          }
+
+          if (kickerRight) {
+            timeline.to(kickerRight, {
+              xPercent: mobile ? 8 : 18,
+              opacity: 0.7,
               ease: 'power2.inOut',
               force3D: true,
             }, 0)
@@ -70,7 +89,6 @@ export function useHeroParallax(rootRef) {
 
           if (actions) {
             timeline.to(actions, {
-              yPercent: mobile ? 10 : 18,
               opacity: 0,
               ease: 'power2.inOut',
               force3D: true,
