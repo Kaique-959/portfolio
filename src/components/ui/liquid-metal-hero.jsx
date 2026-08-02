@@ -75,20 +75,22 @@ export default function LiquidMetalHero({
               variants={itemVariants}
               style={{ willChange: 'transform' }}
             >
-                <LiquidMetal
-                  colorBack="#FAFAF8"
-                  colorTint="#C24E2E"
-                  shape="metaballs"
-                  repetition={2}
-                  softness={0.25}
-                  distortion={0.12}
-                  contour={0.6}
-                  angle={70}
-                  speed={0.4}
-                  scale={0.5}
-                  fit="cover"
-                  style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
-                />
+                <div className="hero-liquid-visual">
+                  <LiquidMetal
+                    colorBack="#FAFAF8"
+                    colorTint="#C24E2E"
+                    shape="metaballs"
+                    repetition={2}
+                    softness={0.25}
+                    distortion={0.12}
+                    contour={0.6}
+                    angle={70}
+                    speed={0.4}
+                    scale={0.5}
+                    fit="cover"
+                    style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
+                  />
+                </div>
             </motion.div>
 
             <motion.div
@@ -190,6 +192,15 @@ export default function LiquidMetalHero({
           z-index: 2;
         }
 
+        .hero-liquid-visual {
+          width: 100%;
+          height: 100%;
+        }
+
+        .hero-liquid-visual > div {
+          transform: translateX(clamp(8px, 1.2vw, 16px));
+        }
+
         @media (max-width: 767px) {
           .hero-stage {
             min-height: calc(100dvh - var(--mobile-header-height));
@@ -222,6 +233,14 @@ export default function LiquidMetalHero({
             width: min(42vw, 150px);
             aspect-ratio: 3 / 4;
             left: 0;
+          }
+
+          .hero-liquid-visual {
+            width: 100%;
+          }
+
+          .hero-liquid-visual > div {
+            transform: none;
           }
         }
 
