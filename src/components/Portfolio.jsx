@@ -297,19 +297,18 @@ export default function Portfolio() {
           padding: 8px 14px;
           border: 1px solid #141414;
           border-radius: 9999px;
-          background: #fff;
           color: #141414;
           font-size: 0.8rem;
           font-weight: 700;
-          transition: background-color 220ms ease, color 220ms ease, padding 220ms ease;
+          transition: color 360ms ease, padding 220ms ease;
         }
 
         .project-card:hover .project-card-action,
         .project-card:focus-visible .project-card-action {
           padding-left: 18px;
           padding-right: 18px;
-          background: #141414;
-          color: #fff;
+          background-position: 0 0;
+          color: #fff !important;
         }
 
         .project-card-body {

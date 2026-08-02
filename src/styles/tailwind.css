@@ -35,8 +35,10 @@ body {
   cursor: pointer;
   color: #141414 !important;
   text-decoration: none;
-  background: #fff;
-  transition: background-color 220ms ease, color 220ms ease, padding 220ms ease, transform 220ms ease;
+  background: linear-gradient(to right, #141414 0%, #141414 50%, #fff 50%, #fff 100%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  transition: background-position 360ms ease, color 360ms ease, padding 220ms ease, transform 220ms ease;
 }
 
 .gradient-button > * {
@@ -48,7 +50,7 @@ body {
   padding-left: 2.65rem;
   padding-right: 2.65rem;
   color: #fff !important;
-  background: #141414;
+  background-position: 0 0;
 }
 
 .gradient-button:active {
@@ -67,12 +69,13 @@ body {
 }
 
 .gradient-button-variant {
-  background: #fff;
+  background-position: 100% 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .gradient-button {
     transition: none;
+    background-position: 0 0;
   }
 }
 
@@ -81,5 +84,6 @@ body {
     border: 1px solid ButtonText;
     background: ButtonFace;
     color: ButtonText !important;
+    background-position: 0 0;
   }
 }
