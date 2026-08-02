@@ -18,104 +18,104 @@
 
 @property --pos-x {
   syntax: "<percentage>";
-  initial-value: 11.14%;
-  inherits: false;
+  initial-value: 50%;
+  inherits: true;
 }
 
 @property --pos-y {
   syntax: "<percentage>";
-  initial-value: 140%;
-  inherits: false;
+  initial-value: 50%;
+  inherits: true;
 }
 
 @property --spread-x {
   syntax: "<percentage>";
-  initial-value: 150%;
-  inherits: false;
+  initial-value: 130%;
+  inherits: true;
 }
 
 @property --spread-y {
   syntax: "<percentage>";
-  initial-value: 180.06%;
-  inherits: false;
+  initial-value: 130%;
+  inherits: true;
 }
 
 @property --color-1 {
   syntax: "<color>";
   initial-value: #000;
-  inherits: false;
+  inherits: true;
 }
 
 @property --color-2 {
   syntax: "<color>";
-  initial-value: #08012c;
-  inherits: false;
+  initial-value: #37140a;
+  inherits: true;
 }
 
 @property --color-3 {
   syntax: "<color>";
-  initial-value: #4e1e40;
-  inherits: false;
+  initial-value: #cc7d23;
+  inherits: true;
 }
 
 @property --color-4 {
   syntax: "<color>";
-  initial-value: #70464e;
-  inherits: false;
+  initial-value: #c66c64;
+  inherits: true;
 }
 
 @property --color-5 {
   syntax: "<color>";
-  initial-value: #88394c;
-  inherits: false;
+  initial-value: #c96287;
+  inherits: true;
 }
 
 @property --border-angle {
   syntax: "<angle>";
-  initial-value: 20deg;
+  initial-value: 180deg;
   inherits: true;
 }
 
 @property --border-color-1 {
   syntax: "<color>";
-  initial-value: hsla(340, 75%, 60%, 0.2);
+  initial-value: hsla(340, 78%, 90%, 0.16);
   inherits: true;
 }
 
 @property --border-color-2 {
   syntax: "<color>";
-  initial-value: hsla(340, 75%, 40%, 0.75);
+  initial-value: hsla(340, 75%, 90%, 0.55);
   inherits: true;
 }
 
 @property --stop-1 {
   syntax: "<percentage>";
-  initial-value: 37.35%;
-  inherits: false;
+  initial-value: 0%;
+  inherits: true;
 }
 
 @property --stop-2 {
   syntax: "<percentage>";
-  initial-value: 61.36%;
-  inherits: false;
+  initial-value: 18%;
+  inherits: true;
 }
 
 @property --stop-3 {
   syntax: "<percentage>";
-  initial-value: 78.42%;
-  inherits: false;
+  initial-value: 42%;
+  inherits: true;
 }
 
 @property --stop-4 {
   syntax: "<percentage>";
-  initial-value: 89.52%;
-  inherits: false;
+  initial-value: 74%;
+  inherits: true;
 }
 
 @property --stop-5 {
   syntax: "<percentage>";
   initial-value: 100%;
-  inherits: false;
+  inherits: true;
 }
 
 body {
@@ -124,6 +124,24 @@ body {
 }
 
 .gradient-button {
+  --pos-x: 50%;
+  --pos-y: 50%;
+  --spread-x: 130%;
+  --spread-y: 130%;
+  --color-1: #000;
+  --color-2: #37140a;
+  --color-3: #cc7d23;
+  --color-4: #c66c64;
+  --color-5: #c96287;
+  --stop-1: 0%;
+  --stop-2: 18%;
+  --stop-3: 42%;
+  --stop-4: 74%;
+  --stop-5: 100%;
+  --border-angle: 180deg;
+  --border-color-1: hsla(340, 78%, 90%, 0.16);
+  --border-color-2: hsla(340, 75%, 90%, 0.55);
+
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -226,14 +244,14 @@ body {
 }
 
 .gradient-button-variant {
-  --color-1: #000022;
-  --color-2: #1f3f6d;
-  --color-3: #469396;
-  --color-4: #f1ffa5;
-  --color-5: #000;
+  --color-1: #170604;
+  --color-2: #5b2116;
+  --color-3: #c24e2e;
+  --color-4: #d8795f;
+  --color-5: #f0b09a;
   --border-angle: 200deg;
-  --border-color-1: hsla(320, 75%, 90%, 0.6);
-  --border-color-2: hsla(320, 50%, 90%, 0.15);
+  --border-color-1: hsla(12, 75%, 90%, 0.6);
+  --border-color-2: hsla(12, 50%, 90%, 0.15);
 }
 
 .gradient-button-variant:hover {
@@ -241,10 +259,10 @@ body {
   --pos-y: 95.51%;
   --spread-x: 110.24%;
   --spread-y: 110.2%;
-  --color-1: #000020;
-  --color-2: #f1ffa5;
-  --color-3: #469396;
-  --color-4: #1f3f6d;
+  --color-1: #2a0b06;
+  --color-2: #f0b09a;
+  --color-3: #c24e2e;
+  --color-4: #5b2116;
   --color-5: #000;
   --stop-1: 0%;
   --stop-2: 10%;
@@ -252,8 +270,8 @@ body {
   --stop-4: 71.34%;
   --stop-5: 90.76%;
   --border-angle: 210deg;
-  --border-color-1: hsla(320, 75%, 90%, 0.2);
-  --border-color-2: hsla(320, 50%, 90%, 0.75);
+  --border-color-1: hsla(12, 75%, 90%, 0.2);
+  --border-color-2: hsla(12, 50%, 90%, 0.75);
 }
 
 @media (prefers-reduced-motion: reduce) {

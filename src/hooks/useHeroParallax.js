@@ -28,9 +28,9 @@ export function useHeroParallax(rootRef) {
           const timeline = gsap.timeline({
             scrollTrigger: {
               trigger: triggerElement,
-              start: '0% 0%',
-              end: '100% 0%',
-              scrub: 1,
+              start: 'top top',
+              end: 'bottom top',
+              scrub: 0.8,
               invalidateOnRefresh: true,
             },
           })
@@ -46,11 +46,17 @@ export function useHeroParallax(rootRef) {
             const elements = triggerElement.querySelectorAll(`[data-parallax-layer="${layer}"]`)
             if (!elements.length) return
 
-            timeline.to(elements, {
+            const properties = {
               yPercent: yPercent * intensity,
-              ease: 'none',
+              ease: 'power2.inOut',
               force3D: true,
-            }, 0)
+            }
+
+            if (layer === '2') {
+              properties.xPercent = 22 * intensity
+            }
+
+            timeline.to(elements, properties, 0)
           })
         }, root)
 
