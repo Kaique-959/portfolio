@@ -9,7 +9,6 @@ gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const icons = [Globe, MessageCircle, GitBranch, Search, Layout, Code, Server, Lightbulb, Film]
 const rotations = [-1.2, 0.8, -0.6, 1, -0.8, 0.6, -0.4, 0.9, -0.7]
-const stickyOffsets = [96, 108, 120, 132, 144, 156, 168, 180, 192]
 
 function ServiceVisualPanel({ activeIndex }) {
   const item = content.services[activeIndex] || content.services[0]
@@ -131,8 +130,7 @@ export default function Services() {
                   ref={(el) => { cardsRef.current[index] = el }}
                   className="service-card"
                   style={{
-                    '--sticky-top': `${stickyOffsets[index % stickyOffsets.length]}px`,
-                    '--stack-index': content.services.length - index,
+                    '--stack-index': index + 1,
                     '--card-rotation': `${rotations[index % rotations.length]}deg`,
                   }}
                   onFocus={() => onCardEnter(index)}
@@ -194,12 +192,12 @@ export default function Services() {
           z-index: 2;
           display: flex;
           flex-direction: column;
-          gap: 20px;
+          gap: 0;
         }
 
         .service-card {
           position: sticky;
-          top: var(--sticky-top, 110px);
+          top: 112px;
           z-index: var(--stack-index, 2);
           will-change: transform;
         }

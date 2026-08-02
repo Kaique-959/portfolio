@@ -219,6 +219,7 @@ export default function LiquidMetalHero({
           justify-content: center;
           width: clamp(220px, 28vw, 360px);
           aspect-ratio: 3 / 4;
+          left: clamp(12px, 1.8vw, 28px);
           z-index: 2;
         }
 
@@ -253,6 +254,7 @@ export default function LiquidMetalHero({
           .hero-liquid-layer {
             width: min(42vw, 150px);
             aspect-ratio: 3 / 4;
+            left: 0;
           }
         }
 
