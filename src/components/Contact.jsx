@@ -246,8 +246,8 @@ export default function Contact() {
 
         .contact-social:hover,
         .contact-social:focus-visible {
-          border-color: var(--fg);
-          color: var(--fg);
+          border-color: transparent;
+          color: #fff;
         }
 
         .contact-whatsapp {

@@ -208,7 +208,7 @@ export default function Portfolio() {
           >
             <button
               type="button"
-              className="project-modal-close"
+              className="project-modal-close gradient-button"
               aria-label="Fechar detalhes do projeto"
               ref={closeButtonRef}
               onClick={() => setSelectedProject(null)}
@@ -459,7 +459,7 @@ export default function Portfolio() {
           right: 20px;
           width: 40px;
           height: 40px;
-          border: 1px solid var(--border);
+          border: 1px solid transparent;
           border-radius: 50%;
           color: var(--muted);
           font-size: 1.5rem;
