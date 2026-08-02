@@ -48,14 +48,15 @@ export default function LiquidMetalHero({
           trigger: sectionRef.current,
           start: 'top top',
           end: 'bottom top',
-          scrub: 0,
+          scrub: 1.15,
+          invalidateOnRefresh: true,
         },
       })
 
       const layers = [
-        { target: cardLayer.current, xPercent: 24, yPercent: 42, scale: 1.06 },
-        { target: nameLeftLayer.current, xPercent: -7, yPercent: 20, opacity: 0.56 },
-        { target: nameRightLayer.current, xPercent: 8, yPercent: 12, opacity: 0.64 },
+        { target: cardLayer.current, xPercent: 34, yPercent: 56, scale: 1.06 },
+        { target: nameLeftLayer.current, xPercent: -8, yPercent: 18, opacity: 0.56 },
+        { target: nameRightLayer.current, xPercent: 9, yPercent: 10, opacity: 0.64 },
       ]
 
       layers.forEach((layer, index) => {
