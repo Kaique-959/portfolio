@@ -7,31 +7,29 @@ gsap.registerPlugin(ScrollTrigger)
 
 export default function SmoothScrollProvider({ children }) {
   useEffect(() => {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reducedMotion) return undefined
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) return undefined
 
     const lenis = new Lenis({
-      lerp: 0.085,
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      wheelMultiplier: 0.9,
+      wheelMultiplier: 1,
       touchMultiplier: 1,
       syncTouch: false,
     })
 
-    const handleScroll = () => ScrollTrigger.update()
+    const updateScrollTrigger = () => ScrollTrigger.update()
     const updateLenis = (time) => lenis.raf(time * 1000)
-    const refreshScrollTrigger = () => ScrollTrigger.refresh()
-    const refreshFrame = window.requestAnimationFrame(refreshScrollTrigger)
+    const refreshFrame = window.requestAnimationFrame(() => ScrollTrigger.refresh())
 
-    lenis.on('scroll', handleScroll)
+    lenis.on('scroll', updateScrollTrigger)
     gsap.ticker.add(updateLenis)
     gsap.ticker.lagSmoothing(0)
-    window.addEventListener('load', refreshScrollTrigger)
 
     return () => {
       window.cancelAnimationFrame(refreshFrame)
-      window.removeEventListener('load', refreshScrollTrigger)
-      lenis.off('scroll', handleScroll)
+      lenis.off('scroll', updateScrollTrigger)
       gsap.ticker.remove(updateLenis)
       lenis.destroy()
     }

@@ -9,6 +9,9 @@ export function useHeroParallax(rootRef) {
     const root = rootRef.current
     if (!root) return undefined
 
+    const triggerElement = root.querySelector('[data-parallax-layers]')
+    if (!triggerElement) return undefined
+
     const media = gsap.matchMedia()
 
     media.add(
@@ -20,41 +23,48 @@ export function useHeroParallax(rootRef) {
         const { motion, mobile } = context.conditions || {}
         if (!motion) return undefined
 
-        const intensity = mobile ? 0.55 : 1
+        const intensity = mobile ? 0.65 : 1
         const gsapContext = gsap.context(() => {
           const timeline = gsap.timeline({
-            defaults: { ease: 'none' },
             scrollTrigger: {
-              trigger: root,
-              start: 'top top',
-              end: 'bottom top',
-              scrub: 0.8,
+              trigger: triggerElement,
+              start: '0% 0%',
+              end: '100% 0%',
+              scrub: 1,
               invalidateOnRefresh: true,
             },
           })
 
           const layers = [
-            { id: '1', movement: 0.14 },
-            { id: '2', movement: 0.1 },
-            { id: '3', movement: 0.065 },
-            { id: '4', movement: 0.025 },
+            { layer: '1', yPercent: 70 },
+            { layer: '2', yPercent: 55 },
+            { layer: '3', yPercent: 40 },
+            { layer: '4', yPercent: 10 },
           ]
 
-          layers.forEach(({ id, movement }) => {
-            const elements = root.querySelectorAll(`[data-parallax-layer="${id}"]`)
+          layers.forEach(({ layer, yPercent }) => {
+            const elements = triggerElement.querySelectorAll(`[data-parallax-layer="${layer}"]`)
             if (!elements.length) return
 
             timeline.to(elements, {
-              y: () => window.innerHeight * movement * intensity,
+              yPercent: yPercent * intensity,
+              ease: 'none',
               force3D: true,
             }, 0)
           })
         }, root)
 
+        const images = Array.from(root.querySelectorAll('img'))
+        const refresh = () => ScrollTrigger.refresh()
+        images.forEach((image) => {
+          if (!image.complete) image.addEventListener('load', refresh)
+        })
+
         const refreshId = window.requestAnimationFrame(() => ScrollTrigger.refresh())
 
         return () => {
           window.cancelAnimationFrame(refreshId)
+          images.forEach((image) => image.removeEventListener('load', refresh))
           gsapContext.revert()
         }
       },

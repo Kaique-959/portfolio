@@ -51,8 +51,9 @@ export default function LiquidMetalHero({
         Pular para o conteúdo
       </a>
 
-      <div className="container mx-auto px-6 lg:px-8 max-w-7xl w-full">
-        <motion.div variants={containerVariants} initial="hidden" animate="visible">
+      <div data-parallax-layers className="hero-parallax-layers">
+        <div className="container mx-auto px-6 lg:px-8 max-w-7xl w-full">
+          <motion.div variants={containerVariants} initial="hidden" animate="visible">
           <div className="hero-kickers" data-parallax-layer="1" aria-hidden="true">
             <span>{kickerLeft}</span>
             <span>{kickerRight}</span>
@@ -119,7 +120,8 @@ export default function LiquidMetalHero({
               )}
             </div>
           </motion.div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
 
       <style>{`
@@ -140,6 +142,11 @@ export default function LiquidMetalHero({
           display: flex;
           flex-direction: column;
           justify-content: center;
+        }
+
+        .hero-parallax-layers {
+          position: relative;
+          width: 100%;
         }
 
         .hero-kickers {
