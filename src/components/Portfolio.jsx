@@ -318,24 +318,18 @@ export default function Portfolio() {
 
         .project-card:hover .project-card-action .flow-button__text,
         .project-card:focus-visible .project-card-action .flow-button__text {
-          transform: translateX(0.75rem);
+          transform: translateX(-0.4rem);
         }
 
         .project-card:hover .project-card-action .flow-button__circle,
         .project-card:focus-visible .project-card-action .flow-button__circle {
           opacity: 1;
-          transform: translate(-50%, -50%) scale(30);
+          transform: scale(1);
         }
 
-        .project-card:hover .project-card-action .flow-button__arrow--left,
-        .project-card:focus-visible .project-card-action .flow-button__arrow--left {
-          left: 1rem;
-          stroke: #fff;
-        }
-
-        .project-card:hover .project-card-action .flow-button__arrow--right,
-        .project-card:focus-visible .project-card-action .flow-button__arrow--right {
-          right: -25%;
+        .project-card:hover .project-card-action .flow-button__arrow,
+        .project-card:focus-visible .project-card-action .flow-button__arrow {
+          transform: translateX(0.4rem);
           stroke: #fff;
         }
 

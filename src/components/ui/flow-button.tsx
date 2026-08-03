@@ -19,13 +19,10 @@ const FlowButton = React.forwardRef<HTMLButtonElement, FlowButtonProps>(
     const content = (
       <>
         {showArrows && (
-          <ArrowRight className="flow-button__arrow flow-button__arrow--left" aria-hidden="true" />
+          <ArrowRight className="flow-button__arrow" aria-hidden="true" />
         )}
         <span className="flow-button__text">{label}</span>
         <span className="flow-button__circle" aria-hidden="true" />
-        {showArrows && (
-          <ArrowRight className="flow-button__arrow flow-button__arrow--right" aria-hidden="true" />
-        )}
       </>
     )
 

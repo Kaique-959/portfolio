@@ -50,7 +50,6 @@ body {
 }
 
 .flow-button__text {
-  transform: translateX(-0.5rem);
   transition: transform var(--flow-duration) cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -70,23 +69,14 @@ body {
 
 .flow-button__arrow {
   position: absolute;
+  right: 1rem;
   z-index: 2;
   width: 1rem;
   height: 1rem;
   fill: none;
   stroke: #111;
-  transition: transform var(--flow-duration) cubic-bezier(0.34, 1.56, 0.64, 1),
+  transition: transform var(--flow-duration) cubic-bezier(0.23, 1, 0.32, 1),
     stroke var(--flow-duration) ease;
-}
-
-.flow-button__arrow--left {
-  left: 1rem;
-  transform: translateX(-2.5rem);
-}
-
-.flow-button__arrow--right {
-  right: 1rem;
-  transform: translateX(0);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -99,7 +89,7 @@ body {
 
   .flow-button:hover .flow-button__text,
   .gradient-button:hover .flow-button__text {
-    transform: translateX(0.5rem);
+    transform: translateX(-0.4rem);
   }
 
   .flow-button:hover .flow-button__circle,
@@ -108,15 +98,9 @@ body {
     transform: scale(1);
   }
 
-  .flow-button:hover .flow-button__arrow--left,
-  .gradient-button:hover .flow-button__arrow--left {
-    transform: translateX(0);
-    stroke: #fff;
-  }
-
-  .flow-button:hover .flow-button__arrow--right,
-  .gradient-button:hover .flow-button__arrow--right {
-    transform: translateX(2.5rem);
+  .flow-button:hover .flow-button__arrow,
+  .gradient-button:hover .flow-button__arrow {
+    transform: translateX(0.4rem);
     stroke: #fff;
   }
 }
@@ -129,7 +113,7 @@ body {
 }
 
 .flow-button:focus-visible .flow-button__text {
-  transform: translateX(0.5rem);
+  transform: translateX(-0.4rem);
 }
 
 .flow-button:focus-visible .flow-button__circle {
@@ -137,13 +121,8 @@ body {
   transform: scale(1);
 }
 
-.flow-button:focus-visible .flow-button__arrow--left {
-  transform: translateX(0);
-  stroke: #fff;
-}
-
-.flow-button:focus-visible .flow-button__arrow--right {
-  transform: translateX(2.5rem);
+.flow-button:focus-visible .flow-button__arrow {
+  transform: translateX(0.4rem);
   stroke: #fff;
 }
 

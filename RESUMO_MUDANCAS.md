@@ -249,3 +249,26 @@ Após o último ajuste de movimento contínuo, repetir:
 - Screenshots em `artifacts/`:
   - `buttons-white-idle.png`
   - `buttons-white-black-hover.png`
+
+---
+
+## Atualização: Uma única seta por botão
+
+- Removida a seta duplicada que aparecia em cada botão.
+- Agora cada botão exibe somente uma seta à direita:
+  - estado branco: seta preta fixa à direita;
+  - hover preto: seta desliza levemente para a direita e fica branca.
+- Texto permanece centralizado; no hover, desloca discretamente para a esquerda.
+- Removidos estilos de seta esquerda e a regra que reposicionava setas em `prefers-reduced-motion`.
+- “Abrir detalhes” dos projetos usa a mesma seta única.
+- GH/LI e fechar modal continuam sem setas (`showArrows={false}`).
+
+### Validação
+
+- Build passou.
+- Idle: 1 seta, fundo branco, texto preto.
+- Hover: 1 seta deslizando, círculo preto, texto branco.
+- Reduced-motion: 1 seta (sem duplicação), hover preenche normalmente.
+- Screenshots em `artifacts/`:
+  - `buttons-one-arrow-idle.png`
+  - `buttons-one-arrow-hover.png`
