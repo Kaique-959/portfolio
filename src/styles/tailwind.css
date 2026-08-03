@@ -39,7 +39,7 @@ body {
   cursor: pointer;
   color: #111 !important;
   text-decoration: none;
-  background: transparent;
+  background: #fff;
   transition: color var(--flow-duration) ease-out, border-color var(--flow-duration) ease-out,
     border-radius var(--flow-duration) ease-out, transform 160ms ease-out;
 }
@@ -168,7 +168,7 @@ body {
 }
 
 .gradient-button-variant {
-  background: transparent;
+  background: #fff;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -178,11 +178,6 @@ body {
   .flow-button__circle,
   .flow-button__arrow {
     transition: none;
-  }
-
-  .flow-button__circle {
-    opacity: 1;
-    transform: scale(1);
   }
 
   .flow-button__text,

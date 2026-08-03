@@ -212,3 +212,40 @@ Após o último ajuste de movimento contínuo, repetir:
   - `experience-aplicada-desktop.png`
   - `portfolio-6-projects-mobile.png`
   - `experience-aplicada-mobile.png`
+
+---
+
+## Atualização: Botões brancos e status de Experiência
+
+### Botões
+
+- Estado normal: fundo branco, texto preto e borda preta semitransparente.
+- Hover/foco: círculo preto preenche o botão e texto/setas ficam brancos.
+- Ao sair, o botão retorna suavemente ao estado branco.
+- `.gradient-button-variant` também usa fundo branco.
+- Navbar permanece inalterada.
+
+### Correção de `prefers-reduced-motion`
+
+- Removida a regra que forçava o círculo preto visível permanentemente.
+- Com redução de movimento: botão fica branco normalmente, o círculo só aparece no hover e não há deslocamento de texto/setas.
+
+### Experiência
+
+- Quatro entradas marcadas como `Concluído`:
+  - Desenvolvimento web e experiências digitais.
+  - CRM e sistemas operacionais.
+  - Automação de atendimento via WhatsApp.
+  - Monitoramento de preços e dados.
+- `Fundador · Kalefi_Org` mantém `2024 — Presente`.
+
+### Validação
+
+- Build passou.
+- Idle: fundo branco, texto preto, círculo oculto.
+- Hover: círculo preto com texto branco.
+- Reduced-motion: branco no idle, preto apenas no hover.
+- Console sem erros.
+- Screenshots em `artifacts/`:
+  - `buttons-white-idle.png`
+  - `buttons-white-black-hover.png`

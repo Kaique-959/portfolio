@@ -164,25 +164,25 @@ export const content = {
     {
       role: 'Desenvolvimento web e experiências digitais',
       company: 'Site Portfólio · Ferro & Fio',
-      period: 'Em produção',
+      period: 'Concluído',
       description: 'Sites completos com identidade editorial, animações e performance: o portfólio pessoal com shader LiquidMetal e o site da Ferro & Fio Barbearia com agendamento via WhatsApp.',
     },
     {
       role: 'CRM e sistemas operacionais',
       company: 'FonoCRM',
-      period: 'Em produção',
+      period: 'Concluído',
       description: 'CRM web para a clínica com pacientes, agenda sincronizada com Google Calendar, histórico de atendimentos e painel operacional conectado ao Supabase.',
     },
     {
       role: 'Automação de atendimento via WhatsApp',
       company: 'Atendimento Libertad',
-      period: 'Em produção',
+      period: 'Concluído',
       description: 'Bot de WhatsApp com menu de exames, coleta de dados, consulta de horários em tempo real e confirmação automática, reduzindo o tempo de resposta da clínica.',
     },
     {
       role: 'Monitoramento de preços e dados',
       company: 'Radar de Ofertas · Monitor Mercado Livre',
-      period: 'Projetos próprios',
+      period: 'Concluído',
       description: 'Monitores de preço em e-commerce e no Mercado Livre com filtros de oportunidade, histórico de variação e publicação automática de ofertas.',
     },
     {
