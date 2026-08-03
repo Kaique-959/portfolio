@@ -25,7 +25,7 @@ export default function Experience() {
     <section id="experience" ref={sectionRef} className="section">
       <div className="container">
         <div className="section-header">
-          <span className="eyebrow">/ Carreira</span>
+          <span className="eyebrow">/ Experiência aplicada</span>
           <h2
             style={{
               fontFamily: 'var(--font-display)',
@@ -36,7 +36,7 @@ export default function Experience() {
               marginBottom: '16px',
             }}
           >
-            Experiência
+            Experiência aplicada
           </h2>
         </div>
 

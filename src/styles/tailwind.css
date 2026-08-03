@@ -24,7 +24,7 @@ body {
 .flow-button,
 .gradient-button {
   --flow-radius: 9999px;
-  --flow-duration: 800ms;
+  --flow-duration: 280ms;
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -40,8 +40,8 @@ body {
   color: #111 !important;
   text-decoration: none;
   background: transparent;
-  transition: color var(--flow-duration) ease, border-color var(--flow-duration) ease,
-    border-radius var(--flow-duration) ease, transform 220ms ease;
+  transition: color var(--flow-duration) ease-out, border-color var(--flow-duration) ease-out,
+    border-radius var(--flow-duration) ease-out, transform 160ms ease-out;
 }
 
 .flow-button > * {
@@ -50,24 +50,22 @@ body {
 }
 
 .flow-button__text {
-  transform: translateX(-0.75rem);
-  transition: transform var(--flow-duration) ease-out;
+  transform: translateX(-0.5rem);
+  transition: transform var(--flow-duration) cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .flow-button__circle {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  inset: 0;
   z-index: 0;
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
+  border-radius: inherit;
   background: #111;
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform var(--flow-duration) cubic-bezier(0.19, 1, 0.22, 1),
-    opacity var(--flow-duration) ease;
+  transform: scale(0.05);
+  transform-origin: center;
+  transition: transform var(--flow-duration) cubic-bezier(0.23, 1, 0.32, 1),
+    opacity 160ms ease-out;
 }
 
 .flow-button__arrow {
@@ -77,50 +75,75 @@ body {
   height: 1rem;
   fill: none;
   stroke: #111;
-  transition: left var(--flow-duration) cubic-bezier(0.34, 1.56, 0.64, 1),
-    right var(--flow-duration) cubic-bezier(0.34, 1.56, 0.64, 1),
+  transition: transform var(--flow-duration) cubic-bezier(0.34, 1.56, 0.64, 1),
     stroke var(--flow-duration) ease;
 }
 
 .flow-button__arrow--left {
-  left: -25%;
+  left: 1rem;
+  transform: translateX(-2.5rem);
 }
 
 .flow-button__arrow--right {
   right: 1rem;
+  transform: translateX(0);
 }
 
-.flow-button:hover,
+@media (hover: hover) and (pointer: fine) {
+  .flow-button:hover,
+  .gradient-button:hover {
+    color: #fff !important;
+    border-color: transparent;
+    border-radius: 12px;
+  }
+
+  .flow-button:hover .flow-button__text,
+  .gradient-button:hover .flow-button__text {
+    transform: translateX(0.5rem);
+  }
+
+  .flow-button:hover .flow-button__circle,
+  .gradient-button:hover .flow-button__circle {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .flow-button:hover .flow-button__arrow--left,
+  .gradient-button:hover .flow-button__arrow--left {
+    transform: translateX(0);
+    stroke: #fff;
+  }
+
+  .flow-button:hover .flow-button__arrow--right,
+  .gradient-button:hover .flow-button__arrow--right {
+    transform: translateX(2.5rem);
+    stroke: #fff;
+  }
+}
+
 .flow-button:focus-visible,
-.gradient-button:hover,
 .gradient-button:focus-visible {
-  padding-left: 2.65rem;
-  padding-right: 2.65rem;
   color: #fff !important;
   border-color: transparent;
   border-radius: 12px;
 }
 
-.flow-button:hover .flow-button__text,
 .flow-button:focus-visible .flow-button__text {
-  transform: translateX(0.75rem);
+  transform: translateX(0.5rem);
 }
 
-.flow-button:hover .flow-button__circle,
 .flow-button:focus-visible .flow-button__circle {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(30);
+  transform: scale(1);
 }
 
-.flow-button:hover .flow-button__arrow--left,
 .flow-button:focus-visible .flow-button__arrow--left {
-  left: 1rem;
+  transform: translateX(0);
   stroke: #fff;
 }
 
-.flow-button:hover .flow-button__arrow--right,
 .flow-button:focus-visible .flow-button__arrow--right {
-  right: -25%;
+  transform: translateX(2.5rem);
   stroke: #fff;
 }
 
@@ -155,6 +178,16 @@ body {
   .flow-button__circle,
   .flow-button__arrow {
     transition: none;
+  }
+
+  .flow-button__circle {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .flow-button__text,
+  .flow-button__arrow {
+    transform: none;
   }
 }
 

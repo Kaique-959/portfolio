@@ -1,5 +1,4 @@
-import { useRef, useEffect, useState, useCallback } from 'react'
-import { Globe, MessageCircle, GitBranch, Search, Layout, Code, Server, Lightbulb, Film } from 'lucide-react'
+import { useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
@@ -7,39 +6,22 @@ import { content } from '../data/content'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-const icons = [Globe, MessageCircle, GitBranch, Search, Layout, Code, Server, Lightbulb, Film]
 const rotations = [-1.2, 0.8, -0.6, 1, -0.8, 0.6, -0.4, 0.9, -0.7]
 
-function ServiceVisualPanel({ activeIndex }) {
-  const item = content.services[activeIndex] || content.services[0]
-  const Icon = icons[activeIndex] || icons[0]
-
+function ServiceVisualPanel() {
   return (
     <div className="services-layout-col-right">
       <div className="service-visual-panel">
         <div className="service-visual-content" aria-hidden="true">
-          <span className="service-visual-number">{String((activeIndex ?? 0) + 1).padStart(2, '0')}</span>
-          <Icon className="service-visual-icon" strokeWidth={1.1} />
-
-          <div className="service-visual-grid" />
-
-          <div className="service-visual-nodes">
-            <span className="service-visual-node service-visual-node-1" />
-            <span className="service-visual-node service-visual-node-2" />
-            <span className="service-visual-node service-visual-node-3" />
-            <span className="service-visual-line service-visual-line-1" />
-            <span className="service-visual-line service-visual-line-2" />
-          </div>
+          <span className="service-visual-grid" />
+          <span className="service-visual-cross service-visual-cross-1" />
+          <span className="service-visual-cross service-visual-cross-2" />
         </div>
 
         <div className="service-visual-meta">
-          <span className="service-visual-label">Especialidade atual</span>
-          <strong className="service-visual-title">{item.title}</strong>
-          <div className="service-visual-tags" aria-hidden="true">
-            {item.tags.map((tag) => (
-              <span key={tag} className="tag">{tag}</span>
-            ))}
-          </div>
+          <span className="service-visual-label">Foto em preparação</span>
+          <strong className="service-visual-title">Kaique Calefi</strong>
+          <span className="service-visual-sub">Desenvolvedor, Editor & Fundador</span>
         </div>
       </div>
     </div>
@@ -50,51 +32,12 @@ export default function Services() {
   const sectionRef = useRef(null)
   const headerRef = useRef(null)
   const cardsRef = useRef([])
-  const [activeIndex, setActiveIndex] = useState(0)
-
-  const onCardEnter = useCallback((i) => setActiveIndex(i), [])
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return undefined
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return undefined
-
-    const mm = gsap.matchMedia()
-    const triggers = []
-
-    mm.add('(min-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
-      cardsRef.current.forEach((el, i) => {
-        if (!el) return
-        triggers.push(
-          ScrollTrigger.create({
-            trigger: el,
-            start: 'top 40%',
-            onEnter: () => onCardEnter(i),
-            onEnterBack: () => onCardEnter(i),
-          })
-        )
-      })
-      return () => { triggers.forEach((t) => t.kill()) }
-    })
-
-    return () => mm.revert()
-  }, [onCardEnter])
 
   useGSAP(() => {
     gsap.fromTo(headerRef.current, { opacity: 0, y: 20 }, {
       opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
       scrollTrigger: { trigger: sectionRef.current, start: 'top 85%', toggleActions: 'play none none reverse' },
     })
-
-    const trigger = ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: 'top 70%',
-      end: 'bottom 20%',
-      onLeave: () => setActiveIndex(-1),
-      onLeaveBack: () => setActiveIndex(-1),
-    })
-
-    return () => trigger.kill()
   }, { scope: sectionRef })
 
   return (
@@ -117,7 +60,7 @@ export default function Services() {
             className="services-subheader"
             style={{ color: 'var(--muted)', marginTop: '16px', maxWidth: '50ch' }}
           >
-            {content.services.length} áreas organizadas em cartões que você percorre enquanto leia a proposta de cada especialidade.
+            {content.services.length} áreas organizadas em cartões que você percorre enquanto conhece a proposta de cada especialidade.
           </p>
         </div>
 
@@ -133,8 +76,6 @@ export default function Services() {
                     '--stack-index': index + 1,
                     '--card-rotation': `${rotations[index % rotations.length]}deg`,
                   }}
-                  onFocus={() => onCardEnter(index)}
-                  onMouseEnter={() => onCardEnter(index)}
                 >
                   <div className="service-card-inner">
                     <header className="service-card-header">
@@ -169,7 +110,7 @@ export default function Services() {
             </div>
           </div>
 
-          <ServiceVisualPanel activeIndex={activeIndex >= 0 ? activeIndex : 0} />
+          <ServiceVisualPanel />
         </div>
       </div>
 
@@ -245,49 +186,46 @@ export default function Services() {
           box-shadow: 0 24px 70px rgba(20,20,20,0.14);
         }
 
-        .service-visual-content { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-
-        .service-visual-number {
-          position: absolute; top: 32px; left: 32px;
-          font-family: var(--font-display); font-size: 5rem; font-weight: 900;
-          line-height: 1; color: rgba(255,255,255,0.08);
-        }
-
-        .service-visual-icon {
-          position: absolute; top: 50%; left: 50%;
-          width: min(220px, 28vw); height: min(220px, 28vw);
-          color: rgba(255,255,255,0.18);
-          transform: translate(-50%, -50%);
+        .service-visual-content {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          pointer-events: none;
+          background:
+            radial-gradient(circle at 50% 32%, rgba(255,255,255,0.10), transparent 46%),
+            radial-gradient(circle at 70% 80%, rgba(194,78,46,0.30), transparent 55%);
         }
 
         .service-visual-grid {
-          position: absolute; inset: 0;
+          position: absolute;
+          inset: 0;
           background-image:
-            linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+            linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
           background-size: 42px 42px;
-          mask-image: radial-gradient(circle at 60% 72%, black, transparent 78%);
-          -webkit-mask-image: radial-gradient(circle at 60% 72%, black, transparent 78%);
+          mask-image: radial-gradient(circle at 50% 50%, black, transparent 78%);
+          -webkit-mask-image: radial-gradient(circle at 50% 50%, black, transparent 78%);
         }
 
-        .service-visual-nodes { position: absolute; inset: 0; }
-
-        .service-visual-node {
-          position: absolute; width: 10px; height: 10px; border-radius: 50%;
-          background-color: rgba(255,255,255,0.32);
-          box-shadow: 0 0 0 6px rgba(255,255,255,0.06);
+        .service-visual-cross {
+          position: absolute;
+          width: 18px;
+          height: 18px;
+          opacity: 0.5;
         }
 
-        .service-visual-node-1 { top: 22%; right: 24%; }
-        .service-visual-node-2 { top: 58%; left: 18%; }
-        .service-visual-node-3 { bottom: 24%; right: 34%; }
-
-        .service-visual-line {
-          position: absolute; height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+        .service-visual-cross::before,
+        .service-visual-cross::after {
+          content: '';
+          position: absolute;
+          background: rgba(255,255,255,0.7);
         }
-        .service-visual-line-1 { top: 36%; left: 12%; width: 56%; transform: rotate(-12deg); }
-        .service-visual-line-2 { bottom: 32%; right: 8%; width: 48%; transform: rotate(18deg); }
+
+        .service-visual-cross::before { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-50%); }
+        .service-visual-cross::after { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-50%); }
+
+        .service-visual-cross-1 { top: 28%; right: 22%; }
+        .service-visual-cross-2 { bottom: 30%; left: 20%; }
 
         .service-visual-meta {
           position: relative; padding: 28px 28px 24px;
@@ -300,22 +238,19 @@ export default function Services() {
         }
 
         .service-visual-title {
-          display: block; margin-bottom: 16px;
+          display: block; margin-bottom: 8px;
           font-family: var(--font-display); font-size: clamp(1.4rem, 2.4vw, 2rem);
           font-weight: 800; letter-spacing: -0.03em; color: #fff;
         }
 
-        .service-visual-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-
-        .service-visual-tags .tag {
-          background: rgba(255,255,255,0.1); color: #fff;
-          border-color: rgba(255,255,255,0.18);
+        .service-visual-sub {
+          display: block; margin-top: 4px;
+          color: rgba(255,255,255,0.62); font-size: 0.92rem;
         }
 
         @media (max-width: 899px) {
           .services-layout { grid-template-columns: 1fr; gap: 24px; }
-          .services-layout-col-right { position: relative; top: auto; order: -1; }
-          .service-visual-panel { min-height: 260px; }
+          .services-layout-col-right { display: none; }
           .service-card { position: relative; top: auto !important; transform: none !important; }
           .service-card-inner { transform: none; }
           .services-stack { gap: 16px; }
