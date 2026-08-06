@@ -13,13 +13,15 @@ function ServiceVisualPanel() {
     <div className="services-layout-col-right">
       <div className="service-visual-panel">
         <div className="service-visual-content" aria-hidden="true">
+          <img src="/images/kaique/skills.jpg" alt="" className="service-visual-photo" />
+          <span className="service-visual-photo-tint" />
           <span className="service-visual-grid" />
           <span className="service-visual-cross service-visual-cross-1" />
           <span className="service-visual-cross service-visual-cross-2" />
         </div>
 
         <div className="service-visual-meta">
-          <span className="service-visual-label">Foto em preparação</span>
+          <span className="service-visual-label">Tecnologia com contexto</span>
           <strong className="service-visual-title">Kaique Calefi</strong>
           <span className="service-visual-sub">Desenvolvedor, Editor & Fundador</span>
         </div>
@@ -191,9 +193,25 @@ export default function Services() {
           inset: 0;
           overflow: hidden;
           pointer-events: none;
-          background:
-            radial-gradient(circle at 50% 32%, rgba(255,255,255,0.10), transparent 46%),
-            radial-gradient(circle at 70% 80%, rgba(194,78,46,0.30), transparent 55%);
+          background: #141414;
+        }
+
+        .service-visual-photo,
+        .service-visual-photo-tint {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+        }
+
+        .service-visual-photo {
+          object-fit: cover;
+          object-position: center;
+          filter: saturate(0.82) contrast(1.04);
+        }
+
+        .service-visual-photo-tint {
+          background: linear-gradient(145deg, rgba(20,20,20,0.18), rgba(53,18,13,0.52) 72%, rgba(194,78,46,0.56));
         }
 
         .service-visual-grid {

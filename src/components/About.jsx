@@ -72,11 +72,8 @@ export default function About() {
 
         <div className="about-grid">
           <div ref={imgRef} className="about-placeholder">
-            <div className="about-placeholder-box" aria-hidden="true">KC</div>
-
-            <span className="about-placeholder-status">
-              Foto em preparação
-            </span>
+            <img src={content.about.image} alt="Kaique Calefi" className="about-photo" />
+            <span className="about-photo-caption">Kaique Calefi · Brasília</span>
           </div>
 
           <div>
@@ -107,6 +104,9 @@ export default function About() {
                 </GradientButton>
                 <GradientButton variant="variant" asChild>
                   <a href="#portfolio">Ver projetos</a>
+                </GradientButton>
+                <GradientButton variant="variant" asChild>
+                  <a href="/Curriculo_Kaique_Calefi_Foto_1_Pagina.pdf" target="_blank" rel="noopener noreferrer">Ver currículo</a>
                 </GradientButton>
               </div>
             </div>
@@ -143,38 +143,29 @@ export default function About() {
 
         .about-placeholder {
           position: relative;
-          display: grid;
-          place-items: center;
           aspect-ratio: 4 / 5;
           overflow: hidden;
           border: 1px solid var(--border);
           border-radius: 20px;
-          background:
-            radial-gradient(circle at 50% 34%, rgba(194, 78, 46, 0.16), transparent 28%),
-            var(--surface);
+          background: var(--surface);
         }
 
-        .about-placeholder-box {
-          width: 120px;
-          height: 120px;
-          border-radius: 24px;
-          background: rgba(20, 20, 20, 0.06);
-          color: var(--fg);
-          font-family: var(--font-display);
-          font-size: 2rem;
-          font-weight: 800;
-          letter-spacing: -0.04em;
-          display: grid;
-          place-items: center;
+        .about-photo {
+          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
         }
 
-        .about-placeholder-status {
+        .about-photo-caption {
           position: absolute;
           left: 20px;
           bottom: 18px;
           font-size: 0.75rem;
           font-weight: 500;
-          color: var(--muted);
+          color: #fff;
+          text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
         }
 
         .about-tech {

@@ -8,12 +8,14 @@ import { FlowButton } from '@/components/ui/flow-button'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-function ProjectPlaceholder({ index, title, status }) {
+function ProjectPlaceholder({ index, title, status, image, visual }) {
   return (
     <div
-      className={`project-placeholder project-placeholder-${index % 4}`}
+      className={`project-placeholder project-placeholder-${index % 4} ${image ? 'has-image' : `project-placeholder-${visual || 'default'}`}`}
       aria-label={`${title} — ${status}`}
     >
+      {image && <img src={image} alt="" className="project-image" />}
+      {!image && <div className="project-placeholder-art" aria-hidden="true" />}
       <div className="project-placeholder-grid" aria-hidden="true" />
 
       <span className="project-placeholder-number">
@@ -144,6 +146,8 @@ export default function Portfolio() {
                   index={i}
                   title={project.title}
                   status={project.status || 'Imagem em preparação'}
+                  image={project.image}
+                  visual={project.visual}
                 />
 
                 <div className="project-card-body">
@@ -298,7 +302,10 @@ export default function Portfolio() {
         .project-card-action {
           display: inline-flex;
           margin-top: 18px;
+          min-width: 150px;
+          justify-content: space-between;
           padding: 8px 14px;
+          padding-right: 38px;
           border: 1px solid #141414;
           border-radius: 9999px;
           color: #141414;
@@ -310,7 +317,7 @@ export default function Portfolio() {
         .project-card:hover .project-card-action,
         .project-card:focus-visible .project-card-action {
           padding-left: 18px;
-          padding-right: 18px;
+          padding-right: 38px;
           border-color: transparent;
           border-radius: 12px;
           color: #fff !important;
@@ -366,6 +373,41 @@ export default function Portfolio() {
             linear-gradient(145deg, #EBEBE8, #F7F7F4);
         }
 
+        .project-placeholder.has-image { background: #1b1b1b; }
+
+        .project-image {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1), filter 300ms ease;
+        }
+
+        .project-card:hover .project-image,
+        .project-card:focus-visible .project-image {
+          transform: scale(1.035);
+          filter: saturate(1.05) contrast(1.03);
+        }
+
+        .project-placeholder-art {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(circle at 72% 25%, rgba(194,78,46,0.52), transparent 22%), linear-gradient(135deg, #111 0%, #2a1713 48%, #c24e2e 180%);
+        }
+
+        .project-placeholder-whatsapp .project-placeholder-art {
+          background: radial-gradient(circle at 28% 35%, rgba(255,255,255,0.12), transparent 18%), linear-gradient(145deg, #0f2b29, #17806d 52%, #d7a763);
+        }
+
+        .project-placeholder-radar .project-placeholder-art {
+          background: radial-gradient(circle at 62% 42%, rgba(255,195,92,0.58), transparent 18%), linear-gradient(140deg, #15181d, #253650 48%, #bf6b32);
+        }
+
+        .project-placeholder-mercado-livre .project-placeholder-art {
+          background: radial-gradient(circle at 70% 40%, rgba(255,224,122,0.48), transparent 18%), linear-gradient(135deg, #17213e, #3c6ba9 48%, #f2c94c);
+        }
+
         .project-placeholder-0 { background:
           radial-gradient(circle at 22% 22%, rgba(194, 78, 46, 0.18), transparent 32%),
           linear-gradient(135deg, #F2F2F0, #FAFAF8 60%, #EBEBE8); }
@@ -389,6 +431,11 @@ export default function Portfolio() {
           opacity: 0.55;
         }
 
+        .project-placeholder.has-image .project-placeholder-grid {
+          background-image: linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+          opacity: 0.25;
+        }
+
         .project-placeholder-number {
           position: absolute;
           top: 24px;
@@ -398,6 +445,13 @@ export default function Portfolio() {
           font-weight: 800;
           letter-spacing: -0.05em;
           color: rgba(20, 20, 20, 0.1);
+        }
+
+        .project-placeholder.has-image .project-placeholder-number,
+        .project-placeholder-radar .project-placeholder-number,
+        .project-placeholder-whatsapp .project-placeholder-number,
+        .project-placeholder-mercado-livre .project-placeholder-number {
+          color: rgba(255,255,255,0.42);
         }
 
         .project-placeholder-window {
@@ -447,6 +501,13 @@ export default function Portfolio() {
           font-size: 0.75rem;
           font-weight: 500;
           color: var(--muted);
+        }
+
+        .project-placeholder.has-image .project-placeholder-status,
+        .project-placeholder-radar .project-placeholder-status,
+        .project-placeholder-whatsapp .project-placeholder-status,
+        .project-placeholder-mercado-livre .project-placeholder-status {
+          color: rgba(255,255,255,0.76);
         }
 
         .portfolio-cta {

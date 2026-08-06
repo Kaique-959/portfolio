@@ -63,7 +63,7 @@ export const content = {
   about: {
     bio: 'Sou Kaique, desenvolvedor e fundador da Kalefi_Org, baseado em Brasília. Ainda estudante, decidi transformar interesse em tecnologia em produto real: construo sites, automações e ferramentas de IA que resolvem problema de negócio de verdade — não protótipo, não teoria.',
     bio2: 'Comecei atendendo meu primeiro cliente e, desde então, venho construindo um portfólio de sistemas, vídeos e automações que rodam em produção todos os dias — de bots de atendimento via WhatsApp a peças de conteúdo para empresas. Meu foco é simples: tecnologia e comunicação que funcionam sem precisar de um time de TI por trás.',
-    image: null,
+    image: '/images/kaique/about.jpg',
     techStack: ['Next.js & React', 'Automação com N8N', 'Edição e Motion', 'Baseado em Brasília'],
   },
 
@@ -73,7 +73,7 @@ export const content = {
       category: 'Site e presença digital',
       description: 'Site pessoal com shader LiquidMetal, animações de scroll e navegação fluida',
       tags: ['React', 'Vite', 'GSAP', 'Shader'],
-      image: null,
+      image: '/images/projects/portfolio.jpg',
       url: 'https://site.kaiquecalefi.online',
       status: 'No ar',
       details: {
@@ -88,7 +88,7 @@ export const content = {
       category: 'Site completo de barbearia',
       description: 'Site premium com serviços, preços, unidades, equipe e solicitação de agendamento via WhatsApp',
       tags: ['Next.js', 'TypeScript', 'GSAP', 'SEO'],
-      image: null,
+      image: '/images/projects/barbearia.jpg',
       url: 'https://ferro-fio-barbearia-kaique.vercel.app',
       status: 'No ar',
       details: {
@@ -103,7 +103,7 @@ export const content = {
       category: 'CRM para empresas e clínicas',
       description: 'CRM com pacientes, agenda, integração com Google Calendar e Supabase',
       tags: ['Next.js', 'Supabase', 'Google Calendar', 'CRM'],
-      image: null,
+      image: '/images/projects/fonocrm.jpg',
       url: 'https://fono-crm.vercel.app',
       status: 'No ar',
       details: {
@@ -119,6 +119,7 @@ export const content = {
       description: 'Bot de atendimento para clínica com menu de exames, coleta de dados, horários e confirmação',
       tags: ['WhatsApp', 'N8N', 'Google Calendar', 'Automação'],
       image: null,
+      visual: 'whatsapp',
       url: 'https://github.com/Kaique-959/botlibertad-crm',
       status: 'Em produção',
       details: {
@@ -134,6 +135,7 @@ export const content = {
       description: 'Monitor de promoções em e-commerce com filtros de oportunidade e publicação automática',
       tags: ['Python', 'Scraping', 'Automação'],
       image: null,
+      visual: 'radar',
       url: null,
       status: 'Projeto próprio',
       details: {
@@ -149,6 +151,7 @@ export const content = {
       description: 'Monitor de produtos e preços no Mercado Livre com alertas de oportunidade',
       tags: ['Python', 'Scraping', 'Dados'],
       image: null,
+      visual: 'mercado-livre',
       url: null,
       status: 'Projeto próprio',
       details: {
