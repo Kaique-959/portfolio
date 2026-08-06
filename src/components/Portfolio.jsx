@@ -22,19 +22,23 @@ function ProjectPlaceholder({ index, title, status, image, visual }) {
         {String(index + 1).padStart(2, '0')}
       </span>
 
-      <div className="project-placeholder-window" aria-hidden="true">
-        <div className="project-placeholder-window-bar">
-          <span />
-          <span />
-          <span />
+      {!image && (
+        <div className="project-visual" aria-hidden="true">
+          <div className="project-visual-header">
+            <span className="project-visual-dot" />
+            <span className="project-visual-title">
+              {visual === 'whatsapp' ? 'ATENDIMENTO' : visual === 'radar' ? 'RADAR LIVE' : 'MERCADO TRACKER'}
+            </span>
+            <span className="project-visual-owned">PROJETO PRÓPRIO</span>
+            <span className="project-visual-live">CONCLUÍDO</span>
+          </div>
+          <div className="project-visual-content">
+            <div className="project-visual-message"><span /> Olá, como posso ajudar?</div>
+            <div className="project-visual-chart"><i /><i /><i /><i /><i /></div>
+            <div className="project-visual-metrics"><span /><span /><span /></div>
+          </div>
         </div>
-
-        <div className="project-placeholder-lines">
-          <span />
-          <span />
-          <span />
-        </div>
-      </div>
+      )}
 
       <span className="project-placeholder-status">{status}</span>
     </div>
@@ -407,6 +411,113 @@ export default function Portfolio() {
         .project-placeholder-mercado-livre .project-placeholder-art {
           background: radial-gradient(circle at 70% 40%, rgba(255,224,122,0.48), transparent 18%), linear-gradient(135deg, #17213e, #3c6ba9 48%, #f2c94c);
         }
+
+        .project-visual {
+          position: absolute;
+          inset: 68px 30px 42px;
+          overflow: hidden;
+          border: 1px solid rgba(255,255,255,0.28);
+          border-radius: 16px;
+          background: rgba(10, 18, 24, 0.72);
+          box-shadow: 0 18px 40px rgba(0,0,0,0.22);
+          color: rgba(255,255,255,0.86);
+          backdrop-filter: blur(8px);
+        }
+
+        .project-visual-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 13px 14px;
+          border-bottom: 1px solid rgba(255,255,255,0.14);
+          font-size: 0.58rem;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+        }
+
+        .project-visual-dot {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #76e2b3;
+          box-shadow: 0 0 12px #76e2b3;
+        }
+
+        .project-visual-live {
+          margin-left: auto;
+          color: rgba(255,255,255,0.52);
+          font-size: 0.48rem;
+        }
+
+        .project-visual-owned {
+          padding: 4px 6px;
+          border: 1px solid rgba(240,197,109,0.42);
+          border-radius: 999px;
+          color: #f0c56d;
+          font-size: 0.42rem;
+          letter-spacing: 0.08em;
+        }
+
+        .project-visual-content {
+          display: grid;
+          gap: 14px;
+          padding: 18px;
+        }
+
+        .project-visual-message {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 12px;
+          border-radius: 9px;
+          background: rgba(255,255,255,0.12);
+          font-size: 0.68rem;
+        }
+
+        .project-visual-message span {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #76e2b3;
+        }
+
+        .project-visual-chart {
+          display: flex;
+          align-items: end;
+          gap: 7px;
+          height: 62px;
+          padding: 10px 12px;
+          border-radius: 9px;
+          background: rgba(255,255,255,0.08);
+        }
+
+        .project-visual-chart i {
+          flex: 1;
+          min-height: 14px;
+          border-radius: 4px 4px 1px 1px;
+          background: rgba(255,255,255,0.66);
+        }
+
+        .project-visual-chart i:nth-child(2) { height: 44%; }
+        .project-visual-chart i:nth-child(3) { height: 72%; }
+        .project-visual-chart i:nth-child(4) { height: 56%; }
+        .project-visual-chart i:nth-child(5) { height: 88%; background: #f0c56d; }
+
+        .project-visual-metrics {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 7px;
+        }
+
+        .project-visual-metrics span {
+          height: 24px;
+          border-radius: 6px;
+          background: rgba(255,255,255,0.13);
+        }
+
+        .project-placeholder-whatsapp .project-visual { background: rgba(8, 50, 44, 0.76); }
+        .project-placeholder-radar .project-visual { background: rgba(18, 30, 52, 0.78); }
+        .project-placeholder-mercado-livre .project-visual { background: rgba(21, 43, 86, 0.78); }
 
         .project-placeholder-0 { background:
           radial-gradient(circle at 22% 22%, rgba(194, 78, 46, 0.18), transparent 32%),

@@ -75,7 +75,7 @@ export const content = {
       tags: ['React', 'Vite', 'GSAP', 'Shader'],
       image: '/images/projects/portfolio.jpg',
       url: 'https://site.kaiquecalefi.online',
-      status: 'No ar',
+      status: 'Concluído',
       details: {
         context: 'Presença digital para apresentar serviços, projetos e carreira de forma memorável.',
         challenge: 'Combinar identidade editorial, performance e interatividade sem parecer mais um template.',
@@ -90,7 +90,7 @@ export const content = {
       tags: ['Next.js', 'TypeScript', 'GSAP', 'SEO'],
       image: '/images/projects/barbearia.jpg',
       url: 'https://ferro-fio-barbearia-kaique.vercel.app',
-      status: 'No ar',
+      status: 'Concluído',
       details: {
         context: 'Barbearia premium que precisa converter visitantes em solicitações de agendamento reais.',
         challenge: 'Apresentar serviços, preços, equipe e unidades com clareza, mantendo uma identidade editorial coerente.',
@@ -105,7 +105,7 @@ export const content = {
       tags: ['Next.js', 'Supabase', 'Google Calendar', 'CRM'],
       image: '/images/projects/fonocrm.jpg',
       url: 'https://fono-crm.vercel.app',
-      status: 'No ar',
+      status: 'Concluído',
       details: {
         context: 'Clínica que precisava organizar pacientes, agenda e atendimentos em um só lugar.',
         challenge: 'Substituir planilhas manuais por um sistema simples que a equipe conseguisse usar sozinha.',
@@ -121,7 +121,7 @@ export const content = {
       image: null,
       visual: 'whatsapp',
       url: 'https://github.com/Kaique-959/botlibertad-crm',
-      status: 'Em produção',
+      status: 'Concluído',
       details: {
         context: 'Clínica de fonoaudiologia que perdia atendimentos por demora no retorno manual.',
         challenge: 'Atender, qualificar e agendar pacientes via WhatsApp sem aumentar a equipe.',
@@ -137,7 +137,7 @@ export const content = {
       image: null,
       visual: 'radar',
       url: null,
-      status: 'Projeto próprio',
+      status: 'Concluído',
       details: {
         context: 'Distribuição automática de ofertas relevantes para grupos e canais de compras.',
         challenge: 'Identificar quedas reais de preço sem depender de checagem manual.',
@@ -153,7 +153,7 @@ export const content = {
       image: null,
       visual: 'mercado-livre',
       url: null,
-      status: 'Projeto próprio',
+      status: 'Concluído',
       details: {
         context: 'Acompanhamento de produtos e preços no Mercado Livre para decisão de compra.',
         challenge: 'Enxergar variação de preço entre anúncios sem precisar visitar cada página.',
