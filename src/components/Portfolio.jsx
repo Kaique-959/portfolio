@@ -3,7 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { content } from '../data/content'
-import { OriginButton } from '@/components/ui/origin-button'
+import { OriginButton, OriginLink } from '@/components/ui/origin-button'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -194,9 +194,9 @@ export default function Portfolio() {
               Quer ver tudo que já fiz?
             </p>
           </div>
-          <OriginButton onClick={() => window.open('https://github.com/Kaique-959', '_blank', 'noopener,noreferrer')}>
+          <OriginLink href="https://github.com/Kaique-959" target="_blank" rel="noopener noreferrer">
             Ver meus repositórios
-          </OriginButton>
+          </OriginLink>
         </div>
       </div>
 

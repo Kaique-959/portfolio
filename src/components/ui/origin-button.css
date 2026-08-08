@@ -1,0 +1,79 @@
+.origin-button {
+  position: relative;
+  display: inline-flex;
+  min-width: 132px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 32px;
+  border: 0.5px solid var(--ic-border, #e3e7ec);
+  border-radius: 12px;
+  background: var(--ic-background, #ffffff);
+  color: var(--ic-foreground, #111111);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.origin-button__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  pointer-events: none;
+}
+
+.origin-button__content {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.origin-button__fill {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ic-primary, #111111);
+  will-change: clip-path;
+}
+
+.origin-button__fill-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  color: var(--ic-fill-foreground, #ffffff);
+}
+
+.origin-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (forced-colors: active) {
+  .origin-button {
+    border: 1px solid ButtonText;
+  }
+
+  .origin-button__fill {
+    background: ButtonText;
+  }
+
+  .origin-button__fill-content {
+    color: ButtonFace;
+  }
+}

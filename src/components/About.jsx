@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
-import { OriginButton } from '@/components/ui/origin-button'
+import { OriginLink } from '@/components/ui/origin-button'
 import { content } from '../data/content'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
@@ -103,9 +103,15 @@ export default function About() {
               </p>
 
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                <OriginButton onClick={() => scrollTo('contact')}>Falar comigo</OriginButton>
-                <OriginButton onClick={() => scrollTo('portfolio')}>Ver projetos</OriginButton>
-                <OriginButton onClick={() => window.open('/Curriculo_Kaique_Calefi_Foto_1_Pagina.pdf', '_blank', 'noopener,noreferrer')}>Ver currículo</OriginButton>
+                <OriginLink href="#contact" onClick={(event) => { event.preventDefault(); scrollTo('contact') }}>
+                  Falar comigo
+                </OriginLink>
+                <OriginLink href="#portfolio" onClick={(event) => { event.preventDefault(); scrollTo('portfolio') }}>
+                  Ver projetos
+                </OriginLink>
+                <OriginLink href="/Curriculo_Kaique_Calefi_Foto_1_Pagina.pdf" target="_blank" rel="noopener noreferrer">
+                  Ver currículo
+                </OriginLink>
               </div>
             </div>
 

@@ -3,7 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { content } from '../data/content'
-import { OriginButton } from '@/components/ui/origin-button'
+import { OriginButton, OriginLink } from '@/components/ui/origin-button'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -114,22 +114,26 @@ export default function Contact() {
                 { label: 'GitHub', shortcut: 'GH', url: content.social.github },
                 { label: 'LinkedIn', shortcut: 'LI', url: content.social.linkedin },
               ].map((s) => (
-                <OriginButton
+                <OriginLink
                   key={s.url}
                   className="contact-social"
                   aria-label={s.label}
-                  onClick={() => window.open(s.url, '_blank', 'noopener,noreferrer')}
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <span aria-hidden="true">{s.shortcut}</span>
-                </OriginButton>
+                </OriginLink>
               ))}
             </div>
 
-            <OriginButton
-              onClick={() => window.open(content.social.whatsapp || `https://wa.me/${WHATSAPP_NUMBER}`, '_blank', 'noopener,noreferrer')}
+            <OriginLink
+              href={content.social.whatsapp || `https://wa.me/${WHATSAPP_NUMBER}`}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Preferir WhatsApp
-            </OriginButton>
+            </OriginLink>
           </div>
 
           <div data-c>
@@ -237,33 +241,6 @@ export default function Contact() {
           color: #141414;
           font-size: 0.85rem;
           font-weight: 600;
-        }
-
-        .contact-social:hover,
-        .contact-social:focus-visible {
-          border-color: #141414;
-          color: #fff;
-        }
-
-        .contact-whatsapp {
-          display: inline-flex;
-          align-items: center;
-          margin-top: 24px;
-          padding: 10px 14px;
-          border-radius: 999px;
-          border: 1px solid var(--border);
-          background: var(--bg);
-          color: var(--accent);
-          font-size: 0.88rem;
-          font-weight: 600;
-          transition: border-color 200ms, background 200ms, color 200ms;
-        }
-
-        .contact-whatsapp:hover,
-        .contact-whatsapp:focus-visible {
-          border-color: var(--accent);
-          background: var(--accent-subtle);
-          color: var(--accent-hover);
         }
 
         .contact-footer {
