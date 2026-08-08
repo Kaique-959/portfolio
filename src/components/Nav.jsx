@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
-import { House, Wrench, User, FolderKanban, Mail, Menu, X } from 'lucide-react'
+import { House, Wrench, User, FolderKanban, Lightbulb, Mail, Menu, X } from 'lucide-react'
 import { navLinks } from '../data/content'
 import { IconBar, IconBarItem } from './ui/icon-bar'
 
-const icons = [House, Wrench, User, FolderKanban]
+const icons = [House, Wrench, User, FolderKanban, Lightbulb]
 
 function scrollToId(id) {
   const el = document.getElementById(id)

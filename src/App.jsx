@@ -3,6 +3,7 @@ import Nav from './components/Nav'
 import Services from './components/Services'
 import About from './components/About'
 import Portfolio from './components/Portfolio'
+import PossibleProjects from './components/PossibleProjects'
 import Experience from './components/Experience'
 import Testimonials from './components/Testimonials'
 import FAQ from './components/FAQ'
@@ -24,6 +25,7 @@ export default function App() {
         <Services />
         <About />
         <Portfolio />
+        <PossibleProjects />
         <Experience />
         <Testimonials />
         <FAQ />
