@@ -168,7 +168,7 @@ export default function Nav() {
 
         .nav-pill {
           pointer-events: auto;
-          width: min(100%, 860px);
+          width: min(100%, 720px);
           border-radius: 999px;
         }
 
@@ -176,18 +176,18 @@ export default function Nav() {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 6px;
-          padding: 10px 10px 10px 14px;
+          gap: 4px;
+          padding: 6px 8px;
         }
 
         .nav-item {
           position: relative;
           display: inline-flex;
           align-items: center;
-          gap: 10px;
-          padding: 10px 14px;
+          gap: 8px;
+          padding: 7px 10px;
           border-radius: 999px;
-          font-size: 14px;
+          font-size: 13px;
           font-weight: 500;
           color: var(--muted);
           transition: color 200ms, background-color 200ms;
@@ -224,13 +224,13 @@ export default function Nav() {
         .nav-contact {
           display: inline-flex;
           align-items: center;
-          gap: 10px;
+          gap: 8px;
           margin-left: 6px;
-          padding: 10px 16px;
+          padding: 7px 12px;
           border-radius: 999px;
           background-color: #c24e2e;
           color: #fff;
-          font-size: 14px;
+          font-size: 13px;
           font-weight: 600;
           box-shadow: 0 4px 16px rgba(194,78,46,0.24), inset 0 1px 0 rgba(255,255,255,0.1);
           transition: transform 180ms ease, box-shadow 240ms ease;

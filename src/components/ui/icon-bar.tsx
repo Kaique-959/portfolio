@@ -77,21 +77,21 @@ const IconBarItem = React.forwardRef<HTMLButtonElement, IconBarItemProps>(
         onMouseLeave={() => setHovered(false)}
         onClick={() => { if (!disabled) { setSelectedValue(itemValue); onClick?.() } }}
         className={cn(
-          "relative inline-flex h-9 items-center rounded-xl border transition-all duration-200",
+          "relative inline-flex h-8 items-center rounded-xl border transition-[background-color,color,border-color,width,padding] duration-200",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
           "disabled:pointer-events-none disabled:opacity-50",
           expanded
-            ? "px-3 gap-2"
-            : "w-9 justify-center",
+            ? "px-2.5 gap-1.5"
+            : "w-8 justify-center",
           isSelected
             ? "bg-[#C24E2E] border-[#C24E2E] text-white"
             : "bg-[#FAFAF8] border-[#E5E5E2] text-[#71717A] hover:bg-[#F2F2F0] hover:text-[#141414]",
           className
         )}
       >
-        <Icon aria-hidden className="size-[18px] stroke-[1.5] shrink-0" />
+        <Icon aria-hidden className="size-4 stroke-[1.5] shrink-0" />
         {expanded && (
-          <span className="whitespace-nowrap font-medium text-[14px] tracking-[-0.01em]">{label}</span>
+          <span className="whitespace-nowrap font-medium text-[13px] tracking-[-0.01em]">{label}</span>
         )}
       </button>
     )
