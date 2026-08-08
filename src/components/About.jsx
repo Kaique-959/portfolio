@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
-import { GradientButton } from '@/components/ui/gradient-button'
+import { OriginButton } from '@/components/ui/origin-button'
 import { content } from '../data/content'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
@@ -12,6 +12,10 @@ export default function About() {
   const imgRef = useRef(null)
   const textRef = useRef(null)
   const techRef = useRef(null)
+
+  const scrollTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   useGSAP(() => {
     gsap.fromTo(
@@ -99,15 +103,9 @@ export default function About() {
               </p>
 
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                <GradientButton asChild>
-                  <a href="#contact">Falar comigo</a>
-                </GradientButton>
-                <GradientButton variant="variant" asChild>
-                  <a href="#portfolio">Ver projetos</a>
-                </GradientButton>
-                <GradientButton variant="variant" asChild>
-                  <a href="/Curriculo_Kaique_Calefi_Foto_1_Pagina.pdf" target="_blank" rel="noopener noreferrer">Ver currículo</a>
-                </GradientButton>
+                <OriginButton onClick={() => scrollTo('contact')}>Falar comigo</OriginButton>
+                <OriginButton onClick={() => scrollTo('portfolio')}>Ver projetos</OriginButton>
+                <OriginButton onClick={() => window.open('/Curriculo_Kaique_Calefi_Foto_1_Pagina.pdf', '_blank', 'noopener,noreferrer')}>Ver currículo</OriginButton>
               </div>
             </div>
 

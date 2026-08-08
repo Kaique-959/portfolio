@@ -41,7 +41,7 @@ function useHoverSliderContext() {
 
 export { useHoverSliderContext }
 
-export const HoverSlider = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement> & HoverSliderProps>(
+export const HoverSlider = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & HoverSliderProps>(
   ({ children, className, activeSlide: externalActive, onSlideChange, ...props }, ref) => {
     const [internalActive, setInternalActive] = React.useState<number>(0)
     const activeSlide = externalActive !== undefined ? externalActive : internalActive
@@ -61,7 +61,7 @@ export const HoverSlider = React.forwardRef<HTMLElement, React.HTMLAttributes<HT
 )
 HoverSlider.displayName = "HoverSlider"
 
-export const TextStaggerHover = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement> & TextStaggerHoverProps>(
+export const TextStaggerHover = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement> & TextStaggerHoverProps>(
   ({ text, index, className, ...props }, ref) => {
     const { activeSlide, changeSlide } = useHoverSliderContext()
     const { characters } = splitText(text)

@@ -13,7 +13,7 @@ export interface FlowButtonProps
 const FlowButton = React.forwardRef<HTMLButtonElement, FlowButtonProps>(
   ({ asChild = false, showArrows = true, className, children, type, ...props }, ref) => {
     const child = asChild && React.isValidElement(children)
-      ? (children as React.ReactElement<{ className?: string }>)
+      ? (children as React.ReactElement<{ className?: string; children?: React.ReactNode }>)
       : null
     const label = child ? child.props.children : children
     const content = (
@@ -27,7 +27,7 @@ const FlowButton = React.forwardRef<HTMLButtonElement, FlowButtonProps>(
     )
 
     if (child) {
-      return React.cloneElement(child, {
+      return React.cloneElement(child as React.ReactElement<any>, {
         className: cn("flow-button", className, child.props.className),
         ref,
         children: content,

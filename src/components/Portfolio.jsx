@@ -3,8 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { content } from '../data/content'
-import { GradientButton } from '@/components/ui/gradient-button'
-import { FlowButton } from '@/components/ui/flow-button'
+import { OriginButton } from '@/components/ui/origin-button'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -139,12 +138,9 @@ export default function Portfolio() {
         <div ref={gridRef} className="portfolio-grid">
           {content.projects.map((project, i) => {
             return (
-              <button
+              <article
                 key={project.title}
-                type="button"
                 className="project-card"
-                aria-label={`Ver detalhes de ${project.title}`}
-                onClick={() => setSelectedProject(project)}
               >
                 <ProjectPlaceholder
                   index={i}
@@ -176,11 +172,15 @@ export default function Portfolio() {
                       <span key={tag} className="tag">{tag}</span>
                     ))}
                   </div>
-                  <FlowButton asChild className="project-card-action">
-                    <span>Abrir detalhes</span>
-                  </FlowButton>
+                  <OriginButton
+                    className="project-card-action"
+                    aria-label={`Abrir detalhes de ${project.title}`}
+                    onClick={() => setSelectedProject(project)}
+                  >
+                    Abrir detalhes
+                  </OriginButton>
                 </div>
-              </button>
+              </article>
             )
           })}
         </div>
@@ -194,11 +194,9 @@ export default function Portfolio() {
               Quer ver tudo que já fiz?
             </p>
           </div>
-          <GradientButton asChild>
-            <a href="https://github.com/Kaique-959" target="_blank" rel="noopener noreferrer">
-              Ver meus repositórios
-            </a>
-          </GradientButton>
+          <OriginButton onClick={() => window.open('https://github.com/Kaique-959', '_blank', 'noopener,noreferrer')}>
+            Ver meus repositórios
+          </OriginButton>
         </div>
       </div>
 
@@ -217,16 +215,15 @@ export default function Portfolio() {
             aria-labelledby="project-modal-title"
             ref={modalRef}
           >
-            <FlowButton
+            <OriginButton
               type="button"
               className="project-modal-close"
-              showArrows={false}
               aria-label="Fechar detalhes do projeto"
               ref={closeButtonRef}
               onClick={() => setSelectedProject(null)}
             >
               ×
-            </FlowButton>
+            </OriginButton>
             <span className="eyebrow">{selectedProject.category}</span>
             <h2 id="project-modal-title">{selectedProject.title}</h2>
             <p className="project-modal-lead">{selectedProject.description}</p>
@@ -257,9 +254,12 @@ export default function Portfolio() {
               <div className="project-card-tags">
                 {selectedProject.tags.map((tag) => <span key={tag} className="tag">{tag}</span>)}
               </div>
-              <GradientButton asChild>
-                <a href="#contact" onClick={() => setSelectedProject(null)}>Quero um projeto parecido</a>
-              </GradientButton>
+              <OriginButton onClick={() => {
+                setSelectedProject(null)
+                window.setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 0)
+              }}>
+                Quero um projeto parecido
+              </OriginButton>
             </div>
           </div>
         </div>

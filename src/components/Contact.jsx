@@ -3,8 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { content } from '../data/content'
-import { GradientButton } from '@/components/ui/gradient-button'
-import { FlowButton } from '@/components/ui/flow-button'
+import { OriginButton } from '@/components/ui/origin-button'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -115,28 +114,22 @@ export default function Contact() {
                 { label: 'GitHub', shortcut: 'GH', url: content.social.github },
                 { label: 'LinkedIn', shortcut: 'LI', url: content.social.linkedin },
               ].map((s) => (
-                <FlowButton
+                <OriginButton
                   key={s.url}
-                  asChild
-                  showArrows={false}
                   className="contact-social"
+                  aria-label={s.label}
+                  onClick={() => window.open(s.url, '_blank', 'noopener,noreferrer')}
                 >
-                  <a href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.label}>
-                    <span aria-hidden="true">{s.shortcut}</span>
-                  </a>
-                </FlowButton>
+                  <span aria-hidden="true">{s.shortcut}</span>
+                </OriginButton>
               ))}
             </div>
 
-            <FlowButton asChild>
-              <a
-                href={content.social.whatsapp || `https://wa.me/${WHATSAPP_NUMBER}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Preferir WhatsApp
-              </a>
-            </FlowButton>
+            <OriginButton
+              onClick={() => window.open(content.social.whatsapp || `https://wa.me/${WHATSAPP_NUMBER}`, '_blank', 'noopener,noreferrer')}
+            >
+              Preferir WhatsApp
+            </OriginButton>
           </div>
 
           <div data-c>
@@ -185,9 +178,9 @@ export default function Contact() {
                 />
               </div>
 
-              <GradientButton type="submit">
+              <OriginButton type="submit">
                 Continuar no WhatsApp
-              </GradientButton>
+              </OriginButton>
             </form>
           </div>
         </div>
