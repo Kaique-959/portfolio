@@ -160,7 +160,7 @@ export default function Nav() {
             position: fixed;
             left: 0; right: 0; bottom: 0;
             justify-content: center;
-            padding: 0 24px calc(24px + env(safe-area-inset-bottom, 0px));
+             padding: 0 16px calc(16px + env(safe-area-inset-bottom, 0px));
             z-index: 1000;
             pointer-events: none;
           }
@@ -168,7 +168,8 @@ export default function Nav() {
 
         .nav-pill {
           pointer-events: auto;
-          width: min(100%, 720px);
+          width: fit-content;
+          max-width: calc(100vw - 32px);
           border-radius: 999px;
         }
 
@@ -178,6 +179,8 @@ export default function Nav() {
           justify-content: center;
           gap: 4px;
           padding: 6px 8px;
+          width: fit-content;
+          max-width: 100%;
         }
 
         .nav-item {
