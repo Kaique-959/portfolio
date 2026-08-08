@@ -293,7 +293,7 @@ export default function Portfolio() {
           text-align: left;
           color: inherit;
           font: inherit;
-          cursor: pointer;
+          cursor: default;
         }
 
         .project-card:hover,
@@ -304,44 +304,8 @@ export default function Portfolio() {
         }
 
         .project-card-action {
-          display: inline-flex;
           margin-top: 18px;
           min-width: 150px;
-          justify-content: space-between;
-          padding: 8px 14px;
-          padding-right: 38px;
-          border: 1px solid #141414;
-          border-radius: 9999px;
-          color: #141414;
-          font-size: 0.8rem;
-          font-weight: 700;
-          transition: color 360ms ease, padding 220ms ease;
-        }
-
-        .project-card:hover .project-card-action,
-        .project-card:focus-visible .project-card-action {
-          padding-left: 18px;
-          padding-right: 38px;
-          border-color: transparent;
-          border-radius: 12px;
-          color: #fff !important;
-        }
-
-        .project-card:hover .project-card-action .flow-button__text,
-        .project-card:focus-visible .project-card-action .flow-button__text {
-          transform: translateX(-0.4rem);
-        }
-
-        .project-card:hover .project-card-action .flow-button__circle,
-        .project-card:focus-visible .project-card-action .flow-button__circle {
-          opacity: 1;
-          transform: scale(1);
-        }
-
-        .project-card:hover .project-card-action .flow-button__arrow,
-        .project-card:focus-visible .project-card-action .flow-button__arrow {
-          transform: translateX(0.4rem);
-          stroke: #fff;
         }
 
         .project-card-body {
