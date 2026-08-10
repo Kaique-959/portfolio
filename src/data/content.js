@@ -278,7 +278,7 @@ export const content = {
 
   social: {
     github: 'https://github.com/Kaique-959',
-    linkedin: 'https://www.linkedin.com/in/kaique-calefi-b713b13ab/',
+    linkedin: 'https://www.linkedin.com/in/kaiquecalefi/',
     email: 'comercial.kalefiorg@gmail.com',
     whatsapp: 'https://wa.me/5518981993718',
     whatsappNumber: '5518981993718',
