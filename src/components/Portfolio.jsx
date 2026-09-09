@@ -13,7 +13,7 @@ function ProjectPlaceholder({ index, title, status, image, visual }) {
       className={`project-placeholder project-placeholder-${index % 4} ${image ? 'has-image' : `project-placeholder-${visual || 'default'}`}`}
       aria-label={`${title} — ${status}`}
     >
-      {image && <img src={image} alt="" className="project-image" />}
+      {image && <img src={image} alt={title} loading="lazy" className="project-image" />}
       {!image && <div className="project-placeholder-art" aria-hidden="true" />}
       <div className="project-placeholder-grid" aria-hidden="true" />
 
