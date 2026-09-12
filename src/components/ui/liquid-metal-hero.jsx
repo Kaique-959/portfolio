@@ -197,19 +197,17 @@ export default function LiquidMetalHero({
           position: relative;
           display: flex;
           justify-content: center;
+          /* o shader pinta fundo opaco: qualquer transbordo da caixa apaga a letra do nome ao lado,
+             entao ele fica centralizado na coluna do meio em vez de deslocado por left */
+          justify-self: center;
           width: clamp(220px, 28vw, 360px);
           aspect-ratio: 3 / 4;
-          left: clamp(28px, 3.8vw, 56px);
           z-index: 2;
         }
 
         .hero-liquid-visual {
           width: 100%;
           height: 100%;
-        }
-
-        .hero-liquid-visual > div {
-          transform: translateX(clamp(8px, 1.2vw, 16px));
         }
 
         .hero-tagline {
@@ -275,15 +273,10 @@ export default function LiquidMetalHero({
           .hero-liquid-layer {
             width: min(42vw, 150px);
             aspect-ratio: 3 / 4;
-            left: 0;
           }
 
           .hero-liquid-visual {
             width: 100%;
-          }
-
-          .hero-liquid-visual > div {
-            transform: none;
           }
         }
 

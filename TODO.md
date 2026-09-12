@@ -1,5 +1,4 @@
 ## Pendências
 
-- [ ] Montar CV em PDF
-- [ ] Adicionar botão "Baixar CV" nas seções Sobre (About.jsx) e Experiência (Experience.jsx)
-- [ ] Adicionar foto pessoal no Hero (card central do shader) e no About
+- [ ] Botão de currículo na seção Experiência — o link já existe em Sobre (`About.jsx`)
+- [ ] Foto pessoal no Hero, no card central do shader — Sobre e Habilidades já usam foto
