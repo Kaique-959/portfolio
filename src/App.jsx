@@ -20,6 +20,9 @@ export default function App() {
           lastName="Calefi"
           kickerLeft="Desenvolvedor, Editor & Fundador"
           kickerRight="Brasília, DF"
+          tagline="Sites e automações que trabalham pela sua empresa, mesmo quando você não está."
+          primaryCta={{ label: 'Ver projetos', href: '#portfolio' }}
+          secondaryCta={{ label: 'Falar comigo', href: '#contact' }}
         />
 
         <Services />

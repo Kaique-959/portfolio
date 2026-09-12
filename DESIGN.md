@@ -1,169 +1,157 @@
-# Design System — Kaique Calefi Portfolio
+# Design System — Portfólio Kaique Calefi
 
-> Category: Dark Editorial Portfolio
-> Premium dark portfolio with gold accents, asymmetric layouts, and subtle 3D motion for a creative professional.
+> Categoria: Portfólio editorial claro
+> Documento gerado a partir do código em produção (`src/`), não de intenção de projeto.
+> Fonte da verdade dos tokens: `src/styles/global.css`.
 
-## 1. Visual Theme & Atmosphere
+## 1. Tema e atmosfera
 
-Dark editorial portfolio with a premium, cinematic feel. Gold accents against deep charcoal backgrounds create warmth and sophistication. Subtle 3D elements in the hero add depth without overwhelming content. Macro-whitespace and asymmetric grids communicate confidence and taste.
+Portfólio editorial em base clara, com um único acento terracota e tipografia display pesada.
+A identidade vem da composição — nome partido ao meio por um shader líquido, cartões que se
+empilham durante o scroll, foto fixa acompanhando a leitura — e não de ornamento visual.
 
-- **Visual style:** dark, editorial, minimal, bold
-- **Color stance:** dark neutral base, single warm gold accent
-- **Design intent:** Feel like a high-end agency portfolio — restrained, confident, every pixel intentional
+- **Estilo:** claro, editorial, tipográfico, direto
+- **Postura de cor:** base off-white neutra, um acento quente
+- **Intenção:** parecer trabalho autoral, nunca template
 
-## 2. Color
+## 2. Cor
 
-- **Background:** `#0a0a0a` — Off-black, never pure #000
-- **Surface:** `#141418` — Cards, sections, containers
-- **Surface Elevated:** `#1a1a20` — Hover states, modals
-- **Foreground:** `#f5f5f5` — Primary text
-- **Muted:** `#a0a0a8` — Secondary text, captions
-- **Accent:** `#d4a853` — Warm gold, single accent color
-- **Accent Hover:** `#e0b963` — Gold hover state
-- **Border:** `rgba(255,255,255,0.06)` — Subtle hairlines
-- **Border Hover:** `rgba(255,255,255,0.12)` — Elevated borders
-- **Success:** `#22c55e` — Status indicators
-- **Danger:** `#ef4444` — Error states
+Tokens em `:root` (`src/styles/global.css`):
 
-- Accent used max 2 times per screen
-- No pure black (#000) or pure white (#fff) anywhere
-- Tinted shadows use `rgba(212,168,83,0.08)` for gold glow
+| Token | Valor | Uso |
+|---|---|---|
+| `--bg` | `#FAFAF8` | Fundo da página (off-white, nunca `#fff`) |
+| `--surface` | `#F2F2F0` | Seções alternadas, tags, FAQ |
+| `--surface-elevated` | `#EBEBE8` | Estados elevados |
+| `--fg` | `#141414` | Texto principal, header mobile, botões escuros |
+| `--muted` | `#66666D` | Texto secundário, eyebrows, legendas |
+| `--accent` | `#C24E2E` | Terracota: CTA primário, numeração, destaques |
+| `--accent-hover` | `#A83E22` | Hover do acento |
+| `--accent-subtle` | `rgba(194,78,46,0.08)` | Brilhos radiais de fundo |
+| `--border` | `#E5E5E2` | Hairlines |
+| `--border-hover` | `#D4D4D0` | Hairlines em hover |
+| `--glass-bg` | `rgba(250,250,248,0.82)` | Pílula de navegação |
+| `--glass-border` | `rgba(229,229,226,0.7)` | Borda da pílula |
+| `--success` / `--danger` | `#16a34a` / `#dc2626` | Estados |
 
-## 3. Typography
+Regras verificadas em produção:
 
-- **Display:** Satoshi — `font-family: 'Satoshi', sans-serif`
-- **Body:** Geist — `font-family: 'Geist', sans-serif`
-- **Mono:** JetBrains Mono — `font-family: 'JetBrains Mono', monospace`
+- Sem preto puro (`#000`) ou branco puro como fundo; `#fff` só como texto sobre superfície escura.
+- Contrastes medidos: `--muted` sobre `--bg` = 5,45:1 · branco sobre `--accent` = 4,75:1 ·
+  `--fg` sobre `--bg` = 17,6:1. Todos passam WCAG AA.
+- O acento aparece no máximo duas vezes por dobra — um CTA e uma numeração.
+- Painéis escuros (foto de habilidades, cards de projeto) usam gradiente
+  `linear-gradient(145deg, #141414, #35120d, #8f321f)` como ponte entre o fundo claro e o acento.
 
-### Scale
+## 3. Tipografia
 
-| Token | Size | Weight | Line Height | Tracking |
+- **Display:** Cabinet Grotesk — `--font-display: 'Cabinet Grotesk', 'Satoshi', sans-serif`
+- **Corpo:** Geist — `--font-body: 'Geist', sans-serif`
+- Carregadas via Fontshare (`api.fontshare.com`), com `preconnect` no `index.html`.
+
+| Papel | Tamanho | Peso | Entrelinha | Tracking |
 |---|---|---|---|---|
-| display-hero | clamp(3rem, 8vw, 8rem) | 700 | 0.9 | -0.04em |
-| display-h2 | clamp(2rem, 4vw, 3.5rem) | 700 | 1.0 | -0.03em |
-| display-h3 | clamp(1.5rem, 2.5vw, 2rem) | 600 | 1.1 | -0.02em |
-| body | 1rem / 1.125rem | 400 | 1.6 | normal |
-| body-large | 1.125rem | 400 | 1.6 | normal |
-| caption | 0.875rem | 400 | 1.4 | 0.02em |
-| eyebrow | 0.75rem | 600 | 1 | 0.12em |
-| label | 0.875rem | 500 | 1 | 0.02em |
+| Nome no hero | `clamp(2.5rem, 6vw, 5.5rem)` | 900 | 0.85 | -0.06em |
+| Título de seção (h2) | `clamp(1.8rem, 3vw, 2.8rem)` | 700 | 1.1 | -0.03em |
+| Tagline do hero | `clamp(1rem, 1.3vw, 1.125rem)` | 400 | 1.6 | normal |
+| Corpo | 1rem / 1.05rem | 400 | 1.6–1.8 | normal |
+| Eyebrow | 0.8rem | 600 | 1 | 0.1em, uppercase |
+| Legenda / tag | 0.75–0.85rem | 400–500 | 1.4 | normal |
 
-- Body max width: `65ch`
-- Headings use `text-wrap: balance`
-- No serif fonts — clean sans-only identity
+- Parágrafos limitados a `65ch` por padrão (`p` em `global.css`); blocos específicos usam `40–46ch`.
+- Títulos com `text-wrap: balance`.
+- Nome do hero em caixa alta; o resto da página em caixa natural.
+- Sem serifadas.
 
-## 4. Spacing & Grid
+## 4. Espaçamento e grid
 
-- **Spacing scale:** 4 / 8 / 12 / 16 / 20 / 24 / 32 / 40 / 48 / 64 / 80 / 96 / 128
-- **Section padding:** `py-24` to `py-40` (96px to 160px)
-- **Max content width:** 1280px
-- **Grid:** 12-column CSS Grid for main layout
-- **Card gap:** 24px between cards, 16px between elements inside cards
-- **Macro-whitespace:** Double standard padding on hero and footer sections
-- **Shape consistency:** 8px radius for cards, 4px for small elements, 0px for big containers
+- Largura máxima de conteúdo: `1200px` (`--max-width`), container com `24px` de gutter (`20px` no mobile).
+- Seções: `100px` verticais no desktop, `64px` no mobile (`.section`).
+- Cabeçalho de seção: `56px` de respiro abaixo (`36px` no mobile).
+- Raios: `--radius: 8px`, `--radius-sm: 4px`, `--radius-lg: 12px`; cartões grandes usam `20–24px`,
+  controles em pílula usam `999px`.
+- `[id] { scroll-margin-top: 80px }` para as âncoras não ficarem sob a navegação.
 
-## 5. Layout & Composition
+## 5. Layout e composição
 
-- **Hero:** Full viewport, 3D element on right/behind, text left-aligned
-- **Asymmetric layouts preferred** — never symmetrical 3-column grids
-- **Each section uses a different layout family** — no layout repetition
-- **Zigzag max:** 2 consecutive split sections max, then switch to full-width
-- **Navigation:** Fluid island pill at top, glass morphism, detached from viewport edge
-- **Cards only when elevation communicates hierarchy** — otherwise use borders or negative space
-- **Double-bezel pattern for premium cards:** outer shell (bg, padding, radius) + inner core (distinct bg, small radius)
-- **Button-in-button:** trailing icon in its own circular wrapper
+- **Hero** (`ui/liquid-metal-hero.jsx`): altura mínima de viewport; grid de três colunas
+  `nome | shader | nome` no desktop, coluna única alinhada à esquerda no mobile. Abaixo: tagline
+  centralizada e dois CTAs (primário terracota + secundário claro). Kickers no topo (função, cidade).
+- **Habilidades** (`Services.jsx`): duas colunas — à esquerda 15 cartões que se empilham e rotacionam
+  levemente durante o scroll; à direita um painel de foto `position: sticky`. Vira coluna única abaixo de 900px.
+- **Projetos** (`Portfolio.jsx`): grade de cartões; projetos sem foto recebem um visual sintético
+  (chat, radar, tracker). Clique abre modal com contexto, desafio, solução e entregas, com foco preso
+  e fechamento por `Esc`.
+- **Experiência** (`Experience.jsx`): linha do tempo vertical.
+- **Depoimentos** (`Testimonials.jsx`): carrossel horizontal com navegação por pontos.
+- **FAQ** (`FAQ.jsx`): acordeão; painel anima por `grid-template-rows` e fica `visibility: hidden`
+  quando fechado, para sair da ordem de foco e da árvore de acessibilidade.
+- **Contato** (`Contact.jsx`): formulário que monta uma mensagem e abre o WhatsApp; e-mail e redes ao lado.
 
-## 6. Components
+Cada seção usa uma família de layout diferente — não há duas grades iguais em sequência.
 
-### Navigation
-- Floating glass pill navbar (`backdrop-blur-xl`, `bg-[#0a0a0a]/80`)
-- Detached from top with `mt-4`, centered
-- Smooth scroll links to sections
-- Hamburger morphs to X on mobile
+## 6. Navegação
 
-### Hero Section
-- Min height `100dvh`
-- Headline max 2 lines, subtext max 20 words
-- CTAs visible without scroll
-- 3D element (torus knot) via Three.js/R3F — subtle float + mouse parallax
-- No trust strips, taglines, or feature bullets inside hero
-- Max 1 primary CTA
+Duas navegações distintas, não uma adaptada:
 
-### Service Cards
-- 8 cards in asymmetric grid (2 wide + 1 narrow per row)
-- Double-bezel nested architecture
-- Icon in button-in-button pattern
-- Hover: subtle scale + border glow
+- **Desktop (≥768px):** pílula de vidro flutuante, fixa no **rodapé** centralizado
+  (`backdrop-filter: blur(18px)`), com ícones `lucide-react` e rótulo que desliza no hover.
+  Seção ativa detectada por `IntersectionObserver` (`rootMargin: -40% 0px -55% 0px`).
+  O item de contato é terracota, destacado dos demais.
+- **Mobile (<768px):** barra fixa no topo em `#141414` com marca e botão de 44×44px,
+  abrindo painel em tela cheia com `role="dialog"`, foco movido para o primeiro item,
+  fechamento por `Esc` e `overflow` do body travado.
 
-### Portfolio Grid
-- 3D tilt effect on hover via `drei`
-- Smooth reveal on scroll
-- Click opens external link
+## 7. Movimento
 
-### Timeline
-- Vertical line with staggered cards
-- Alternating left/right at desktop, single column mobile
+- **Scroll suave:** Lenis (`duration: 1.2`), sincronizado com o `ticker` do GSAP (`SmoothScrollProvider`).
+- **Revelações:** GSAP + ScrollTrigger, `fromTo` com `y: 15–20` ou `x: ±30` e `opacity: 0`,
+  `duration: 0.4–0.7s`, `ease: power3.out`, `stagger: 0.06–0.08`,
+  `toggleActions: 'play none none reverse'`, disparo em `top 75–80%`.
+- **Hero:** parallax por `scrub` (nome, kickers e shader se afastam em ritmos diferentes) via
+  `gsap.matchMedia()`, com amplitudes menores no mobile.
+- **Shader:** `@paper-design/shaders-react` — `LiquidMetal`, forma `metaballs`, `speed: 0.4`.
+- **Botões:** `motion/react` — preenchimento circular a partir do ponto do clique
+  (`OriginButton` / `OriginLink`), `0.5s`, `cubic-bezier(0.16, 1, 0.3, 1)`, `whileTap: scale(0.985)`.
+- **Transições de estado:** 100–300ms; cor e `background-color` preferidos a propriedades de layout.
 
-### Testimonials
-- Horizontal scroll carousel
-- Controlled dots navigation
-- Smooth auto-scroll pause on hover
+### Movimento reduzido
 
-### Form (Contact)
-- Minimal, clean inputs with gold focus ring
-- Inline validation
-- Submit button with loading state
+`prefers-reduced-motion: reduce` é respeitado nas quatro camadas, porque só o CSS não alcançaria
+animação feita em JavaScript:
 
-## 7. Motion & Interaction
+1. `MotionConfig reducedMotion="user"` em `main.jsx` cobre os componentes `motion/react`.
+2. `SmoothScrollProvider` não instancia o Lenis e aplica `gsap.globalTimeline.timeScale(200)`,
+   entregando o estado final das revelações sem percorrer o movimento.
+3. `useHeroParallax` tem a condição `reduceMotion` no `gsap.matchMedia()` e não monta a timeline.
+4. O CSS global zera animações decorativas, mas mantém transições em `120ms` — feedback de
+   hover e foco continua legível em vez de sumir.
 
-### Timing
-- **Hover/active:** 100-150ms, `cubic-bezier(0.23, 1, 0.32, 1)`
-- **Entrance (scroll):** 600-800ms, `power3.out`
-- **Modal/sheet enter:** 300ms
-- **State change:** 200ms
+## 8. Voz
 
-### Scroll Animation
-- Sections fade up with `translateY(40px)` + `opacity: 0` → resolved
-- Stagger children entrance (100ms gap)
-- Count-up numbers trigger on scroll into view
-- Horizontal ticker marquee (20s loop, paused on hover)
+- **Tom:** direto, primeira pessoa, sem jargão de agência.
+- **CTA:** verbo + objeto concreto — "Ver projetos", "Falar comigo", "Continuar no WhatsApp".
+- **Promessa central:** "Sites e automações que trabalham pela sua empresa, mesmo quando você não está."
+  Usada no hero, na meta description e no card de compartilhamento — a mesma frase nos três lugares.
+- **Evitar:** "elevar", "revolucionário", "seamless", números inventados.
 
-### 3D
-- Torus knot: slow rotation (0.3 rad/s) + gentle float (sin wave)
-- Mouse parallax: camera offset follows cursor
-- Hover tilt on portfolio cards
+## 9. Anti-padrões deste projeto
 
-### Micro-interactions
-- Button press: `scale(0.98)` + `translateY(1px)`
-- CTA arrow shifts right on hover
-- Focus rings: gold outline
+- Sem preto ou branco puro como fundo.
+- Sem Inter como fonte display (a identidade é Cabinet Grotesk).
+- Sem gradiente roxo-azul, sem emoji como ícone de seção, sem texto com gradiente.
+- Sem grade simétrica de três colunas.
+- Sem animar `width`, `height`, `max-height`, `margin` ou `padding` — use `transform`, `opacity`
+  ou `grid-template-rows`.
+- Sem `overflow: hidden` em ancestrais de elementos `sticky` (usar `overflow-x: clip`, como em `.about-section`).
+- Sem elemento decorativo sobrepondo texto a ponto de prejudicar leitura.
+- Sem imagem em JPEG/PNG quando WebP resolve: todas as fotos do site são `.webp`.
+- Sem depender de CSS para respeitar `prefers-reduced-motion` quando a animação é feita em JS.
 
-### Reduced Motion
-- All animations respect `prefers-reduced-motion: reduce`
-- Scroll reveals become instant
-- 3D scene becomes static
+## 10. Assets
 
-## 8. Voice & Brand
-
-- **Tone:** Confident, warm, professional. First-person singular.
-- **Voice:** Direct, no filler. "I design" not "We create."
-- **Pronouns:** First person ("I", "my") for personal, second person ("you") for CTAs and value props
-- **CTA style:** Action verb + specific outcome — "View my work" not "Click here"
-- **Avoid:** "Elevate", "Seamless", "Unleash", "Revolutionary", "Game-changing"
-- **Do use:** Concrete outcomes, specific numbers, clear action language
-
-## 9. Anti-patterns
-
-- No default Tailwind indigo as accent (#6366f1, #4f46e5, etc.)
-- No purple-blue trust gradients in hero
-- No emoji as feature icons (sparkles, rockets, fire, etc.)
-- No serif fonts for display text (banned unless editorial brand specifies)
-- No rounded card with colored left-border accent
-- No invented metrics or fake-precise numbers
-- No filler copy, lorem ipsum, or "Feature 1/2/3" placeholders
-- No symmetrical 3-column grids
-- No Inter as default font (use Satoshi + Geist)
-- No pure black (#000) or pure white (#fff)
-- No overlapping elements that break readability
-- No custom cursors
-- No gradient text on headings
+- Fotos: `public/images/kaique/` (`about.webp`, `skills.webp`) e `public/images/projects/` (`.webp`, qualidade 82).
+- Compartilhamento: `public/og-image.jpg` — 1200×630, retrato sobre fundo `#0E0E0E` com acento terracota.
+  Referenciado em `og:image` e `twitter:image` com URL absoluta (exigência das duas especificações).
+- Currículo: `public/Curriculo_Kaique_Calefi_Foto_1_Pagina.pdf`.
+- Favicon: `public/favicon.svg`.

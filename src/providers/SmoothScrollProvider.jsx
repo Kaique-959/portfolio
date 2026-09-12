@@ -7,6 +7,12 @@ gsap.registerPlugin(ScrollTrigger)
 
 export default function SmoothScrollProvider({ children }) {
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // scroll nativo e reveals entregando o estado final sem percorrer o movimento
+      gsap.globalTimeline.timeScale(200)
+      return undefined
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

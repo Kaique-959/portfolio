@@ -13,7 +13,7 @@ function ServiceVisualPanel() {
     <div className="services-layout-col-right">
       <div className="service-visual-panel">
         <div className="service-visual-content" aria-hidden="true">
-          <img src="/images/kaique/skills.jpg" alt="" className="service-visual-photo" />
+          <img src="/images/kaique/skills.webp" alt="" className="service-visual-photo" />
           <span className="service-visual-photo-tint" />
           <span className="service-visual-grid" />
           <span className="service-visual-cross service-visual-cross-1" />

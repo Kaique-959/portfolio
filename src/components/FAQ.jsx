@@ -29,7 +29,7 @@ function Item({ faq, index }) {
         id={`faq-panel-${index}`}
         role="region"
         aria-labelledby={`faq-button-${index}`}
-        hidden={!open}
+        data-open={open}
         className="faq-panel"
       >
         <p className="faq-answer">{faq.a}</p>
@@ -138,13 +138,20 @@ export default function FAQ() {
         }
 
         .faq-panel {
-          overflow: hidden;
-          transition: max-height 0.3s ease;
-          max-height: 0;
+          display: grid;
+          /* minmax(0, ...) e nao 0fr: sem o minimo explicito o padding do conteudo impede a linha de zerar */
+          grid-template-rows: minmax(0, 0fr);
+          visibility: hidden;
+          transition: grid-template-rows 0.3s ease, visibility 0.3s;
         }
 
-        .faq-panel:not([hidden]) {
-          max-height: 240px;
+        .faq-panel[data-open="true"] {
+          grid-template-rows: minmax(0, 1fr);
+          visibility: visible;
+        }
+
+        .faq-panel > * {
+          overflow: hidden;
         }
 
         .faq-answer {

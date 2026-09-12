@@ -2,8 +2,9 @@
 
 import { useRef } from 'react'
 import { LiquidMetal } from '@paper-design/shaders-react'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { useHeroParallax } from '@/hooks/useHeroParallax'
+import { OriginLink } from '@/components/ui/origin-button'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -20,9 +21,17 @@ export default function LiquidMetalHero({
   lastName,
   kickerLeft,
   kickerRight,
+  tagline,
+  primaryCta,
+  secondaryCta,
 }) {
   const sectionRef = useRef(null)
   useHeroParallax(sectionRef)
+
+  const scrollTo = (event, href) => {
+    event.preventDefault()
+    document.getElementById(href.slice(1))?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   const h1style = {
     fontFamily: 'var(--font-display)',
@@ -95,6 +104,34 @@ export default function LiquidMetalHero({
               <span aria-hidden="true" style={h1style}>{lastName}</span>
             </motion.div>
           </h1>
+
+          {tagline && (
+            <motion.p className="hero-tagline" variants={itemVariants}>
+              {tagline}
+            </motion.p>
+          )}
+
+          {(primaryCta || secondaryCta) && (
+            <motion.div className="hero-actions" variants={itemVariants}>
+              {primaryCta && (
+                <OriginLink
+                  className="hero-cta-primary"
+                  href={primaryCta.href}
+                  onClick={(event) => scrollTo(event, primaryCta.href)}
+                >
+                  {primaryCta.label}
+                </OriginLink>
+              )}
+              {secondaryCta && (
+                <OriginLink
+                  href={secondaryCta.href}
+                  onClick={(event) => scrollTo(event, secondaryCta.href)}
+                >
+                  {secondaryCta.label}
+                </OriginLink>
+              )}
+            </motion.div>
+          )}
 
           </motion.div>
         </div>
@@ -175,11 +212,43 @@ export default function LiquidMetalHero({
           transform: translateX(clamp(8px, 1.2vw, 16px));
         }
 
+        .hero-tagline {
+          margin: clamp(28px, 3.5vw, 44px) auto 0;
+          max-width: 46ch;
+          text-align: center;
+          color: var(--muted);
+          font-size: clamp(1rem, 1.3vw, 1.125rem);
+          line-height: 1.6;
+        }
+
+        .hero-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          justify-content: center;
+          margin-top: clamp(24px, 2.6vw, 36px);
+        }
+
+        .hero-cta-primary {
+          background: var(--accent) !important;
+          border-color: var(--accent) !important;
+          color: #fff !important;
+        }
+
         @media (max-width: 767px) {
           .hero-stage {
             min-height: calc(100dvh - var(--mobile-header-height));
+            justify-content: center;
+            padding: 40px 0;
+          }
+
+          .hero-tagline {
+            margin-left: 0;
+            text-align: left;
+          }
+
+          .hero-actions {
             justify-content: flex-start;
-            padding: 56px 0 48px;
           }
 
           .hero-kickers {

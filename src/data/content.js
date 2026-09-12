@@ -116,7 +116,7 @@ export const content = {
   about: {
     bio: 'Sou Kaique, desenvolvedor e fundador da Kalefi_Org, baseado em Brasília. Ainda estudante, decidi transformar interesse em tecnologia em produto real: construo sites, automações e ferramentas de IA que resolvem problema de negócio de verdade — não protótipo, não teoria.',
     bio2: 'Comecei atendendo meu primeiro cliente e, desde então, venho construindo um portfólio de sistemas, vídeos e automações que rodam em produção todos os dias — de bots de atendimento via WhatsApp a peças de conteúdo para empresas. Meu foco é simples: tecnologia e comunicação que funcionam sem precisar de um time de TI por trás.',
-    image: '/images/kaique/about.jpg',
+    image: '/images/kaique/about.webp',
     techStack: ['Next.js & React', 'Automação com N8N', 'Edição e Motion', 'Baseado em Brasília'],
   },
 
@@ -126,7 +126,7 @@ export const content = {
       category: 'Site e presença digital',
       description: 'Site pessoal com shader LiquidMetal, animações de scroll e navegação fluida',
       tags: ['React', 'Vite', 'GSAP', 'Shader'],
-      image: '/images/projects/portfolio.jpg',
+      image: '/images/projects/portfolio.webp',
       url: 'https://site.kaiquecalefi.online',
       status: 'Concluído',
       details: {
@@ -141,7 +141,7 @@ export const content = {
       category: 'Site completo de barbearia',
       description: 'Site premium com serviços, preços, unidades, equipe e solicitação de agendamento via WhatsApp',
       tags: ['Next.js', 'TypeScript', 'GSAP', 'SEO'],
-      image: '/images/projects/barbearia.jpg',
+      image: '/images/projects/barbearia.webp',
       url: 'https://ferro-fio-barbearia-kaique.vercel.app',
       status: 'Concluído',
       details: {
@@ -156,7 +156,7 @@ export const content = {
       category: 'CRM para empresas e clínicas',
       description: 'CRM com pacientes, agenda, integração com Google Calendar e Supabase',
       tags: ['Next.js', 'Supabase', 'Google Calendar', 'CRM'],
-      image: '/images/projects/fonocrm.jpg',
+      image: '/images/projects/fonocrm.webp',
       url: 'https://fono-crm.vercel.app',
       status: 'Concluído',
       details: {

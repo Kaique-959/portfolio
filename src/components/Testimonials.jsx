@@ -173,7 +173,7 @@ export default function Testimonials() {
           background: #fff;
           border: 1px solid #141414;
           cursor: pointer;
-          transition: background-color 220ms ease, color 220ms ease, width 220ms ease;
+          transition: background-color 220ms ease, color 220ms ease;
         }
 
         .testimonial-dot-button::before {

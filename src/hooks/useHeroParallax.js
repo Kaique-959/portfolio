@@ -18,9 +18,11 @@ export function useHeroParallax(rootRef) {
       {
         mobile: '(max-width: 767px)',
         desktop: '(min-width: 768px)',
+        reduceMotion: '(prefers-reduced-motion: reduce)',
       },
       (context) => {
-        const { mobile } = context.conditions || {}
+        const { mobile, reduceMotion } = context.conditions || {}
+        if (reduceMotion) return undefined
 
         const gsapContext = gsap.context(() => {
           const timeline = gsap.timeline({

@@ -133,6 +133,8 @@ export default function About() {
 
       <style>{`
         .about-section {
+          /* clip (e nao hidden) contem o deslocamento lateral da animacao de entrada sem quebrar o sticky */
+          overflow-x: clip;
           background:
             radial-gradient(circle at 78% 18%, rgba(194, 78, 46, 0.06), transparent 38%),
             #FAFAF8;
