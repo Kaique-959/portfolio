@@ -90,29 +90,6 @@ export const content = {
     },
   ],
 
-  possibleProjects: [
-    { title: 'Agente de atendimento com IA', category: 'Atendimento', description: 'Um agente que responde dúvidas, qualifica contatos e encaminha cada pessoa para o próximo passo.', tags: ['IA', 'WhatsApp', 'CRM'] },
-    { title: 'CRM integrado ao WhatsApp', category: 'Operação', description: 'Central para acompanhar conversas, tarefas, agenda e histórico sem espalhar a equipe em várias ferramentas.', tags: ['CRM', 'WhatsApp', 'Chatwoot'] },
-    { title: 'Plataforma de mensageria multicanal', category: 'Comunicação', description: 'Follow-ups coordenados por WhatsApp, e-mail, SMS e voz com regras, histórico e métricas.', tags: ['APIs', 'Automação', 'Métricas'] },
-    { title: 'Dashboard de inteligência de dados', category: 'Dados', description: 'Painel operacional que reúne planilhas, sistemas e indicadores para mostrar o que precisa de atenção.', tags: ['Dashboard', 'Big Data', 'Alertas'] },
-    { title: 'Portal digital para contabilidade', category: 'Portais', description: 'Área do cliente com documentos, solicitações, cobranças e atualizações automáticas de status.', tags: ['Portal', 'Automação', 'Documentos'] },
-    { title: 'App para clínicas e pacientes', category: 'Saúde', description: 'Experiência para acompanhar agenda, dados, orientações e comunicação entre paciente e equipe.', tags: ['App', 'Agenda', 'Notificações'] },
-    { title: 'Plataforma de campanhas', category: 'Relacionamento', description: 'Base de contatos, segmentação, mensageria e acompanhamento de campanhas em um só fluxo.', tags: ['CRM', 'Segmentação', 'Campanhas'] },
-    { title: 'Sistema de cobrança PIX', category: 'Financeiro', description: 'Cobranças com QR Code, copia e cola, confirmação e lembretes enviados no canal certo.', tags: ['PIX', 'QR Code', 'WhatsApp'] },
-    { title: 'Catálogo digital com pedidos', category: 'Varejo', description: 'Catálogo por categorias com orçamento, pedido e atendimento direto pelo WhatsApp.', tags: ['Catálogo', 'WhatsApp', 'Pós-venda'] },
-    { title: 'Portal institucional com EAD', category: 'Educação', description: 'Portal com conteúdo, aulas, comunidade e integrações para manter a formação em movimento.', tags: ['Portal', 'EAD', 'Conteúdo'] },
-    { title: 'Planner conectado ao Google Agenda', category: 'Produtividade', description: 'Organização pessoal ou de equipe com tarefas, lembretes e comandos pelo WhatsApp ou Telegram.', tags: ['Planner', 'Google', 'Bots'] },
-    { title: 'Cartão digital com QR Code e NFC', category: 'Networking', description: 'Perfil compartilhável, atualizável e pronto para transformar encontros em conexões rastreáveis.', tags: ['QR Code', 'NFC', 'Perfil'] },
-    { title: 'Sistema de eventos e inscrições', category: 'Eventos', description: 'Inscrições, convites, pagamentos, ranking e comunicação para eventos presenciais ou online.', tags: ['Eventos', 'PIX', 'Ranking'] },
-    { title: 'Simulador financeiro', category: 'Simulações', description: 'Cenários comparáveis para ajudar clientes e equipes a tomar decisões com mais clareza.', tags: ['Simulador', 'Cenários', 'Dados'] },
-    { title: 'Monitoramento ITSM e GLPI', category: 'Infraestrutura', description: 'Inventário, chamados, SLAs e alertas para dar visibilidade à rotina de suporte.', tags: ['GLPI', 'ITSM', 'SLA'] },
-    { title: 'Central omnichannel', category: 'Atendimento', description: 'WhatsApp, e-mail e redes sociais organizados em uma visão única para a equipe.', tags: ['Omnichannel', 'Chatwoot', 'Inbox'] },
-    { title: 'Rede privada para equipes', category: 'Segurança', description: 'Acesso remoto seguro e conexão entre unidades sem expor a operação desnecessariamente.', tags: ['VPN', 'Segurança', 'Infra'] },
-    { title: 'Motor de conteúdo para redes sociais', category: 'Marketing', description: 'Planejamento, geração, aprovação e publicação de conteúdos com menos operação manual.', tags: ['Conteúdo', 'Instagram', 'Automação'] },
-    { title: 'Integração entre sistemas legados', category: 'Integrações', description: 'Camada de conexão para aproximar ERP, CRM, planilhas, APIs e ferramentas que já existem.', tags: ['APIs', 'Webhooks', 'Dados'] },
-    { title: 'Micro sistema sob medida', category: 'Produto', description: 'Uma ferramenta enxuta para resolver uma dor específica sem obrigar o negócio a comprar uma plataforma inteira.', tags: ['MVP', 'Produto', 'Automação'] },
-  ],
-
   about: {
     bio: 'Sou Kaique, desenvolvedor e fundador da Kalefi_Org, baseado em Brasília. Ainda estudante, decidi transformar interesse em tecnologia em produto real: construo sites, automações e ferramentas de IA que resolvem problema de negócio de verdade — não protótipo, não teoria.',
     bio2: 'Comecei atendendo meu primeiro cliente e, desde então, venho construindo um portfólio de sistemas, vídeos e automações que rodam em produção todos os dias — de bots de atendimento via WhatsApp a peças de conteúdo para empresas. Meu foco é simples: tecnologia e comunicação que funcionam sem precisar de um time de TI por trás.',
@@ -296,6 +273,5 @@ export const navLinks = [
   { label: 'Habilidades', href: '#services' },
   { label: 'Sobre', href: '#about' },
   { label: 'Projetos', href: '#portfolio' },
-  { label: 'Possibilidades', href: '#possibilities' },
   { label: 'Contato', href: '#contact' },
 ]

@@ -4,7 +4,6 @@ import { useRef } from 'react'
 import { LiquidMetal } from '@paper-design/shaders-react'
 import { motion } from 'motion/react'
 import { useHeroParallax } from '@/hooks/useHeroParallax'
-import { OriginLink } from '@/components/ui/origin-button'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -21,33 +20,15 @@ export default function LiquidMetalHero({
   lastName,
   kickerLeft,
   kickerRight,
-  tagline,
-  primaryCta,
-  secondaryCta,
 }) {
   const sectionRef = useRef(null)
   useHeroParallax(sectionRef)
-
-  const scrollTo = (event, href) => {
-    event.preventDefault()
-    document.getElementById(href.slice(1))?.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  const h1style = {
-    fontFamily: 'var(--font-display)',
-    fontWeight: 900,
-    textTransform: 'uppercase',
-    letterSpacing: '-0.06em',
-    lineHeight: 0.85,
-    fontSize: 'clamp(2.5rem, 6vw, 5.5rem)',
-    color: 'var(--fg)',
-  }
 
   return (
     <section
       id="hero"
       ref={sectionRef}
-      className="hero-stage relative min-h-screen flex items-center justify-center overflow-hidden bg-background"
+      className="hero-stage relative overflow-hidden bg-background"
     >
       <a href="#main-content" className="skip-link">
         Pular para o conteúdo
@@ -68,7 +49,7 @@ export default function LiquidMetalHero({
               variants={itemVariants}
               style={{ willChange: 'transform' }}
             >
-              <span aria-hidden="true" style={h1style}>{firstName}</span>
+              <span aria-hidden="true" className="hero-name">{firstName}</span>
             </motion.div>
 
             <motion.div
@@ -79,7 +60,7 @@ export default function LiquidMetalHero({
             >
                 <div className="hero-liquid-visual">
                   <LiquidMetal
-                    colorBack="#FAFAF8"
+                    colorBack="#FAFAF800"
                     colorTint="#C24E2E"
                     shape="metaballs"
                     repetition={2}
@@ -88,7 +69,7 @@ export default function LiquidMetalHero({
                     contour={0.6}
                     angle={70}
                     speed={0.4}
-                    scale={0.5}
+                    scale={0.8}
                     fit="cover"
                     style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
                   />
@@ -101,37 +82,9 @@ export default function LiquidMetalHero({
               variants={itemVariants}
               style={{ willChange: 'transform' }}
             >
-              <span aria-hidden="true" style={h1style}>{lastName}</span>
+              <span aria-hidden="true" className="hero-name">{lastName}</span>
             </motion.div>
           </h1>
-
-          {tagline && (
-            <motion.p className="hero-tagline" variants={itemVariants}>
-              {tagline}
-            </motion.p>
-          )}
-
-          {(primaryCta || secondaryCta) && (
-            <motion.div className="hero-actions" variants={itemVariants}>
-              {primaryCta && (
-                <OriginLink
-                  className="hero-cta-primary"
-                  href={primaryCta.href}
-                  onClick={(event) => scrollTo(event, primaryCta.href)}
-                >
-                  {primaryCta.label}
-                </OriginLink>
-              )}
-              {secondaryCta && (
-                <OriginLink
-                  href={secondaryCta.href}
-                  onClick={(event) => scrollTo(event, secondaryCta.href)}
-                >
-                  {secondaryCta.label}
-                </OriginLink>
-              )}
-            </motion.div>
-          )}
 
           </motion.div>
         </div>
@@ -151,10 +104,10 @@ export default function LiquidMetalHero({
         }
 
         .hero-stage {
-          min-height: 560px;
           display: flex;
           flex-direction: column;
           justify-content: center;
+          padding: clamp(40px, 6vh, 64px) 0 0;
         }
 
         .hero-parallax-layers {
@@ -165,7 +118,7 @@ export default function LiquidMetalHero({
         .hero-kickers {
           display: flex;
           justify-content: space-between;
-          margin-bottom: 24px;
+          margin-bottom: 8px;
           color: var(--muted);
           font-size: 0.875rem;
           font-weight: 500;
@@ -174,14 +127,29 @@ export default function LiquidMetalHero({
 
         .hero-title {
           display: grid;
-          grid-template-columns: minmax(0, 1fr) minmax(220px, 34vw) minmax(0, 1fr);
+          grid-template-columns: minmax(0, 1fr) clamp(220px, 26vw, 360px) minmax(0, 1fr);
           align-items: center;
           width: 100%;
+          /* a faixa vazia no topo do canvas quadrado sobe para a altura dos kickers, que ficam nas colunas laterais */
+          margin-top: calc(-1 * clamp(16px, 2.5vw, 36px));
           text-align: center;
+        }
+
+        .hero-name {
+          font-family: var(--font-display);
+          font-size: clamp(2.5rem, 7.2vw, 7rem);
+          font-weight: 900;
+          line-height: 0.85;
+          letter-spacing: -0.06em;
+          text-transform: uppercase;
+          color: var(--fg);
         }
 
         .hero-title-first,
         .hero-title-last {
+          position: relative;
+          /* o centro visual do blob fica abaixo do centro do canvas; top compensa porque o transform e do Framer */
+          top: clamp(12px, 2vw, 28px);
           min-width: 0;
         }
 
@@ -195,13 +163,9 @@ export default function LiquidMetalHero({
 
         .hero-liquid-layer {
           position: relative;
-          display: flex;
-          justify-content: center;
-          /* o shader pinta fundo opaco: qualquer transbordo da caixa apaga a letra do nome ao lado,
-             entao ele fica centralizado na coluna do meio em vez de deslocado por left */
-          justify-self: center;
-          width: clamp(220px, 28vw, 360px);
-          aspect-ratio: 3 / 4;
+          width: 100%;
+          /* quadrado como o mundo do shader: em caixa mais baixa o cover recorta a orbita das gotas */
+          aspect-ratio: 1 / 1;
           z-index: 2;
         }
 
@@ -210,48 +174,16 @@ export default function LiquidMetalHero({
           height: 100%;
         }
 
-        .hero-tagline {
-          margin: clamp(28px, 3.5vw, 44px) auto 0;
-          max-width: 46ch;
-          text-align: center;
-          color: var(--muted);
-          font-size: clamp(1rem, 1.3vw, 1.125rem);
-          line-height: 1.6;
-        }
-
-        .hero-actions {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 12px;
-          justify-content: center;
-          margin-top: clamp(24px, 2.6vw, 36px);
-        }
-
-        .hero-cta-primary {
-          background: var(--accent) !important;
-          border-color: var(--accent) !important;
-          color: #fff !important;
-        }
-
         @media (max-width: 767px) {
           .hero-stage {
-            min-height: calc(100dvh - var(--mobile-header-height));
-            justify-content: center;
-            padding: 40px 0;
-          }
-
-          .hero-tagline {
-            margin-left: 0;
-            text-align: left;
-          }
-
-          .hero-actions {
             justify-content: flex-start;
+            padding: 28px 0 8px;
           }
 
           .hero-kickers {
             align-items: flex-start;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
+            font-size: 0.78rem;
           }
 
           .hero-kickers span:last-child {
@@ -261,28 +193,33 @@ export default function LiquidMetalHero({
           .hero-title {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            gap: 28px;
+            align-items: stretch;
+            margin-top: 0;
+          }
+
+          .hero-name {
+            font-size: 21.5vw;
+            line-height: 0.82;
           }
 
           .hero-title-first,
           .hero-title-last {
+            top: 0;
+          }
+
+          .hero-title-first {
             text-align: left;
           }
 
+          .hero-title-last {
+            text-align: right;
+          }
+
           .hero-liquid-layer {
-            width: min(42vw, 150px);
-            aspect-ratio: 3 / 4;
-          }
-
-          .hero-liquid-visual {
-            width: 100%;
-          }
-        }
-
-        @media (min-width: 1280px) {
-          .hero-title {
-            grid-template-columns: minmax(0, 1fr) minmax(260px, 28vw) minmax(0, 1fr);
+            align-self: center;
+            width: 64vw;
+            /* o blob anima abaixo do centro do canvas: sobe a caixa para as folgas ate os nomes ficarem iguais */
+            margin: -2.5vw 0 2.5vw;
           }
         }
       `}</style>

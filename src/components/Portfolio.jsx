@@ -17,10 +17,6 @@ function ProjectPlaceholder({ index, title, status, image, visual }) {
       {!image && <div className="project-placeholder-art" aria-hidden="true" />}
       <div className="project-placeholder-grid" aria-hidden="true" />
 
-      <span className="project-placeholder-number">
-        {String(index + 1).padStart(2, '0')}
-      </span>
-
       {!image && (
         <div className="project-visual" aria-hidden="true">
           <div className="project-visual-header">
@@ -320,7 +316,7 @@ export default function Portfolio() {
           border: 1px solid var(--border);
           background: var(--surface);
           color: var(--muted);
-          font-size: 0.72rem;
+          font-size: 0.75rem;
           font-weight: 600;
           letter-spacing: 0.06em;
           text-transform: uppercase;
@@ -342,6 +338,15 @@ export default function Portfolio() {
         }
 
         .project-placeholder.has-image { background: #1b1b1b; }
+
+        /* screenshots claros apagavam o status branco */
+        .project-placeholder.has-image::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(20, 20, 20, 0) 55%, rgba(20, 20, 20, 0.42) 100%);
+          pointer-events: none;
+        }
 
         .project-image {
           position: absolute;
@@ -511,24 +516,6 @@ export default function Portfolio() {
           opacity: 0.25;
         }
 
-        .project-placeholder-number {
-          position: absolute;
-          top: 24px;
-          left: 24px;
-          font-family: var(--font-display);
-          font-size: 3rem;
-          font-weight: 800;
-          letter-spacing: -0.05em;
-          color: rgba(20, 20, 20, 0.1);
-        }
-
-        .project-placeholder.has-image .project-placeholder-number,
-        .project-placeholder-radar .project-placeholder-number,
-        .project-placeholder-whatsapp .project-placeholder-number,
-        .project-placeholder-mercado-livre .project-placeholder-number {
-          color: rgba(255,255,255,0.42);
-        }
-
         .project-placeholder-window {
           position: absolute;
           inset: 72px 36px 56px;
@@ -571,6 +558,7 @@ export default function Portfolio() {
 
         .project-placeholder-status {
           position: absolute;
+          z-index: 2;
           right: 20px;
           bottom: 18px;
           font-size: 0.75rem;
@@ -700,6 +688,20 @@ export default function Portfolio() {
 
           .project-placeholder {
             min-height: 240px;
+          }
+
+          /* caixa na proporcao dos screenshots: com min-height o cover cortava o texto das laterais */
+          .project-placeholder.has-image {
+            min-height: 0;
+            aspect-ratio: 16 / 9;
+          }
+
+          .project-visual-owned {
+            display: none;
+          }
+
+          .project-visual-live {
+            font-size: 0.56rem;
           }
 
           .project-placeholder-window {

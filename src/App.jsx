@@ -3,7 +3,6 @@ import Nav from './components/Nav'
 import Services from './components/Services'
 import About from './components/About'
 import Portfolio from './components/Portfolio'
-import PossibleProjects from './components/PossibleProjects'
 import Experience from './components/Experience'
 import Testimonials from './components/Testimonials'
 import FAQ from './components/FAQ'
@@ -20,15 +19,11 @@ export default function App() {
           lastName="Calefi"
           kickerLeft="Desenvolvedor, Editor & Fundador"
           kickerRight="Brasília, DF"
-          tagline="Sites e automações que trabalham pela sua empresa, mesmo quando você não está."
-          primaryCta={{ label: 'Ver projetos', href: '#portfolio' }}
-          secondaryCta={{ label: 'Falar comigo', href: '#contact' }}
         />
 
         <Services />
         <About />
         <Portfolio />
-        <PossibleProjects />
         <Experience />
         <Testimonials />
         <FAQ />

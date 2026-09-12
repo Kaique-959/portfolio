@@ -51,14 +51,13 @@ Regras verificadas em produção:
 
 | Papel | Tamanho | Peso | Entrelinha | Tracking |
 |---|---|---|---|---|
-| Nome no hero | `clamp(2.5rem, 6vw, 5.5rem)` | 900 | 0.85 | -0.06em |
+| Nome no hero (`.hero-name`) | `clamp(2.5rem, 7.2vw, 7rem)` · mobile `21.5vw` | 900 | 0.85 · mobile 0.82 | -0.06em |
 | Título de seção (h2) | `clamp(1.8rem, 3vw, 2.8rem)` | 700 | 1.1 | -0.03em |
-| Tagline do hero | `clamp(1rem, 1.3vw, 1.125rem)` | 400 | 1.6 | normal |
 | Corpo | 1rem / 1.05rem | 400 | 1.6–1.8 | normal |
 | Eyebrow | 0.8rem | 600 | 1 | 0.1em, uppercase |
-| Legenda / tag | 0.75–0.85rem | 400–500 | 1.4 | normal |
+| Legenda / tag / categoria | 0.75–0.85rem (mínimo 12px no conteúdo) | 400–600 | 1.4 | normal |
 
-- Parágrafos limitados a `65ch` por padrão (`p` em `global.css`); blocos específicos usam `40–46ch`.
+- Parágrafos limitados a `65ch` por padrão (`p` em `global.css`); blocos específicos usam `40–50ch`.
 - Títulos com `text-wrap: balance`.
 - Nome do hero em caixa alta; o resto da página em caixa natural.
 - Sem serifadas.
@@ -74,13 +73,17 @@ Regras verificadas em produção:
 
 ## 5. Layout e composição
 
-- **Hero** (`ui/liquid-metal-hero.jsx`): altura mínima de viewport; grid de três colunas
-  `nome | shader | nome` no desktop, coluna única alinhada à esquerda no mobile. Abaixo: tagline
-  centralizada e dois CTAs (primário terracota + secundário claro). Kickers no topo (função, cidade).
+- **Hero** (`ui/liquid-metal-hero.jsx`): o nome é o hero — sem frase e sem botões. A seção tem a altura
+  do próprio conteúdo (sem mínimo de viewport), então "O que eu faço" já aparece na primeira tela.
+  - Desktop: kickers (função, cidade) e grid `minmax(0,1fr) clamp(220px,26vw,360px) minmax(0,1fr)`
+    com `nome | shader | nome`. Os nomes descem `clamp(12px,2vw,28px)` via `top` para alinhar ao
+    centro visual do blob, que anima abaixo do centro do canvas.
+  - Mobile: zigue-zague — KAIQUE à esquerda, shader centralizado em `64vw`, CALEFI à direita.
 - **Habilidades** (`Services.jsx`): duas colunas — à esquerda 15 cartões que se empilham e rotacionam
   levemente durante o scroll; à direita um painel de foto `position: sticky`. Vira coluna única abaixo de 900px.
 - **Projetos** (`Portfolio.jsx`): grade de cartões; projetos sem foto recebem um visual sintético
-  (chat, radar, tracker). Clique abre modal com contexto, desafio, solução e entregas, com foco preso
+  (chat, radar, tracker). Thumbnails com captura ficam em 16:9 no mobile e têm degradê escuro na base
+  para o status. Clique abre modal com contexto, desafio, solução e entregas, com foco preso
   e fechamento por `Esc`.
 - **Experiência** (`Experience.jsx`): linha do tempo vertical.
 - **Depoimentos** (`Testimonials.jsx`): carrossel horizontal com navegação por pontos.
@@ -110,29 +113,26 @@ Duas navegações distintas, não uma adaptada:
   `toggleActions: 'play none none reverse'`, disparo em `top 75–80%`.
 - **Hero:** parallax por `scrub` (nome, kickers e shader se afastam em ritmos diferentes) via
   `gsap.matchMedia()`, com amplitudes menores no mobile.
-- **Shader:** `@paper-design/shaders-react` — `LiquidMetal`, forma `metaballs`, `speed: 0.4`.
+- **Shader:** `@paper-design/shaders-react` — `LiquidMetal`, forma `metaballs`, `speed: 0.4`, `scale: 0.8`,
+  `fit: cover`, `colorBack: #FAFAF800` (transparente), caixa `aspect-ratio: 1 / 1`.
 - **Botões:** `motion/react` — preenchimento circular a partir do ponto do clique
   (`OriginButton` / `OriginLink`), `0.5s`, `cubic-bezier(0.16, 1, 0.3, 1)`, `whileTap: scale(0.985)`.
 - **Transições de estado:** 100–300ms; cor e `background-color` preferidos a propriedades de layout.
 
-### Movimento reduzido
+### Preferência de movimento reduzido
 
-`prefers-reduced-motion: reduce` é respeitado nas quatro camadas, porque só o CSS não alcançaria
-animação feita em JavaScript:
-
-1. `MotionConfig reducedMotion="user"` em `main.jsx` cobre os componentes `motion/react`.
-2. `SmoothScrollProvider` não instancia o Lenis e aplica `gsap.globalTimeline.timeScale(200)`,
-   entregando o estado final das revelações sem percorrer o movimento.
-3. `useHeroParallax` tem a condição `reduceMotion` no `gsap.matchMedia()` e não monta a timeline.
-4. O CSS global zera animações decorativas, mas mantém transições em `120ms` — feedback de
-   hover e foco continua legível em vez de sumir.
+Decisão do projeto: o site **não** reduz animações quando o sistema envia `prefers-reduced-motion: reduce`.
+Scroll suave, reveals, parallax e transições rodam igual em qualquer máquina — inclusive no Windows
+com "Efeitos de animação" desligado, que é o que dispara essa preferência no Chrome e no Edge.
+Não reintroduzir `MotionConfig reducedMotion`, checagem em `SmoothScrollProvider`/`useHeroParallax`
+ou `@media (prefers-reduced-motion)` sem rever essa decisão.
 
 ## 8. Voz
 
 - **Tom:** direto, primeira pessoa, sem jargão de agência.
 - **CTA:** verbo + objeto concreto — "Ver projetos", "Falar comigo", "Continuar no WhatsApp".
 - **Promessa central:** "Sites e automações que trabalham pela sua empresa, mesmo quando você não está."
-  Usada no hero, na meta description e no card de compartilhamento — a mesma frase nos três lugares.
+  Usada na meta description e no card de compartilhamento — a mesma frase nos dois lugares.
 - **Evitar:** "elevar", "revolucionário", "seamless", números inventados.
 
 ## 9. Anti-padrões deste projeto
@@ -146,11 +146,15 @@ animação feita em JavaScript:
 - Sem `overflow: hidden` em ancestrais de elementos `sticky` (usar `overflow-x: clip`, como em `.about-section`).
 - Sem elemento decorativo sobrepondo texto a ponto de prejudicar leitura.
 - Sem imagem em JPEG/PNG quando WebP resolve: todas as fotos do site são `.webp`.
-- Sem depender de CSS para respeitar `prefers-reduced-motion` quando a animação é feita em JS.
+- Sem fundo opaco no canvas do shader: um `colorBack` sólido pinta por cima da letra vizinha.
+- Sem caixa do shader mais baixa que larga: com `fit: cover` o mundo quadrado é recortado em cima e
+  embaixo, e as gotas do metaball aparecem cortadas ao orbitar.
+- Sem numeração decorativa sobre thumbnails de projeto: colide com o texto das próprias capturas.
 
 ## 10. Assets
 
 - Fotos: `public/images/kaique/` (`about.webp`, `skills.webp`) e `public/images/projects/` (`.webp`, qualidade 82).
+  `portfolio.webp` é uma captura 1425×900 da home atual — refazer quando a hero mudar.
 - Compartilhamento: `public/og-image.jpg` — 1200×630, retrato sobre fundo `#0E0E0E` com acento terracota.
   Referenciado em `og:image` e `twitter:image` com URL absoluta (exigência das duas especificações).
 - Currículo: `public/Curriculo_Kaique_Calefi_Foto_1_Pagina.pdf`.

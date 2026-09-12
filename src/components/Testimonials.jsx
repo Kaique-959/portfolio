@@ -120,7 +120,9 @@ export default function Testimonials() {
           scroll-snap-type: x mandatory;
           scrollbar-width: none;
           -ms-overflow-style: none;
-          padding-bottom: 8px;
+          /* o overflow-x do trilho recorta a sombra do card; o respiro extra e devolvido pela margem */
+          padding-bottom: 48px;
+          margin-bottom: -40px;
         }
 
         .testimonial-track::-webkit-scrollbar {
@@ -128,9 +130,7 @@ export default function Testimonials() {
         }
 
         .testimonial-card {
-          min-width: min(86vw, 420px);
-          max-width: 480px;
-          flex-shrink: 0;
+          flex: 0 0 min(86vw, 480px);
           scroll-snap-align: start;
           padding: 32px;
           background: var(--bg);

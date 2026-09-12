@@ -104,7 +104,7 @@ export default function Contact() {
 
             <div style={{ marginBottom: '8px' }}>
               <div style={{ fontSize: '0.8rem', color: 'var(--muted)', fontWeight: 500, marginBottom: '4px' }}>Email</div>
-              <a href={`mailto:${content.contact.email}`} style={{ color: 'var(--accent)' }}>
+              <a href={`mailto:${content.contact.email}`} className="contact-email" style={{ color: 'var(--accent)' }}>
                 {content.contact.email}
               </a>
             </div>
@@ -128,6 +128,7 @@ export default function Contact() {
             </div>
 
             <OriginLink
+              className="contact-whatsapp"
               href={content.social.whatsapp || `https://wa.me/${WHATSAPP_NUMBER}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -226,6 +227,16 @@ export default function Contact() {
           color: var(--muted);
           text-transform: uppercase;
           letter-spacing: 0.06em;
+        }
+
+        .contact-email {
+          display: inline-flex;
+          align-items: center;
+          min-height: 44px;
+        }
+
+        .contact-whatsapp {
+          margin-top: 16px;
         }
 
         .contact-social {
