@@ -47,11 +47,16 @@ Regras verificadas em produção:
 
 - **Display:** Cabinet Grotesk — `--font-display: 'Cabinet Grotesk', 'Satoshi', sans-serif`
 - **Corpo:** Geist — `--font-body: 'Geist', sans-serif`
+- **Só na hero:** Clash Display (nome) e General Sans (pequenos dados), em `@import` próprio da Fontshare.
 - Carregadas via Fontshare (`api.fontshare.com`), com `preconnect` no `index.html`.
+- **Estado real, medido em `document.fonts`:** a URL que junta várias famílias só devolve a primeira. Por isso
+  Cabinet Grotesk e Geist não carregam hoje — títulos caem na Satoshi e o corpo na sans-serif do sistema.
+  As fontes da hero ficam numa URL separada justamente para escapar disso.
 
 | Papel | Tamanho | Peso | Entrelinha | Tracking |
 |---|---|---|---|---|
-| Nome no hero (`.hero-name`) | `clamp(2.5rem, 7.2vw, 7rem)` · mobile `21.5vw` | 900 | 0.85 · mobile 0.82 | -0.06em |
+| Nome no hero (`.hero-name`, Clash Display, `#333`) | `clamp(2.5rem, 6vw, 5.75rem)` · mobile `20vw` | 600 | 0.95 · mobile 0.9 | -0.5px |
+| Pequenos dados da hero (`.hero-meta`, General Sans) | `1rem` · mobile `0.875rem` | 400 | 1.4 | -0.5px |
 | Título de seção (h2) | `clamp(1.8rem, 3vw, 2.8rem)` | 700 | 1.1 | -0.03em |
 | Corpo | 1rem / 1.05rem | 400 | 1.6–1.8 | normal |
 | Eyebrow | 0.8rem | 600 | 1 | 0.1em, uppercase |
@@ -73,12 +78,17 @@ Regras verificadas em produção:
 
 ## 5. Layout e composição
 
-- **Hero** (`ui/liquid-metal-hero.jsx`): o nome é o hero — sem frase e sem botões. A seção tem a altura
-  do próprio conteúdo (sem mínimo de viewport), então "O que eu faço" já aparece na primeira tela.
-  - Desktop: kickers (função, cidade) e grid `minmax(0,1fr) clamp(220px,26vw,360px) minmax(0,1fr)`
-    com `nome | shader | nome`. Os nomes descem `clamp(12px,2vw,28px)` via `top` para alinhar ao
-    centro visual do blob, que anima abaixo do centro do canvas.
-  - Mobile: zigue-zague — KAIQUE à esquerda, shader centralizado em `64vw`, CALEFI à direita.
+- **Hero** (`ui/liquid-metal-hero.jsx`): o nome partido pelo blob, sem frase e sem botões. Pequenos dados
+  em inglês, sem referência à Kalefi_Org: descritor acima do primeiro nome ("Websites & Automations"),
+  função acima do segundo ("Developer & Editor") e cidade com relógio ao vivo abaixo do segundo
+  ("Brasília, Brazil - HH:MM GMT-3", `Intl` com `America/Sao_Paulo`).
+  - Desktop: altura `min(80svh, 2 × caixa do blob)` com conteúdo centralizado — o teto evita vazio em telas
+    altas e estreitas. Container de `1128px`; grid `minmax(0,1fr) clamp(220px,26vw,360px) minmax(0,1fr)`;
+    nomes nas bordas externas e pequenos dados absolutos ancorados nessas bordas. Os nomes descem
+    `clamp(12px,2vw,28px)` via `top` para alinhar ao centro visual do blob.
+  - Mobile: zigue-zague — KAIQUE à esquerda, shader centralizado em `64vw`, CALEFI à direita; pequenos
+    dados empilhados junto de cada nome.
+  - Nome e pequenos dados ficam no mesmo `.hero-name-group`, então o parallax move os dois juntos.
 - **Habilidades** (`Services.jsx`): duas colunas — à esquerda 15 cartões que se empilham e rotacionam
   levemente durante o scroll; à direita um painel de foto `position: sticky`. Vira coluna única abaixo de 900px.
 - **Projetos** (`Portfolio.jsx`): grade de cartões; projetos sem foto recebem um visual sintético
@@ -98,9 +108,10 @@ Cada seção usa uma família de layout diferente — não há duas grades iguai
 Duas navegações distintas, não uma adaptada:
 
 - **Desktop (≥768px):** pílula de vidro flutuante, fixa no **rodapé** centralizado
-  (`backdrop-filter: blur(18px)`), com ícones `lucide-react` e rótulo que desliza no hover.
-  Seção ativa detectada por `IntersectionObserver` (`rootMargin: -40% 0px -55% 0px`).
-  O item de contato é terracota, destacado dos demais.
+  (`backdrop-filter: blur(18px)`), com abas de texto (`ui/vercel-tabs.tsx`): Início, Habilidades, Sobre,
+  Projetos e Contato. Destaque cinza desliza no hover e no foco; sublinhado de 2px acompanha a aba ativa.
+  Seção ativa detectada por `IntersectionObserver` (`rootMargin: -40% 0px -55% 0px`) e passada como
+  `activeTab`. Padding e cor das abas vão inline: o reset global fora de camada anula as utilidades do Tailwind.
 - **Mobile (<768px):** barra fixa no topo em `#141414` com marca e botão de 44×44px,
   abrindo painel em tela cheia com `role="dialog"`, foco movido para o primeiro item,
   fechamento por `Esc` e `overflow` do body travado.
@@ -111,8 +122,8 @@ Duas navegações distintas, não uma adaptada:
 - **Revelações:** GSAP + ScrollTrigger, `fromTo` com `y: 15–20` ou `x: ±30` e `opacity: 0`,
   `duration: 0.4–0.7s`, `ease: power3.out`, `stagger: 0.06–0.08`,
   `toggleActions: 'play none none reverse'`, disparo em `top 75–80%`.
-- **Hero:** parallax por `scrub` (nome, kickers e shader se afastam em ritmos diferentes) via
-  `gsap.matchMedia()`, com amplitudes menores no mobile.
+- **Hero:** parallax por `scrub` (grupos de nome + pequenos dados e shader se afastam em ritmos diferentes)
+  via `gsap.matchMedia()`, com amplitudes menores no mobile.
 - **Shader:** `@paper-design/shaders-react` — `LiquidMetal`, forma `metaballs`, `speed: 0.4`, `scale: 0.8`,
   `fit: cover`, `colorBack: #FAFAF800` (transparente), caixa `aspect-ratio: 1 / 1`.
 - **Botões:** `motion/react` — preenchimento circular a partir do ponto do clique

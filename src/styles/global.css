@@ -1,4 +1,6 @@
 @import url('https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&f[]=geist@400,500,600&f[]=cabinet-grotesk@700,800,900&display=swap');
+/* fontes da hero em import proprio: na URL acima a Fontshare so devolve a primeira familia */
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@600&f[]=general-sans@400&display=swap');
 
 :root {
   --bg: #FAFAF8;

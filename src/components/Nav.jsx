@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { House, Wrench, User, FolderKanban, Mail, Menu, X } from 'lucide-react'
 import { navLinks } from '../data/content'
-import { IconBar, IconBarItem } from './ui/icon-bar'
+import { Tabs } from './ui/vercel-tabs'
 
 const icons = [House, Wrench, User, FolderKanban]
+const desktopTabs = navLinks.map((link) => ({ id: link.href.slice(1), label: link.label }))
 
 function scrollToId(id) {
   const el = document.getElementById(id)
@@ -15,11 +16,10 @@ export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const menuRef = useRef(null)
 
-  const desktopLinks = navLinks.filter((l) => l.href !== '#contact')
   const mobileLinks = navLinks.filter((l) => l.href !== '#contact')
 
   useEffect(() => {
-    const entries = desktopLinks.map((link) => {
+    const entries = navLinks.map((link) => {
       const el = document.getElementById(link.href.slice(1))
       return el ? { id: link.href.slice(1), el } : null
     }).filter(Boolean)
@@ -66,27 +66,13 @@ export default function Nav() {
 
   return (
     <>
-      {/* Desktop IconBar — bottom center */}
       <nav className="nav-desktop" aria-label="Navegação desktop">
         <div className="nav-pill glass">
-          <IconBar
-            className="nav-inner"
-            value={activeSection}
-            onValueChange={(value) => { if (value) handleNav(`#${value}`) }}
-          >
-            {desktopLinks.map((link, i) => {
-              const id = link.href.slice(1)
-              const Icon = icons[i] || House
-              return <IconBarItem key={link.href} icon={Icon} label={link.label} value={id} />
-            })}
-            <IconBarItem
-              icon={Mail}
-              label="Contato"
-              value="contact"
-              onClick={() => handleNav('#contact')}
-              className="nav-contact-item"
-            />
-          </IconBar>
+          <Tabs
+            tabs={desktopTabs}
+            activeTab={activeSection}
+            onTabChange={(id) => handleNav(`#${id}`)}
+          />
         </div>
       </nav>
 
@@ -170,84 +156,9 @@ export default function Nav() {
           pointer-events: auto;
           width: fit-content;
           max-width: calc(100vw - 32px);
+          /* base maior que o topo: o sublinhado da aba ativa fica 6px abaixo do texto */
+          padding: 8px 12px 12px;
           border-radius: 999px;
-        }
-
-        .nav-inner {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 4px;
-          padding: 6px 8px;
-          width: fit-content;
-          max-width: 100%;
-        }
-
-        .nav-item {
-          position: relative;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 7px 10px;
-          border-radius: 999px;
-          font-size: 13px;
-          font-weight: 500;
-          color: var(--muted);
-          transition: color 200ms, background-color 200ms;
-        }
-
-        .nav-item:hover, .nav-item:focus-visible {
-          background-color: rgba(20, 20, 20, 0.08);
-          color: var(--fg);
-        }
-
-        .nav-item-active, .nav-item[aria-current="location"] {
-          background-color: var(--fg);
-          color: #fff;
-        }
-
-        .nav-label { height: 1.25em; overflow: hidden; }
-
-        .nav-label-track {
-          display: flex;
-          flex-direction: column;
-          transition: transform 400ms cubic-bezier(0.21, 0.6, 0.35, 1);
-        }
-
-        .nav-item:hover .nav-label-track,
-        .nav-item:focus-visible .nav-label-track,
-        .nav-item-active .nav-label-track,
-        .nav-item[aria-current="location"] .nav-label-track {
-          transform: translateY(-50%);
-        }
-
-        .nav-item-active .nav-label-track,
-        .nav-item[aria-current="location"] .nav-label-track { color: #fff; }
-
-        .nav-contact {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          margin-left: 6px;
-          padding: 7px 12px;
-          border-radius: 999px;
-          background-color: #c24e2e;
-          color: #fff;
-          font-size: 13px;
-          font-weight: 600;
-          box-shadow: 0 4px 16px rgba(194,78,46,0.24), inset 0 1px 0 rgba(255,255,255,0.1);
-          transition: transform 180ms ease, box-shadow 240ms ease;
-        }
-
-        .nav-contact:hover, .nav-contact:focus-visible {
-          transform: translateY(-1px);
-          box-shadow: 0 8px 24px rgba(194,78,46,0.32), inset 0 1px 0 rgba(255,255,255,0.12);
-        }
-
-        .nav-contact-item {
-          background: #c24e2e !important;
-          border-color: #c24e2e !important;
-          color: #fff !important;
         }
 
         .nav-mobile-header { display: none; }

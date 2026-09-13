@@ -38,8 +38,6 @@ export function useHeroParallax(rootRef) {
           const shaderVisual = shader.firstElementChild || shader
           const nameLeftVisual = nameLeft?.firstElementChild || nameLeft
           const nameRightVisual = nameRight?.firstElementChild || nameRight
-          const kickerLeft = root.querySelector('.hero-kickers span:first-child')
-          const kickerRight = root.querySelector('.hero-kickers span:last-child')
 
           timeline.to(shaderVisual, {
             scale: mobile ? 1.05 : 1.1,
@@ -67,25 +65,6 @@ export function useHeroParallax(rootRef) {
               force3D: true,
             }, 0)
           }
-
-          if (kickerLeft) {
-            timeline.to(kickerLeft, {
-              xPercent: mobile ? -8 : -18,
-              opacity: 0.7,
-              ease: 'power2.inOut',
-              force3D: true,
-            }, 0)
-          }
-
-          if (kickerRight) {
-            timeline.to(kickerRight, {
-              xPercent: mobile ? 8 : 18,
-              opacity: 0.7,
-              ease: 'power2.inOut',
-              force3D: true,
-            }, 0)
-          }
-
         }, root)
 
         const refreshId = window.requestAnimationFrame(() => ScrollTrigger.refresh())

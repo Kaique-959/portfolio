@@ -17,8 +17,10 @@ export default function App() {
         <LiquidMetalHero
           firstName="Kaique"
           lastName="Calefi"
-          kickerLeft="Desenvolvedor, Editor & Fundador"
-          kickerRight="Brasília, DF"
+          descriptor="Websites & Automations"
+          role="Developer & Editor"
+          location="Brasília, Brazil"
+          timeZone="America/Sao_Paulo"
         />
 
         <Services />

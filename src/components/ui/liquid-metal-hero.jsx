@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { LiquidMetal } from '@paper-design/shaders-react'
 import { motion } from 'motion/react'
 import { useHeroParallax } from '@/hooks/useHeroParallax'
@@ -15,13 +15,39 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 }
 
+function formatClock(timeZone) {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone,
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+    timeZoneName: 'shortOffset',
+  }).formatToParts(new Date())
+  const value = (type) => parts.find((part) => part.type === type)?.value
+  return `${value('hour')}:${value('minute')} ${value('timeZoneName')}`
+}
+
+function useClock(timeZone) {
+  const [clock, setClock] = useState(() => formatClock(timeZone))
+
+  useEffect(() => {
+    const id = setInterval(() => setClock(formatClock(timeZone)), 1000)
+    return () => clearInterval(id)
+  }, [timeZone])
+
+  return clock
+}
+
 export default function LiquidMetalHero({
   firstName,
   lastName,
-  kickerLeft,
-  kickerRight,
+  descriptor,
+  role,
+  location,
+  timeZone,
 }) {
   const sectionRef = useRef(null)
+  const clock = useClock(timeZone)
   useHeroParallax(sectionRef)
 
   return (
@@ -37,11 +63,6 @@ export default function LiquidMetalHero({
       <div data-parallax-layers className="hero-parallax-layers">
         <div className="container mx-auto px-6 lg:px-8 max-w-7xl w-full">
           <motion.div variants={containerVariants} initial="hidden" animate="visible">
-          <div className="hero-kickers" data-parallax-layer="1" aria-hidden="true">
-            <span>{kickerLeft}</span>
-            <span>{kickerRight}</span>
-          </div>
-
           <h1 className="hero-title" aria-label={`${firstName} ${lastName}`}>
             <motion.div
               className="hero-title-first"
@@ -49,7 +70,10 @@ export default function LiquidMetalHero({
               variants={itemVariants}
               style={{ willChange: 'transform' }}
             >
-              <span aria-hidden="true" className="hero-name">{firstName}</span>
+              <span className="hero-name-group" aria-hidden="true">
+                <span className="hero-meta hero-meta-top" lang="en">{descriptor}</span>
+                <span className="hero-name">{firstName}</span>
+              </span>
             </motion.div>
 
             <motion.div
@@ -82,10 +106,15 @@ export default function LiquidMetalHero({
               variants={itemVariants}
               style={{ willChange: 'transform' }}
             >
-              <span aria-hidden="true" className="hero-name">{lastName}</span>
+              <span className="hero-name-group" aria-hidden="true">
+                <span className="hero-meta hero-meta-top" lang="en">{role}</span>
+                <span className="hero-name">{lastName}</span>
+                <span className="hero-meta hero-meta-bottom" lang="en">{location} - {clock}</span>
+              </span>
             </motion.div>
           </h1>
 
+          <p className="sr-only" lang="en">{`${descriptor}. ${role}. ${location}.`}</p>
           </motion.div>
         </div>
       </div>
@@ -107,7 +136,9 @@ export default function LiquidMetalHero({
           display: flex;
           flex-direction: column;
           justify-content: center;
-          padding: clamp(40px, 6vh, 64px) 0 0;
+          /* a composicao escala pela largura: sem o teto de 2x a caixa do blob, telas altas e estreitas sobram vazias */
+          min-height: min(80svh, calc(2 * clamp(220px, 26vw, 360px)));
+          padding-block: 48px;
         }
 
         .hero-parallax-layers {
@@ -115,14 +146,8 @@ export default function LiquidMetalHero({
           width: 100%;
         }
 
-        .hero-kickers {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 8px;
-          color: var(--muted);
-          font-size: 0.875rem;
-          font-weight: 500;
-          letter-spacing: 0.02em;
+        .hero-parallax-layers .container {
+          max-width: 1128px;
         }
 
         .hero-title {
@@ -130,19 +155,6 @@ export default function LiquidMetalHero({
           grid-template-columns: minmax(0, 1fr) clamp(220px, 26vw, 360px) minmax(0, 1fr);
           align-items: center;
           width: 100%;
-          /* a faixa vazia no topo do canvas quadrado sobe para a altura dos kickers, que ficam nas colunas laterais */
-          margin-top: calc(-1 * clamp(16px, 2.5vw, 36px));
-          text-align: center;
-        }
-
-        .hero-name {
-          font-family: var(--font-display);
-          font-size: clamp(2.5rem, 7.2vw, 7rem);
-          font-weight: 900;
-          line-height: 0.85;
-          letter-spacing: -0.06em;
-          text-transform: uppercase;
-          color: var(--fg);
         }
 
         .hero-title-first,
@@ -154,11 +166,56 @@ export default function LiquidMetalHero({
         }
 
         .hero-title-first {
-          text-align: right;
+          text-align: left;
         }
 
         .hero-title-last {
-          text-align: left;
+          text-align: right;
+        }
+
+        .hero-name-group {
+          position: relative;
+          display: inline-block;
+        }
+
+        .hero-name {
+          font-family: 'Clash Display', var(--font-display);
+          font-size: clamp(2.5rem, 6vw, 5.75rem);
+          font-weight: 600;
+          line-height: 0.95;
+          letter-spacing: -0.5px;
+          text-transform: uppercase;
+          color: #333;
+        }
+
+        .hero-meta {
+          font-family: 'General Sans', var(--font-body);
+          font-size: 1rem;
+          font-weight: 400;
+          line-height: 1.4;
+          letter-spacing: -0.5px;
+          color: var(--muted);
+          white-space: nowrap;
+        }
+
+        .hero-meta-top {
+          position: absolute;
+          bottom: 100%;
+          margin-bottom: 18px;
+        }
+
+        .hero-meta-bottom {
+          position: absolute;
+          top: 100%;
+          margin-top: 28px;
+        }
+
+        .hero-title-first .hero-meta {
+          left: 0;
+        }
+
+        .hero-title-last .hero-meta {
+          right: 0;
         }
 
         .hero-liquid-layer {
@@ -177,29 +234,14 @@ export default function LiquidMetalHero({
         @media (max-width: 767px) {
           .hero-stage {
             justify-content: flex-start;
-            padding: 28px 0 8px;
-          }
-
-          .hero-kickers {
-            align-items: flex-start;
-            margin-bottom: 20px;
-            font-size: 0.78rem;
-          }
-
-          .hero-kickers span:last-child {
-            text-align: right;
+            min-height: 0;
+            padding: 36px 0 72px;
           }
 
           .hero-title {
             display: flex;
             flex-direction: column;
             align-items: stretch;
-            margin-top: 0;
-          }
-
-          .hero-name {
-            font-size: 21.5vw;
-            line-height: 0.82;
           }
 
           .hero-title-first,
@@ -207,12 +249,23 @@ export default function LiquidMetalHero({
             top: 0;
           }
 
-          .hero-title-first {
-            text-align: left;
+          .hero-name {
+            font-size: 20vw;
+            line-height: 0.9;
           }
 
-          .hero-title-last {
-            text-align: right;
+          .hero-meta {
+            position: static;
+            display: block;
+            font-size: 0.875rem;
+          }
+
+          .hero-meta-top {
+            margin-bottom: 4px;
+          }
+
+          .hero-meta-bottom {
+            margin-top: 8px;
           }
 
           .hero-liquid-layer {
