@@ -45,13 +45,18 @@ Regras verificadas em produção:
 
 ## 3. Tipografia
 
-- **Display:** Cabinet Grotesk — `--font-display: 'Cabinet Grotesk', 'Satoshi', sans-serif`
+- **Display:** Cabinet Grotesk — `--font-display: 'Cabinet Grotesk', sans-serif`
 - **Corpo:** Geist — `--font-body: 'Geist', sans-serif`
-- **Só na hero:** Clash Display (nome) e General Sans (pequenos dados), em `@import` próprio da Fontshare.
-- Carregadas via Fontshare (`api.fontshare.com`), com `preconnect` no `index.html`.
-- **Estado real, medido em `document.fonts`:** a URL que junta várias famílias só devolve a primeira. Por isso
-  Cabinet Grotesk e Geist não carregam hoje — títulos caem na Satoshi e o corpo na sans-serif do sistema.
-  As fontes da hero ficam numa URL separada justamente para escapar disso.
+- **Só na hero:** Clash Display (nome) e General Sans (pequenos dados).
+- Origem, em `@import` no topo de `global.css`:
+  - Cabinet Grotesk: Fontshare, sozinha na URL (700/800/900).
+  - Clash Display + General Sans: Fontshare, URL própria.
+  - Geist: Google Fonts (400/500/600) — a Fontshare não tem Geist.
+- `preconnect` no `index.html` para `api.fontshare.com`, `fonts.googleapis.com` e `fonts.gstatic.com`.
+- Não voltar a juntar várias famílias numa URL da Fontshare: a antiga (satoshi + geist + cabinet-grotesk) só
+  devolvia a Satoshi, então títulos e corpo renderizavam na fonte reserva.
+- Conferir fontes por `document.fonts` com `status === 'loaded'`; `document.fonts.check()` retorna `true` também
+  para famílias que nunca foram registradas.
 
 | Papel | Tamanho | Peso | Entrelinha | Tracking |
 |---|---|---|---|---|
